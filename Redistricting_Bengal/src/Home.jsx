@@ -92,13 +92,35 @@ function Home() {
             &nbsp; FAIRWIN
           </Navbar.Brand>
         </Navbar>
-        <Container className="map">
-          <USAMap
-            title="USA Map"
-            defaultFill="rgb(135, 135, 135)"
-            onClick={mapHandler}
-            customize={statesCustomConfig()}
-          />
+        <Container className="content">
+          <div className="text_question">Is a fair vote being held?</div>
+          <div className="text_stateName">{stateName}</div>
+          <Container className="map">
+            <USAMap
+              title="USA Map"
+              defaultFill="rgb(135, 135, 135)"
+              onClick={mapHandler}
+              customize={statesCustomConfig()}
+            />
+          </Container>
+          <div className="dataExplaination">
+            <svg
+              width="10px"
+              height="10px"
+              viewBox="0 0 1024 1024"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title>circle</title>
+              <circle
+                cx="512"
+                cy="512"
+                r="256"
+                fill="rgb(255, 255, 255)"
+                fillRule="evenodd"
+              />
+            </svg>
+            &nbsp;<span className="text_Available_State">Available State</span>
+          </div>
         </Container>
       </div>
     </>

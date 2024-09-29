@@ -25,6 +25,25 @@
     filter: invert(100%);
 }
 
+.text_question {
+    color: rgb(255, 255, 255);
+    font-family: Gill Sans, sans-serif;
+    text-align: center;
+    font-size: 180%;
+}
+
+.text_stateName {
+    color: rgb(236, 31, 12);
+    font-size: 900%;
+    font-family: Gill Sans, sans-serif;
+    font-weight: bold;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+}
+
 .map {
     width: 65%;
     height: 65%;
@@ -41,4 +60,14 @@ path {
 path:hover {
     cursor: pointer;
     fill: rgb(236, 31, 12);
+}
+
+.dataExplaination {
+    margin-left: 3%;
+}
+
+.text_Available_State {
+    color: rgb(255, 255, 255);
+    font-size: 100%;
+    font-family: Gill Sans, sans-serif;
 }
