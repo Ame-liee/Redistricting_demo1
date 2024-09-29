@@ -65,15 +65,15 @@ function Home() {
     return {
       AL: {
         fill: "#EEE",
-        clickHandler: (event) => console.log(event.target.dataset),
+        // clickHandler: (event) => console.log(event.target.dataset),
       },
       MS: {
         fill: "#EEE",
-        clickHandler: (event) => console.log(event.target.dataset),
+        // clickHandler: (event) => console.log(event.target.dataset),
       },
       PA: {
         fill: "#EEE",
-        clickHandler: (event) => console.log(event.target.dataset),
+        // clickHandler: (event) => console.log(event.target.dataset),
       },
     };
   };
