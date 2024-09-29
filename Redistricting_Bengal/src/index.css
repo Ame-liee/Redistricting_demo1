@@ -1,0 +1,26 @@
+.body {
+    background-color: rgb(40, 38, 38);
+    padding-bottom: 30%;
+}
+
+.brand {
+    padding-top: 2.5%;
+    padding-left: 3.5%;
+}
+
+.text_FAIRWIN {
+    color: rgb(255, 255, 255);
+    font-size: 35px;
+    font-family: Gill Sans, sans-serif;
+}
+
+.text_FAIRWIN:hover {
+    color: rgb(236, 31, 12);
+    font-size: 35px;
+    font-family: Gill Sans, sans-serif;
+}
+
+.bengal {
+    vertical-align: text-top;
+    filter: invert(100%);
+}
