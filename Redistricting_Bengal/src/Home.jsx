@@ -1,90 +1,17 @@
 import React, { useState } from "react";
-// import { useNavigate } from 'react-router-dom';
-import USAMap from "react-usa-map";
 import bengalLogo from "./assets/Bengal.svg";
+import usaMapData from "@svg-maps/usa";
 import { Nav, Navbar, Container, Button, Alert, Table } from "react-bootstrap";
 
 function Home() {
-  const [stateName, setStateName] = useState("SELECT A STATE");
+  const [selectedState, setSelectedState] = useState("SELECT A STATE");
+  const [hoveredLocation, setHoveredLocation] = useState(null);
+  const customStates = ["al", "ms", "pa"];
   const [showInfo1, setShowInfo1] = useState(false);
   const [showInfo2, setShowInfo2] = useState(false);
-  const [stateColors, setStateColors] = useState({
-    AL: "#EEE",
-    MS: "#EEE",
-    PA: "#EEE",
-  });
-  const state = {
-    AL: "Alabama",
-    AK: "Alaska",
-    AZ: "Arizona",
-    AR: "Arkansas",
-    CA: "California",
-    CO: "Colorado",
-    CT: "Connecticut",
-    DE: "Delaware",
-    DC: "District of Columbia",
-    FL: "Florida",
-    GA: "Georgia",
-    HI: "Hawaii",
-    ID: "Idaho",
-    IL: "Illinois",
-    IN: "Indiana",
-    IA: "Iowa",
-    KS: "Kansas",
-    KY: "Kentucky",
-    LA: "Louisiana",
-    ME: "Maine",
-    MD: "Maryland",
-    MA: "Massachusetts",
-    MI: "Michigan",
-    MN: "Minnesota",
-    MS: "Mississippi",
-    MO: "Missouri",
-    MT: "Montana",
-    NE: "Nebraska",
-    NV: "Nevada",
-    NH: "New Hampshire",
-    NJ: "New Jersey",
-    NM: "New Mexico",
-    NY: "New York",
-    NC: "North Carolina",
-    ND: "North Dakota",
-    OH: "Ohio",
-    OK: "Oklahoma",
-    OR: "Oregon",
-    PA: "Pennsylvania",
-    RI: "Rhode Island",
-    SC: "South Carolina",
-    SD: "South Dakota",
-    TN: "Tennessee",
-    TX: "Texas",
-    UT: "Utah",
-    VT: "Vermont",
-    VA: "Virginia",
-    WA: "Washington",
-    WV: "West Virginia",
-    WI: "Wisconsin",
-    WY: "Wyoming",
-  };
-  const mapHandler = (event) => {
-    setStateName(state[event.target.dataset.name].toUpperCase());
+  const mapHandler = (value) => {
+    setSelectedState(value);
     window.scrollTo(0, 900);
-  };
-  const statesCustomConfig = () => {
-    return {
-      AL: {
-        clickHandler: mapHandler,
-        fill: stateColors.AL,
-      },
-      MS: {
-        clickHandler: mapHandler,
-        fill: stateColors.MS,
-      },
-      PA: {
-        clickHandler: mapHandler,
-        fill: stateColors.PA,
-      },
-    };
   };
   return (
     <>
@@ -103,14 +30,41 @@ function Home() {
         </Navbar>
         <Container className="content">
           <div className="text_question">IS A FAIR VOTE BEING HELD?</div>
-          <div className="text_stateName">{stateName}</div>
+          <div className="text_selectedState">
+            {hoveredLocation
+              ? hoveredLocation.toUpperCase()
+              : selectedState.toUpperCase()}
+          </div>
           <Container className="map">
-            <USAMap
-              title="USA Map"
-              defaultFill="rgb(135, 135, 135)"
-              onClick={mapHandler}
-              customize={statesCustomConfig()}
-            />
+            <svg
+              viewBox={usaMapData.viewBox}
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {usaMapData.locations.map((location) => {
+                const isCustom = customStates.includes(location.id);
+                return (
+                  <path
+                    key={location.id}
+                    d={location.path}
+                    fill={
+                      hoveredLocation === location.id
+                        ? "rgb(236, 31, 12)"
+                        : selectedState == location.name
+                        ? "rgb(236, 31, 12)"
+                        : isCustom
+                        ? "#EEE"
+                        : "rgb(135, 135, 135)"
+                    }
+                    stroke="#333"
+                    strokeWidth="0.5"
+                    onMouseEnter={() => setHoveredLocation(location.name)}
+                    onMouseLeave={() => setHoveredLocation(null)}
+                    onClick={() => mapHandler(location.name)}
+                    style={{ cursor: "pointer" }}
+                  />
+                );
+              })}
+            </svg>
           </Container>
           <div className="dataExplaination">
             <svg

@@ -33,7 +33,7 @@
     font-size: 200%;
 }
 
-.text_stateName {
+.text_selectedState {
     color: rgb(236, 31, 12);
     font-size: 900%;
     font-family: Gill Sans, sans-serif;
@@ -52,16 +52,7 @@
     justify-content: center;
     display: flex;
     position: relative;
-    margin-top: 3%;
-}
-
-path {
-    pointer-events: all;
-
-    &:hover {
-        cursor: pointer;
-        fill: rgb(236, 31, 12);
-    }
+    margin-top: 9%;
 }
 
 .dataExplaination {
