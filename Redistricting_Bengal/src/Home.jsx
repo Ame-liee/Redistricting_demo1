@@ -47,16 +47,16 @@ function Home() {
                     key={location.id}
                     d={location.path}
                     fill={
-                      hoveredLocation === location.id
-                        ? "rgb(236, 31, 12)"
+                      hoveredLocation === location.name
+                        ? "rgba(236, 31, 12, 0.7)"
                         : selectedState == location.name
                         ? "rgb(236, 31, 12)"
                         : isCustom
                         ? "#EEE"
                         : "rgb(135, 135, 135)"
                     }
-                    stroke="#333"
-                    strokeWidth="0.5"
+                    stroke="rgba(40, 38, 38, 1.0)"
+                    strokeWidth={selectedState == location.name ? 3.0 : 0.9}
                     onMouseEnter={() => setHoveredLocation(location.name)}
                     onMouseLeave={() => setHoveredLocation(null)}
                     onClick={() => mapHandler(location.name)}
