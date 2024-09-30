@@ -99,6 +99,11 @@ path {
     line-height: 25px;
 }
 
+.alert_dataInformation {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
 .navbar_race {
     margin-left: 10%;
     margin-right: 10%;
