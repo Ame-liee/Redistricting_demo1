@@ -1,10 +1,16 @@
 import React, { useState } from "react";
+// import { useNavigate } from 'react-router-dom';
 import USAMap from "react-usa-map";
 import bengalLogo from "./assets/Bengal.svg";
-import { Navbar, Container } from "react-bootstrap";
+import { Nav, Navbar, Container } from "react-bootstrap";
 
 function Home() {
   const [stateName, setStateName] = useState("SELECT A STATE");
+  const [stateColors, setStateColors] = useState({
+    AL: "#EEE",
+    MS: "#EEE",
+    PA: "#EEE",
+  });
   const state = {
     AL: "Alabama",
     AK: "Alaska",
@@ -60,20 +66,21 @@ function Home() {
   };
   const mapHandler = (event) => {
     setStateName(state[event.target.dataset.name].toUpperCase());
+    window.scrollTo(0, 900);
   };
   const statesCustomConfig = () => {
     return {
       AL: {
-        fill: "#EEE",
-        // clickHandler: (event) => console.log(event.target.dataset),
+        clickHandler: mapHandler,
+        fill: stateColors.AL,
       },
       MS: {
-        fill: "#EEE",
-        // clickHandler: (event) => console.log(event.target.dataset),
+        clickHandler: mapHandler,
+        fill: stateColors.MS,
       },
       PA: {
-        fill: "#EEE",
-        // clickHandler: (event) => console.log(event.target.dataset),
+        clickHandler: mapHandler,
+        fill: stateColors.PA,
       },
     };
   };
@@ -122,6 +129,48 @@ function Home() {
             &nbsp;<span className="text_Available_State">Available State</span>
           </div>
         </Container>
+      </div>
+      <div className="body1">
+        <h2 className="text_subQuestion">
+          Will Fair Representation Act(FRA) for MMD
+        </h2>
+        <span className="text_subQuestion2"> Increase Fairness?</span>
+        <br />
+        <br />
+        <Nav
+          fill
+          variant="tabs"
+          defaultActiveKey="/home"
+          className="navbar_race"
+        >
+          <Nav.Item>
+            <Nav.Link eventKey="link-1" className="text_navElement">
+              African American
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="link-2" className="text_navElement">
+              Hispanic
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="link-3" className="text_navElement">
+              Asian American
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
+        <div className="graph1">temporary graph</div>
+        <br />
+        <h2 className="text_subQuestion">
+          Will Fair Representation Act(FRA) for MMD
+        </h2>
+        <span className="text_subQuestion2">
+          {" "}
+          Lessen the Gerrymandering Effects?
+        </span>
+        <br />
+        <br />
+        <div className="graph1">temporary graph: Seat vs. Vote Symmetry</div>
       </div>
     </>
   );
