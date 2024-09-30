@@ -30,7 +30,7 @@
     color: rgb(255, 255, 255);
     font-family: Gill Sans, sans-serif;
     text-align: center;
-    font-size: 180%;
+    font-size: 200%;
 }
 
 .text_stateName {
@@ -43,6 +43,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     white-space: nowrap;
+    margin-top: 3%;
 }
 
 .map {
@@ -51,7 +52,7 @@
     justify-content: center;
     display: flex;
     position: relative;
-    /* margin-top: -1%; */
+    margin-top: 3%;
 }
 
 path {
@@ -81,7 +82,7 @@ path {
 
 .text_subQuestion {
     color: rgb(40, 38, 38);
-    font-family: Gill Sans, sans-serif;
+    font-family: Tahoma;
     font-size: 250%;
     width: 60%;
     font-weight: bold;
@@ -91,7 +92,7 @@ path {
 
 .text_subQuestion2 {
     color: rgb(236, 31, 12);
-    font-family: Gill Sans, sans-serif;
+    font-family: Tahoma;
     font-size: 250%;
     font-weight: bold;
     padding-left: 8%;

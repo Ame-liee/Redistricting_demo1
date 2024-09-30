@@ -102,7 +102,7 @@ function Home() {
           </Navbar.Brand>
         </Navbar>
         <Container className="content">
-          <div className="text_question">Is a fair vote being held?</div>
+          <div className="text_question">IS A FAIR VOTE BEING HELD?</div>
           <div className="text_stateName">{stateName}</div>
           <Container className="map">
             <USAMap
@@ -134,9 +134,9 @@ function Home() {
       </div>
       <div className="body1">
         <h2 className="text_subQuestion">
-          Will Fair Representation Act(FRA) for MMD
+          WILL FAIR REPRESENTATION ACT(FRA) for MMD
         </h2>
-        <span className="text_subQuestion2"> Increase Fairness?</span>
+        <span className="text_subQuestion2"> INCREASE FAIRNESS?</span>
         <Button
           variant="link"
           className="button_information"
@@ -202,11 +202,11 @@ function Home() {
         <div className="graph1">temporary graph</div>
         <br />
         <h2 className="text_subQuestion">
-          Will Fair Representation Act(FRA) for MMD
+          WILL FAIR REPRESENTATION ACT(FRA) for MMD
         </h2>
         <span className="text_subQuestion2">
           {" "}
-          Lessen the Gerrymandering Effects?
+          LESSEN THE GERRYMANDERING EFFECTS?
         </span>
         <Button
           variant="link"
