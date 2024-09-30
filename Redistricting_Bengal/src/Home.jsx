@@ -134,7 +134,7 @@ function Home() {
         <Nav
           fill
           variant="tabs"
-          defaultActiveKey="/home"
+          defaultActiveKey="link-1"
           className="navbar_race"
         >
           <Nav.Item>
