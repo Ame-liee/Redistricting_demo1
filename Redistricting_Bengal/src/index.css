@@ -132,3 +132,34 @@ path {
     margin-left: 10%;
     margin-right: 10%;
 }
+
+.body2 {
+    background-color: rgb(236, 31, 12);
+    padding-bottom: 10%;
+}
+
+.text_summary {
+    color: rgb(0, 0, 0);
+    font-family: Tahoma;
+    font-size: 250%;
+    font-weight: bold;
+    padding-left: 8%;
+    padding-top: 8%;
+    line-height: 25px;
+}
+
+.table {
+    margin-top: 3%;
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 90%;
+}
+
+.table_th0 {
+    text-align: center;
+    width: 20%;
+}
+
+.table_th {
+    text-align: center;
+}

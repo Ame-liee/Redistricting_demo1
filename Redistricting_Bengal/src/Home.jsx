@@ -2,7 +2,7 @@ import React, { useState } from "react";
 // import { useNavigate } from 'react-router-dom';
 import USAMap from "react-usa-map";
 import bengalLogo from "./assets/Bengal.svg";
-import { Nav, Navbar, Container, Button, Alert } from "react-bootstrap";
+import { Nav, Navbar, Container, Button, Alert, Table } from "react-bootstrap";
 
 function Home() {
   const [stateName, setStateName] = useState("SELECT A STATE");
@@ -249,6 +249,30 @@ function Home() {
         <br />
         <br />
         <div className="graph1">temporary graph: Seat vs. Vote Symmetry</div>
+      </div>
+      <div className="body2">
+        <div className="text_summary">SUMMARY</div>
+        <Table striped bordered hover variant="dark" className="table">
+          <thead>
+            <tr>
+              <th className="table_th0"></th>
+              <th className="table_th">SMD</th>
+              <th className="table_th">MMD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="table_th0">Fairness</td>
+              <td className="table_th"></td>
+              <td className="table_th"></td>
+            </tr>
+            <tr>
+              <td className="table_th0">Gerrymandering Effects</td>
+              <td className="table_th"></td>
+              <td className="table_th"></td>
+            </tr>
+          </tbody>
+        </Table>
       </div>
     </>
   );
