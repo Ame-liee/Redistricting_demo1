@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import bengalLogo from "./assets/Bengal.svg";
+import boxGraph from "./assets/Box & Whisker Plot.png";
+import partisanGraph from "./assets/seats-votes curve.png";
 import usaMapData from "@svg-maps/usa";
 import { Nav, Navbar, Container, Button, Alert, Table } from "react-bootstrap";
 
@@ -153,7 +155,26 @@ function Home() {
             </Nav.Link>
           </Nav.Item>
         </Nav>
-        <div className="graph1">temporary graph</div>
+        <div className="graph">
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>SMD</th>
+                <th>MMD</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <img alt="" src={boxGraph} width="250" height="250" />
+                </td>
+                <td>
+                  <img alt="" src={boxGraph} width="250" height="250" />
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+        </div>
         <br />
         <h2 className="text_subQuestion1_2">
           WILL FAIR REPRESENTATION ACT(FRA) for MMD
@@ -202,7 +223,26 @@ function Home() {
         )}
         <br />
         <br />
-        <div className="graph1">temporary graph: Seat vs. Vote Symmetry</div>
+        <div className="graph">
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>SMD</th>
+                <th>MMD</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <img alt="" src={partisanGraph} width="250" height="250" />
+                </td>
+                <td>
+                  <img alt="" src={partisanGraph} width="250" height="250" />
+                </td>
+              </tr>
+            </tbody>
+          </Table>
+        </div>
       </div>
       <div className="body2">
         <div className="text_summary">SUMMARY</div>
