@@ -40,7 +40,6 @@ function Home() {
       analysis2Ref.current.scrollIntoView({ behavior: "smooth" });
     } else if (value === "summaryRef" && summaryRef.current) {
       summaryRef.current.scrollIntoView({ behavior: "smooth" });
-    } else if (value === "aboutRef") {
     }
   };
   const changeState = (value) => {
@@ -179,7 +178,7 @@ function Home() {
                 <Nav.Link onClick={() => scrollTo("summaryRef")}>
                   SUMMARY
                 </Nav.Link>
-                <Nav.Link onClick={() => scrollTo("aboutRef")}>ABOUT</Nav.Link>
+                <Nav.Link href="./about">ABOUT</Nav.Link>
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
