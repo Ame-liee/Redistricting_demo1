@@ -29,7 +29,7 @@ function Home() {
   const summaryRef = useRef(0);
   const mapHandler = (value) => {
     setSelectedState(value);
-    scrollTo();
+    scrollTo("analysis1")
   };
   const scrollTo = (value) => {
     if (value === "stateSelection" && stateSelectionRef.current) {
