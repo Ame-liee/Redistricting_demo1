@@ -1,3 +1,117 @@
+.sidebar {
+    width: 12px;
+    float: right;
+    right: 4%;
+    top: 2%;
+}
+
+.sidebar_button {
+    border: 0px;
+    color: rgba(255, 255, 255, 0);
+}
+
+.sidebar_offcanvas {
+    width: 0px;
+    text-align: center;
+}
+
+.sidebar_nav {
+    padding-top: 120px;
+}
+
+#textring {
+    position: relative;
+    width: 150px;
+    border-radius: 50%;
+    transform: rotate(-50deg);
+    animation-name: rotate;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+h1 span {
+    font: 26px Monaco, MonoSpace;
+    height: 70px;
+    position: absolute;
+    width: 20px;
+    left: 100px;
+    top: 50px;
+    transform-origin: bottom center;
+}
+
+.char1 {
+    transform: rotate(0deg);
+}
+
+.char2 {
+    transform: rotate(22.5deg);
+}
+
+.char3 {
+    transform: rotate(45deg);
+}
+
+.char4 {
+    transform: rotate(67.5deg);
+}
+
+.char5 {
+    transform: rotate(90deg);
+}
+
+.char6 {
+    transform: rotate(112.5deg);
+}
+
+.char7 {
+    transform: rotate(135deg);
+}
+
+.char8 {
+    transform: rotate(157.5deg);
+}
+
+.char9 {
+    transform: rotate(180deg);
+}
+
+.char10 {
+    transform: rotate(202.5deg);
+}
+
+.char11 {
+    transform: rotate(225deg);
+}
+
+.char12 {
+    transform: rotate(247.5deg);
+}
+
+.char13 {
+    transform: rotate(270deg);
+}
+
+.char14 {
+    transform: rotate(292.5deg);
+}
+
+.char15 {
+    transform: rotate(315deg);
+}
+
+.char16 {
+    transform: rotate(337.5deg);
+}
+
+.sidebar_dropdownItem {
+    text-align: center;
+
+    &:active {
+        background-color: rgb(40, 38, 38);
+    }
+}
+
 .body {
     background-color: rgb(40, 38, 38);
     padding-bottom: 10%;
