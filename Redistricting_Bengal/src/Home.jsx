@@ -185,7 +185,7 @@ function Home() {
         </Navbar>
         <div className="body1" ref={stateSelectionRef}>
           <Navbar data-bs-theme="dark" className="brand">
-            <Navbar.Brand href="#home" className="text_FAIRWIN">
+            <Navbar.Brand href="/" className="text_FAIRWIN">
               <img
                 alt=""
                 src={bengalLogo}
