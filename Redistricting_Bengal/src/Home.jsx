@@ -201,11 +201,11 @@ function Home() {
                 fill="rgb(40, 38, 38)"
                 version="1.1"
                 xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
                 width="30px"
                 height="30px"
                 viewBox="0 0 416.979 416.979"
-                xml:space="preserve"
+                xmlSpace="preserve"
               >
                 <g>
                   <path
@@ -291,11 +291,11 @@ function Home() {
                 version="1.1"
                 id="Capa_1"
                 xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
                 width="30px"
                 height="30px"
                 viewBox="0 0 416.979 416.979"
-                xml:space="preserve"
+                xmlSpace="preserve"
               >
                 <g>
                   <path
