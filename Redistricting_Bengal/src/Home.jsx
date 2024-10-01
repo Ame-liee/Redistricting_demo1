@@ -60,17 +60,20 @@ function Home() {
       mouseover: (e) => {
         layer.setStyle({
           weight: 4,
-          color: "#2156a0",
-          fillOpacity: 0.7,
+          color: "rgb(40, 38, 38)",
         });
       },
       mouseout: (e) => {
         layer.setStyle({
           weight: 3,
-          color: "#3388ff",
-          fillOpacity: 0.2,
+          color: "rgb(241, 243, 243)",
         });
       },
+    });
+    layer.setStyle({
+      color: "rgb(241, 243, 243)",
+      fillColor: "rgb(236, 31, 12)",
+      fillOpacity: 0.2,
     });
   };
 
@@ -323,10 +326,10 @@ function Home() {
               <tbody>
                 <tr>
                   <td>
-                    <img alt="" src={boxGraph} width="200" height="200" />
+                    <img alt="" src={boxGraph} width="230" height="230" />
                   </td>
                   <td>
-                    <img alt="" src={boxGraph} width="200" height="200" />
+                    <img alt="" src={boxGraph} width="230" height="230" />
                   </td>
                 </tr>
               </tbody>
@@ -395,17 +398,73 @@ function Home() {
                       <img
                         alt=""
                         src={partisanGraph}
-                        width="200"
-                        height="200"
+                        width="230"
+                        height="230"
                       />
                     </td>
                     <td>
                       <img
                         alt=""
                         src={partisanGraph}
-                        width="200"
-                        height="200"
+                        width="230"
+                        height="230"
                       />
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </div>
+            <div className="graph">
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>SMD</th>
+                    <th>MMD</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <Container>
+                        <MapContainer
+                          key={coordinate}
+                          center={coordinate}
+                          zoom={6.3}
+                          zoomControl={false}
+                          scrollWheelZoom={false}
+                          className="map_distrinct"
+                        >
+                          {/* <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              /> */}
+                          <GeoJSON
+                            data={congDist.features}
+                            onEachFeature={onEachDistrict}
+                          ></GeoJSON>
+                        </MapContainer>
+                      </Container>
+                    </td>
+                    <td>
+                      <Container>
+                        <MapContainer
+                          key={coordinate}
+                          center={coordinate}
+                          zoom={6.3}
+                          zoomControl={false}
+                          scrollWheelZoom={false}
+                          className="map_distrinct"
+                        >
+                          {/* <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              /> */}
+                          <GeoJSON
+                            data={congDist.features}
+                            onEachFeature={onEachDistrict}
+                          ></GeoJSON>
+                        </MapContainer>
+                      </Container>
                     </td>
                   </tr>
                 </tbody>
@@ -437,23 +496,6 @@ function Home() {
               </tr>
             </tbody>
           </Table>
-          <Container>
-            <MapContainer
-              key={coordinate}
-              center={coordinate}
-              zoom={7}
-              className="map_distrinct"
-            >
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              />
-              <GeoJSON
-                data={congDist.features}
-                onEachFeature={onEachDistrict}
-              ></GeoJSON>
-            </MapContainer>
-          </Container>
         </div>
       </div>
     </>
