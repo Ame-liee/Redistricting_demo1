@@ -370,3 +370,7 @@ h1 span {
     font-size: 45px;
     white-space: nowrap;
 }
+
+.text_aboutContent{
+    color: white;
+}
