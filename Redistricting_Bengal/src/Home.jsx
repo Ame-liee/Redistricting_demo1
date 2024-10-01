@@ -19,7 +19,7 @@ import {
 function Home() {
   const [selectedState, setSelectedState] = useState("SELECT A STATE");
   const [hoveredLocation, setHoveredLocation] = useState(null);
-  const customStates = ["al", "ms", "pa"];
+  const customStates = ["Alabama", "Mississippi", "Pennsylvania"];
   const [showInfo1, setShowInfo1] = useState(false);
   const [showInfo2, setShowInfo2] = useState(false);
   const [coordinate, setCoordinate] = useState([32.3547, -90.0]);
@@ -209,7 +209,7 @@ function Home() {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 {usaMapData.locations.map((location) => {
-                  const isCustom = customStates.includes(location.id);
+                  const isCustom = customStates.includes(location.name);
                   return (
                     <path
                       key={location.id}
@@ -255,283 +255,287 @@ function Home() {
             </div>
           </Container>
         </div>
-        <div className="body2">
-          <div className="analysis1" ref={analysis1Ref}>
-            <h2 className="text_subQuestion1_1">
-              WILL FAIR REPRESENTATION ACT(FRA) for MMD
-              <span className="text_subQuestion2"> INCREASE FAIRNESS?</span>
-              <Button
-                variant="link"
-                className="button_information"
-                onClick={() => setShowInfo1(true)}
-              >
-                <svg
-                  fill="rgb(40, 38, 38)"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                  width="30px"
-                  height="30px"
-                  viewBox="0 0 416.979 416.979"
-                  xmlSpace="preserve"
-                >
-                  <g>
-                    <path
-                      d="M356.004,61.156c-81.37-81.47-213.377-81.551-294.848-0.182c-81.47,81.371-81.552,213.379-0.181,294.85
+        {customStates.includes(selectedState) && (
+          <div className="body23">
+            <div className="body2">
+              <div className="analysis1" ref={analysis1Ref}>
+                <h2 className="text_subQuestion1_1">
+                  WILL FAIR REPRESENTATION ACT(FRA) for MMD
+                  <span className="text_subQuestion2"> INCREASE FAIRNESS?</span>
+                  <Button
+                    variant="link"
+                    className="button_information"
+                    onClick={() => setShowInfo1(true)}
+                  >
+                    <svg
+                      fill="rgb(40, 38, 38)"
+                      version="1.1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                      width="30px"
+                      height="30px"
+                      viewBox="0 0 416.979 416.979"
+                      xmlSpace="preserve"
+                    >
+                      <g>
+                        <path
+                          d="M356.004,61.156c-81.37-81.47-213.377-81.551-294.848-0.182c-81.47,81.371-81.552,213.379-0.181,294.85
     c81.369,81.47,213.378,81.551,294.849,0.181C437.293,274.636,437.375,142.626,356.004,61.156z M237.6,340.786
     c0,3.217-2.607,5.822-5.822,5.822h-46.576c-3.215,0-5.822-2.605-5.822-5.822V167.885c0-3.217,2.607-5.822,5.822-5.822h46.576
     c3.215,0,5.822,2.604,5.822,5.822V340.786z M208.49,137.901c-18.618,0-33.766-15.146-33.766-33.765
     c0-18.617,15.147-33.766,33.766-33.766c18.619,0,33.766,15.148,33.766,33.766C242.256,122.755,227.107,137.901,208.49,137.901z"
-                    />
-                  </g>
-                </svg>
-              </Button>
-            </h2>
-            {showInfo1 && (
-              <Alert
-                variant="dark"
-                className="alert_dataInformation"
-                onClose={() => setShowInfo1(false)}
-                dismissible
+                        />
+                      </g>
+                    </svg>
+                  </Button>
+                </h2>
+                {showInfo1 && (
+                  <Alert
+                    variant="dark"
+                    className="alert_dataInformation"
+                    onClose={() => setShowInfo1(false)}
+                    dismissible
+                  >
+                    <Alert.Heading>ABOUT THE DATA</Alert.Heading>
+                    <p>In this section, ..</p>
+                  </Alert>
+                )}
+              </div>
+              <br />
+              <br />
+              <Nav
+                fill
+                variant="tabs"
+                defaultActiveKey="link-1"
+                className="navbar_race"
               >
-                <Alert.Heading>ABOUT THE DATA</Alert.Heading>
-                <p>In this section, ..</p>
-              </Alert>
-            )}
-          </div>
-          <br />
-          <br />
-          <Nav
-            fill
-            variant="tabs"
-            defaultActiveKey="link-1"
-            className="navbar_race"
-          >
-            <Nav.Item>
-              <Nav.Link eventKey="link-1" className="text_navElement">
-                African American
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="link-2" className="text_navElement">
-                Hispanic
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="link-3" className="text_navElement">
-                Asian American
-              </Nav.Link>
-            </Nav.Item>
-          </Nav>
-          <div className="graph">
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>SMD</th>
-                  <th>MMD</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <img alt="" src={boxGraph} width="230" height="230" />
-                  </td>
-                  <td>
-                    <img alt="" src={boxGraph} width="230" height="230" />
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
-          </div>
-          <br />
-          <div className="analysis2" ref={analysis2Ref}>
-            <h2 className="text_subQuestion1_2">
-              WILL FAIR REPRESENTATION ACT(FRA) for MMD
-              <span className="text_subQuestion2">
-                {" "}
-                LESSEN THE GERRYMANDERING EFFECTS?
-              </span>
-              <Button
-                variant="link"
-                className="button_information"
-                onClick={() => setShowInfo2(true)}
-              >
-                <svg
-                  fill="rgb(40, 38, 38)"
-                  version="1.1"
-                  id="Capa_1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                  width="30px"
-                  height="30px"
-                  viewBox="0 0 416.979 416.979"
-                  xmlSpace="preserve"
-                >
-                  <g>
-                    <path
-                      d="M356.004,61.156c-81.37-81.47-213.377-81.551-294.848-0.182c-81.47,81.371-81.552,213.379-0.181,294.85
+                <Nav.Item>
+                  <Nav.Link eventKey="link-1" className="text_navElement">
+                    African American
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="link-2" className="text_navElement">
+                    Hispanic
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="link-3" className="text_navElement">
+                    Asian American
+                  </Nav.Link>
+                </Nav.Item>
+              </Nav>
+              <div className="graph">
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>SMD</th>
+                      <th>MMD</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <img alt="" src={boxGraph} width="230" height="230" />
+                      </td>
+                      <td>
+                        <img alt="" src={boxGraph} width="230" height="230" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </div>
+              <br />
+              <div className="analysis2" ref={analysis2Ref}>
+                <h2 className="text_subQuestion1_2">
+                  WILL FAIR REPRESENTATION ACT(FRA) for MMD
+                  <span className="text_subQuestion2">
+                    {" "}
+                    LESSEN THE GERRYMANDERING EFFECTS?
+                  </span>
+                  <Button
+                    variant="link"
+                    className="button_information"
+                    onClick={() => setShowInfo2(true)}
+                  >
+                    <svg
+                      fill="rgb(40, 38, 38)"
+                      version="1.1"
+                      id="Capa_1"
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                      width="30px"
+                      height="30px"
+                      viewBox="0 0 416.979 416.979"
+                      xmlSpace="preserve"
+                    >
+                      <g>
+                        <path
+                          d="M356.004,61.156c-81.37-81.47-213.377-81.551-294.848-0.182c-81.47,81.371-81.552,213.379-0.181,294.85
     c81.369,81.47,213.378,81.551,294.849,0.181C437.293,274.636,437.375,142.626,356.004,61.156z M237.6,340.786
     c0,3.217-2.607,5.822-5.822,5.822h-46.576c-3.215,0-5.822-2.605-5.822-5.822V167.885c0-3.217,2.607-5.822,5.822-5.822h46.576
     c3.215,0,5.822,2.604,5.822,5.822V340.786z M208.49,137.901c-18.618,0-33.766-15.146-33.766-33.765
     c0-18.617,15.147-33.766,33.766-33.766c18.619,0,33.766,15.148,33.766,33.766C242.256,122.755,227.107,137.901,208.49,137.901z"
-                    />
-                  </g>
-                </svg>
-              </Button>
-            </h2>
-            {showInfo2 && (
-              <Alert
-                variant="dark"
-                className="alert_dataInformation"
-                onClose={() => setShowInfo2(false)}
-                dismissible
-              >
-                <Alert.Heading>ABOUT THE DATA</Alert.Heading>
-                <p>In this section, ..</p>
-              </Alert>
-            )}
-            <br />
-            <br />
-            <div className="graph">
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>SMD</th>
-                    <th>MMD</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <img
-                        alt=""
-                        src={partisanGraph}
-                        width="230"
-                        height="230"
-                      />
-                    </td>
-                    <td>
-                      <img
-                        alt=""
-                        src={partisanGraph}
-                        width="230"
-                        height="230"
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
-            </div>
-            <div className="graph">
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>SMD</th>
-                    <th>MMD</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <Container>
-                        <MapContainer
-                          key={coordinate}
-                          center={coordinate}
-                          zoom={6.3}
-                          zoomControl={false}
-                          scrollWheelZoom={false}
-                          className="map_distrinct"
-                        >
-                          {/* <TileLayer
+                        />
+                      </g>
+                    </svg>
+                  </Button>
+                </h2>
+                {showInfo2 && (
+                  <Alert
+                    variant="dark"
+                    className="alert_dataInformation"
+                    onClose={() => setShowInfo2(false)}
+                    dismissible
+                  >
+                    <Alert.Heading>ABOUT THE DATA</Alert.Heading>
+                    <p>In this section, ..</p>
+                  </Alert>
+                )}
+                <br />
+                <br />
+                <div className="graph">
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>SMD</th>
+                        <th>MMD</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <img
+                            alt=""
+                            src={partisanGraph}
+                            width="230"
+                            height="230"
+                          />
+                        </td>
+                        <td>
+                          <img
+                            alt=""
+                            src={partisanGraph}
+                            width="230"
+                            height="230"
+                          />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                </div>
+                <div className="graph">
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <th>SMD</th>
+                        <th>MMD</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <Container>
+                            <MapContainer
+                              key={coordinate}
+                              center={coordinate}
+                              zoom={6.3}
+                              zoomControl={false}
+                              scrollWheelZoom={false}
+                              className="map_distrinct"
+                            >
+                              {/* <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               /> */}
-                          <GeoJSON
-                            data={congDist.features}
-                            onEachFeature={onEachDistrict}
-                          ></GeoJSON>
-                        </MapContainer>
-                      </Container>
-                    </td>
-                    <td>
-                      <Container>
-                        <MapContainer
-                          key={coordinate}
-                          center={coordinate}
-                          zoom={6.3}
-                          zoomControl={false}
-                          scrollWheelZoom={false}
-                          className="map_distrinct"
-                        >
-                          {/* <TileLayer
+                              <GeoJSON
+                                data={congDist.features}
+                                onEachFeature={onEachDistrict}
+                              ></GeoJSON>
+                            </MapContainer>
+                          </Container>
+                        </td>
+                        <td>
+                          <Container>
+                            <MapContainer
+                              key={coordinate}
+                              center={coordinate}
+                              zoom={6.3}
+                              zoomControl={false}
+                              scrollWheelZoom={false}
+                              className="map_distrinct"
+                            >
+                              {/* <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               /> */}
-                          <GeoJSON
-                            data={congDist.features}
-                            onEachFeature={onEachDistrict}
-                          ></GeoJSON>
-                        </MapContainer>
-                      </Container>
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
+                              <GeoJSON
+                                data={congDist.features}
+                                onEachFeature={onEachDistrict}
+                              ></GeoJSON>
+                            </MapContainer>
+                          </Container>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        <div className="body3" ref={summaryRef}>
-          <div className="text_summary">SUMMARY</div>
-          <div className="summary_stateInformation">
-            <MapContainer
-              key={coordinate}
-              center={coordinate}
-              zoom={6.3}
-              zoomControl={false}
-              scrollWheelZoom={false}
-              className="map_distrinct"
-            >
-              {/* <TileLayer
+            <div className="body3" ref={summaryRef}>
+              <div className="text_summary">SUMMARY</div>
+              <div className="summary_stateInformation">
+                <MapContainer
+                  key={coordinate}
+                  center={coordinate}
+                  zoom={6.3}
+                  zoomControl={false}
+                  scrollWheelZoom={false}
+                  className="map_distrinct"
+                >
+                  {/* <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               /> */}
-              <GeoJSON
-                data={congDist.features}
-                onEachFeature={onEachDistrict2}
-              ></GeoJSON>
-            </MapContainer>
-            <div className="text_summaryContent">
-              <p className="text_summaryState">{selectedState}</p>
-              <br />
-              <br />
-              <br />
-              <p>Number of House Members: </p>
-              <p>Majority Party: </p>
+                  <GeoJSON
+                    data={congDist.features}
+                    onEachFeature={onEachDistrict2}
+                  ></GeoJSON>
+                </MapContainer>
+                <div className="text_summaryContent">
+                  <p className="text_summaryState">{selectedState}</p>
+                  <br />
+                  <br />
+                  <br />
+                  <p>Number of House Members: </p>
+                  <p>Majority Party: </p>
+                </div>
+              </div>
+              <Table striped bordered hover variant="dark" className="table">
+                <thead>
+                  <tr>
+                    <th className="table_th0"></th>
+                    <th className="table_th">SMD</th>
+                    <th className="table_th">MMD</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="table_th0">Fairness</td>
+                    <td className="table_th"></td>
+                    <td className="table_th"></td>
+                  </tr>
+                  <tr>
+                    <td className="table_th0">Gerrymandering Effect</td>
+                    <td className="table_th"></td>
+                    <td className="table_th"></td>
+                  </tr>
+                </tbody>
+              </Table>
             </div>
           </div>
-          <Table striped bordered hover variant="dark" className="table">
-            <thead>
-              <tr>
-                <th className="table_th0"></th>
-                <th className="table_th">SMD</th>
-                <th className="table_th">MMD</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="table_th0">Fairness</td>
-                <td className="table_th"></td>
-                <td className="table_th"></td>
-              </tr>
-              <tr>
-                <td className="table_th0">Gerrymandering Effect</td>
-                <td className="table_th"></td>
-                <td className="table_th"></td>
-              </tr>
-            </tbody>
-          </Table>
-        </div>
+        )}
       </div>
     </>
   );
