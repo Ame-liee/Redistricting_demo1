@@ -371,6 +371,7 @@ h1 span {
     white-space: nowrap;
 }
 
-.text_aboutContent{
+.text_aboutContent {
     color: white;
+    margin: 10%;
 }
