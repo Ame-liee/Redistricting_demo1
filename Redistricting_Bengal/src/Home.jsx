@@ -507,7 +507,7 @@ function Home() {
               <br />
               <br />
               <br />
-              <p>Number of Senators: </p>
+              <p>Number of House Members: </p>
               <p>Majority Party: </p>
             </div>
           </div>
