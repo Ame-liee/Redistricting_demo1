@@ -3,6 +3,8 @@ import bengalLogo from "./assets/Bengal.svg";
 import boxGraph from "./assets/Box & Whisker Plot.png";
 import partisanGraph from "./assets/seats-votes curve.png";
 import usaMapData from "@svg-maps/usa";
+import congDist from "./assets/ms_cvap_2020_cd.json";
+import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import {
   Offcanvas,
   Nav,
@@ -20,6 +22,7 @@ function Home() {
   const customStates = ["al", "ms", "pa"];
   const [showInfo1, setShowInfo1] = useState(false);
   const [showInfo2, setShowInfo2] = useState(false);
+  const [coordinate, setCoordinate] = useState([32.3547, -90.0]);
   const stateSelectionRef = useRef(0);
   const analysis1Ref = useRef(0);
   const analysis2Ref = useRef(0);
@@ -40,11 +43,41 @@ function Home() {
     } else if (value === "aboutRef") {
     }
   };
+  const changeState = (value) => {
+    setState(value);
+    if (value == "Alabama") {
+      setCoordinate([32.8067, -86.7911]);
+    } else if (value == "Mississippi") {
+      setCoordinate([32.3547, -90.0]);
+    } else {
+      setCoordinate([40.8781, -77.7996]);
+    }
+  };
+  const onEachDistrict = (district, layer) => {
+    const population = district.properties.C_TOT20;
+    layer.bindPopup("Voting population: " + population);
+    layer.on({
+      mouseover: (e) => {
+        layer.setStyle({
+          weight: 4,
+          color: "#2156a0",
+          fillOpacity: 0.7,
+        });
+      },
+      mouseout: (e) => {
+        layer.setStyle({
+          weight: 3,
+          color: "#3388ff",
+          fillOpacity: 0.2,
+        });
+      },
+    });
+  };
 
   return (
     <>
       <div className="body" ref={stateSelectionRef}>
-      <Navbar
+        <Navbar
           expand={false}
           sticky="top"
           data-bs-theme="dark"
@@ -140,75 +173,76 @@ function Home() {
           </Navbar.Offcanvas>
         </Navbar>
         <div className="body1" ref={stateSelectionRef}>
-        <Navbar data-bs-theme="dark" className="brand">
-          <Navbar.Brand href="#home" className="text_FAIRWIN">
-            <img
-              alt=""
-              src={bengalLogo}
-              width="40"
-              height="40"
-              className="bengal"
-            />
-            &nbsp; FAIRWIN
-          </Navbar.Brand>
-        </Navbar>
-        <Container className="content">
-          <div className="text_question">IS A FAIR VOTE BEING HELD?</div>
-          <div className="text_selectedState">
-            {hoveredLocation
-              ? hoveredLocation.toUpperCase()
-              : selectedState.toUpperCase()}
-          </div>
-          <Container className="map">
-            <svg
-              viewBox={usaMapData.viewBox}
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {usaMapData.locations.map((location) => {
-                const isCustom = customStates.includes(location.id);
-                return (
-                  <path
-                    key={location.id}
-                    d={location.path}
-                    fill={
-                      hoveredLocation === location.name
-                        ? "rgba(236, 31, 12, 0.7)"
-                        : selectedState == location.name
-                        ? "rgb(236, 31, 12)"
-                        : isCustom
-                        ? "#EEE"
-                        : "rgb(135, 135, 135)"
-                    }
-                    stroke="rgba(40, 38, 38, 1.0)"
-                    strokeWidth={selectedState == location.name ? 3.0 : 0.9}
-                    onMouseEnter={() => setHoveredLocation(location.name)}
-                    onMouseLeave={() => setHoveredLocation(null)}
-                    onClick={() => mapHandler(location.name)}
-                    style={{ cursor: "pointer" }}
-                  />
-                );
-              })}
-            </svg>
-          </Container>
-          <div className="dataExplaination">
-            <svg
-              width="10px"
-              height="10px"
-              viewBox="0 0 1024 1024"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <title>circle</title>
-              <circle
-                cx="512"
-                cy="512"
-                r="256"
-                fill="rgb(255, 255, 255)"
-                fillRule="evenodd"
+          <Navbar data-bs-theme="dark" className="brand">
+            <Navbar.Brand href="#home" className="text_FAIRWIN">
+              <img
+                alt=""
+                src={bengalLogo}
+                width="40"
+                height="40"
+                className="bengal"
               />
-            </svg>
-            &nbsp;<span className="text_Available_State">Available State</span>
-          </div>
-        </Container>
+              &nbsp; FAIRWIN
+            </Navbar.Brand>
+          </Navbar>
+          <Container className="content">
+            <div className="text_question">IS A FAIR VOTE BEING HELD?</div>
+            <div className="text_selectedState">
+              {hoveredLocation
+                ? hoveredLocation.toUpperCase()
+                : selectedState.toUpperCase()}
+            </div>
+            <Container className="map_us">
+              <svg
+                viewBox={usaMapData.viewBox}
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                {usaMapData.locations.map((location) => {
+                  const isCustom = customStates.includes(location.id);
+                  return (
+                    <path
+                      key={location.id}
+                      d={location.path}
+                      fill={
+                        hoveredLocation === location.name
+                          ? "rgba(236, 31, 12, 0.7)"
+                          : selectedState == location.name
+                          ? "rgb(236, 31, 12)"
+                          : isCustom
+                          ? "#EEE"
+                          : "rgb(135, 135, 135)"
+                      }
+                      stroke="rgba(40, 38, 38, 1.0)"
+                      strokeWidth={selectedState == location.name ? 3.0 : 0.9}
+                      onMouseEnter={() => setHoveredLocation(location.name)}
+                      onMouseLeave={() => setHoveredLocation(null)}
+                      onClick={() => mapHandler(location.name)}
+                      style={{ cursor: "pointer" }}
+                    />
+                  );
+                })}
+              </svg>
+            </Container>
+            <div className="dataExplaination">
+              <svg
+                width="10px"
+                height="10px"
+                viewBox="0 0 1024 1024"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title>circle</title>
+                <circle
+                  cx="512"
+                  cy="512"
+                  r="256"
+                  fill="rgb(255, 255, 255)"
+                  fillRule="evenodd"
+                />
+              </svg>
+              &nbsp;
+              <span className="text_Available_State">Available State</span>
+            </div>
+          </Container>
         </div>
         <div className="body2">
           <div className="analysis1" ref={analysis1Ref}>
@@ -379,7 +413,7 @@ function Home() {
             </div>
           </div>
         </div>
-        
+
         <div className="body3" ref={summaryRef}>
           <div className="text_summary">SUMMARY</div>
           <Table striped bordered hover variant="dark" className="table">
@@ -403,6 +437,23 @@ function Home() {
               </tr>
             </tbody>
           </Table>
+          <Container>
+            <MapContainer
+              key={coordinate}
+              center={coordinate}
+              zoom={7}
+              className="map_distrinct"
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              />
+              <GeoJSON
+                data={congDist.features}
+                onEachFeature={onEachDistrict}
+              ></GeoJSON>
+            </MapContainer>
+          </Container>
         </div>
       </div>
     </>

@@ -168,7 +168,7 @@ h1 span {
         margin-top: 3%;
     }
 
-    .map {
+    .map_us {
         width: 65%;
         height: 65%;
         justify-content: center;
@@ -196,7 +196,7 @@ h1 span {
         text-align: center;
     }
 
-    .map {
+    .map_us {
         width: 85%;
         height: 85%;
         justify-content: center;
@@ -333,4 +333,11 @@ h1 span {
 
 .table_th {
     text-align: center;
+}
+
+.map_distrinct {
+    border-radius: 5%;
+    height: 90vh;
+    position: relative;
+    z-index: -0;
 }
