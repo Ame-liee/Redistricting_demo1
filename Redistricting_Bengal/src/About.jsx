@@ -90,6 +90,18 @@ function About() {
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Navbar>
+        <Navbar data-bs-theme="dark" className="brand">
+          <Navbar.Brand href="/" className="text_FAIRWIN">
+            <img
+              alt=""
+              src={bengalLogo}
+              width="40"
+              height="40"
+              className="bengal"
+            />
+            &nbsp; FAIRWIN
+          </Navbar.Brand>
+        </Navbar>
         <div className="text_aboutContent">
           <h1>ABOUT FAIRWIN project</h1>
           <p>
