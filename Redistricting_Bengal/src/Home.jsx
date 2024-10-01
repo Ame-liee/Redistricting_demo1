@@ -29,7 +29,7 @@ function Home() {
   const summaryRef = useRef(0);
   const mapHandler = (value) => {
     setSelectedState(value);
-    scrollTo("analysis1")
+    scrollTo("analysis1");
   };
   const scrollTo = (value) => {
     if (value === "stateSelection" && stateSelectionRef.current) {
@@ -74,6 +74,15 @@ function Home() {
       color: "rgb(241, 243, 243)",
       fillColor: "rgb(236, 31, 12)",
       fillOpacity: 0.2,
+    });
+  };
+  const onEachDistrict2 = (district, layer) => {
+    const population = district.properties.C_TOT20;
+    layer.bindPopup("Voting population: " + population);
+    layer.setStyle({
+      color: "rgb(236, 31, 12)",
+      fillColor: "black",
+      fillOpacity: 1,
     });
   };
 
@@ -475,6 +484,33 @@ function Home() {
 
         <div className="body3" ref={summaryRef}>
           <div className="text_summary">SUMMARY</div>
+          <div className="summary_stateInformation">
+            <MapContainer
+              key={coordinate}
+              center={coordinate}
+              zoom={6.3}
+              zoomControl={false}
+              scrollWheelZoom={false}
+              className="map_distrinct"
+            >
+              {/* <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              /> */}
+              <GeoJSON
+                data={congDist.features}
+                onEachFeature={onEachDistrict2}
+              ></GeoJSON>
+            </MapContainer>
+            <div className="text_summaryContent">
+              <p className="text_summaryState">{selectedState}</p>
+              <br />
+              <br />
+              <br />
+              <p>Number of Senators: </p>
+              <p>Majority Party: </p>
+            </div>
+          </div>
           <Table striped bordered hover variant="dark" className="table">
             <thead>
               <tr>

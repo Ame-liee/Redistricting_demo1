@@ -340,4 +340,33 @@ h1 span {
     position: relative;
     z-index: -0;
     background-color: rgba(255, 255, 255, 0);
+    width: 40vh;
+    margin-top: 5%;
+    margin-left: 5%;
+}
+
+.summary_stateInformation {
+    padding: 5%;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.text_summaryContent {
+    float: right;
+    position: absolute;
+    color: rgb(0, 0, 0);
+    font-family: Tahoma;
+    font-size: 150%;
+    font-weight: bold;
+    margin-left: 40%;
+    margin-top: 5%;
+    margin-right: 70%;
+    margin-bottom: 10%;
+}
+
+.text_summaryState {
+    color: white;
+    font-size: 45px;
+    white-space: nowrap;
 }
