@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import bengalLogo from "./assets/Bengal.svg";
 import boxGraph from "./assets/Box & Whisker Plot.png";
 import partisanGraph from "./assets/seats-votes curve.png";
@@ -20,14 +20,31 @@ function Home() {
   const customStates = ["al", "ms", "pa"];
   const [showInfo1, setShowInfo1] = useState(false);
   const [showInfo2, setShowInfo2] = useState(false);
+  const stateSelectionRef = useRef(0);
+  const analysis1Ref = useRef(0);
+  const analysis2Ref = useRef(0);
+  const summaryRef = useRef(0);
   const mapHandler = (value) => {
     setSelectedState(value);
-    window.scrollTo(0, 900);
+    scrollTo();
   };
+  const scrollTo = (value) => {
+    if (value === "stateSelection" && stateSelectionRef.current) {
+      stateSelectionRef.current.scrollIntoView({ behavior: "smooth" });
+    } else if (value === "analysis1" && analysis1Ref.current) {
+      analysis1Ref.current.scrollIntoView({ behavior: "smooth" });
+    } else if (value === "analysis2" && analysis2Ref.current) {
+      analysis2Ref.current.scrollIntoView({ behavior: "smooth" });
+    } else if (value === "summaryRef" && summaryRef.current) {
+      summaryRef.current.scrollIntoView({ behavior: "smooth" });
+    } else if (value === "aboutRef") {
+    }
+  };
+
   return (
     <>
-      <div className="body">
-        <Navbar
+      <div className="body" ref={stateSelectionRef}>
+      <Navbar
           expand={false}
           sticky="top"
           data-bs-theme="dark"
@@ -97,27 +114,32 @@ function Home() {
                 <span className="char16">*</span>
               </h1>
               <Nav className="sidebar_nav">
-                <Nav.Link href="#action1">STATE SELECTION</Nav.Link>
+                <Nav.Link onClick={() => scrollTo("stateSelection")}>
+                  STATE SELECTION
+                </Nav.Link>
                 <NavDropdown title="ANALYSIS" className="sidebar_dropdown">
                   <NavDropdown.Item
                     className="sidebar_dropdownItem"
-                    href="#action3"
+                    onClick={() => scrollTo("analysis1")}
                   >
                     Fairness
                   </NavDropdown.Item>
                   <NavDropdown.Item
                     className="sidebar_dropdownItem"
-                    href="#action4"
+                    onClick={() => scrollTo("analysis2")}
                   >
                     Gerrymandering Effect
                   </NavDropdown.Item>
                 </NavDropdown>
-                <Nav.Link href="#action2">SUMMARY</Nav.Link>
-                <Nav.Link href="#action3">ABOUT</Nav.Link>
+                <Nav.Link onClick={() => scrollTo("summaryRef")}>
+                  SUMMARY
+                </Nav.Link>
+                <Nav.Link onClick={() => scrollTo("aboutRef")}>ABOUT</Nav.Link>
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Navbar>
+        <div className="body1" ref={stateSelectionRef}>
         <Navbar data-bs-theme="dark" className="brand">
           <Navbar.Brand href="#home" className="text_FAIRWIN">
             <img
@@ -187,49 +209,51 @@ function Home() {
             &nbsp;<span className="text_Available_State">Available State</span>
           </div>
         </Container>
-
-        <div className="body1">
-          <h2 className="text_subQuestion1_1">
-            WILL FAIR REPRESENTATION ACT(FRA) for MMD
-            <span className="text_subQuestion2"> INCREASE FAIRNESS?</span>
-            <Button
-              variant="link"
-              className="button_information"
-              onClick={() => setShowInfo1(true)}
-            >
-              <svg
-                fill="rgb(40, 38, 38)"
-                version="1.1"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlnsXlink="http://www.w3.org/1999/xlink"
-                width="30px"
-                height="30px"
-                viewBox="0 0 416.979 416.979"
-                xmlSpace="preserve"
+        </div>
+        <div className="body2">
+          <div className="analysis1" ref={analysis1Ref}>
+            <h2 className="text_subQuestion1_1">
+              WILL FAIR REPRESENTATION ACT(FRA) for MMD
+              <span className="text_subQuestion2"> INCREASE FAIRNESS?</span>
+              <Button
+                variant="link"
+                className="button_information"
+                onClick={() => setShowInfo1(true)}
               >
-                <g>
-                  <path
-                    d="M356.004,61.156c-81.37-81.47-213.377-81.551-294.848-0.182c-81.47,81.371-81.552,213.379-0.181,294.85
+                <svg
+                  fill="rgb(40, 38, 38)"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                  width="30px"
+                  height="30px"
+                  viewBox="0 0 416.979 416.979"
+                  xmlSpace="preserve"
+                >
+                  <g>
+                    <path
+                      d="M356.004,61.156c-81.37-81.47-213.377-81.551-294.848-0.182c-81.47,81.371-81.552,213.379-0.181,294.85
     c81.369,81.47,213.378,81.551,294.849,0.181C437.293,274.636,437.375,142.626,356.004,61.156z M237.6,340.786
     c0,3.217-2.607,5.822-5.822,5.822h-46.576c-3.215,0-5.822-2.605-5.822-5.822V167.885c0-3.217,2.607-5.822,5.822-5.822h46.576
     c3.215,0,5.822,2.604,5.822,5.822V340.786z M208.49,137.901c-18.618,0-33.766-15.146-33.766-33.765
     c0-18.617,15.147-33.766,33.766-33.766c18.619,0,33.766,15.148,33.766,33.766C242.256,122.755,227.107,137.901,208.49,137.901z"
-                  />
-                </g>
-              </svg>
-            </Button>
-          </h2>
-          {showInfo1 && (
-            <Alert
-              variant="dark"
-              className="alert_dataInformation"
-              onClose={() => setShowInfo1(false)}
-              dismissible
-            >
-              <Alert.Heading>ABOUT THE DATA</Alert.Heading>
-              <p>In this section, ..</p>
-            </Alert>
-          )}
+                    />
+                  </g>
+                </svg>
+              </Button>
+            </h2>
+            {showInfo1 && (
+              <Alert
+                variant="dark"
+                className="alert_dataInformation"
+                onClose={() => setShowInfo1(false)}
+                dismissible
+              >
+                <Alert.Heading>ABOUT THE DATA</Alert.Heading>
+                <p>In this section, ..</p>
+              </Alert>
+            )}
+          </div>
           <br />
           <br />
           <Nav
@@ -275,75 +299,88 @@ function Home() {
             </Table>
           </div>
           <br />
-          <h2 className="text_subQuestion1_2">
-            WILL FAIR REPRESENTATION ACT(FRA) for MMD
-            <span className="text_subQuestion2">
-              {" "}
-              LESSEN THE GERRYMANDERING EFFECTS?
-            </span>
-            <Button
-              variant="link"
-              className="button_information"
-              onClick={() => setShowInfo2(true)}
-            >
-              <svg
-                fill="rgb(40, 38, 38)"
-                version="1.1"
-                id="Capa_1"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlnsXlink="http://www.w3.org/1999/xlink"
-                width="30px"
-                height="30px"
-                viewBox="0 0 416.979 416.979"
-                xmlSpace="preserve"
+          <div className="analysis2" ref={analysis2Ref}>
+            <h2 className="text_subQuestion1_2">
+              WILL FAIR REPRESENTATION ACT(FRA) for MMD
+              <span className="text_subQuestion2">
+                {" "}
+                LESSEN THE GERRYMANDERING EFFECTS?
+              </span>
+              <Button
+                variant="link"
+                className="button_information"
+                onClick={() => setShowInfo2(true)}
               >
-                <g>
-                  <path
-                    d="M356.004,61.156c-81.37-81.47-213.377-81.551-294.848-0.182c-81.47,81.371-81.552,213.379-0.181,294.85
+                <svg
+                  fill="rgb(40, 38, 38)"
+                  version="1.1"
+                  id="Capa_1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                  width="30px"
+                  height="30px"
+                  viewBox="0 0 416.979 416.979"
+                  xmlSpace="preserve"
+                >
+                  <g>
+                    <path
+                      d="M356.004,61.156c-81.37-81.47-213.377-81.551-294.848-0.182c-81.47,81.371-81.552,213.379-0.181,294.85
     c81.369,81.47,213.378,81.551,294.849,0.181C437.293,274.636,437.375,142.626,356.004,61.156z M237.6,340.786
     c0,3.217-2.607,5.822-5.822,5.822h-46.576c-3.215,0-5.822-2.605-5.822-5.822V167.885c0-3.217,2.607-5.822,5.822-5.822h46.576
     c3.215,0,5.822,2.604,5.822,5.822V340.786z M208.49,137.901c-18.618,0-33.766-15.146-33.766-33.765
     c0-18.617,15.147-33.766,33.766-33.766c18.619,0,33.766,15.148,33.766,33.766C242.256,122.755,227.107,137.901,208.49,137.901z"
-                  />
-                </g>
-              </svg>
-            </Button>
-          </h2>
-          {showInfo2 && (
-            <Alert
-              variant="dark"
-              className="alert_dataInformation"
-              onClose={() => setShowInfo2(false)}
-              dismissible
-            >
-              <Alert.Heading>ABOUT THE DATA</Alert.Heading>
-              <p>In this section, ..</p>
-            </Alert>
-          )}
-          <br />
-          <br />
-          <div className="graph">
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>SMD</th>
-                  <th>MMD</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <img alt="" src={partisanGraph} width="200" height="200" />
-                  </td>
-                  <td>
-                    <img alt="" src={partisanGraph} width="200" height="200" />
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
+                    />
+                  </g>
+                </svg>
+              </Button>
+            </h2>
+            {showInfo2 && (
+              <Alert
+                variant="dark"
+                className="alert_dataInformation"
+                onClose={() => setShowInfo2(false)}
+                dismissible
+              >
+                <Alert.Heading>ABOUT THE DATA</Alert.Heading>
+                <p>In this section, ..</p>
+              </Alert>
+            )}
+            <br />
+            <br />
+            <div className="graph">
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>SMD</th>
+                    <th>MMD</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <img
+                        alt=""
+                        src={partisanGraph}
+                        width="200"
+                        height="200"
+                      />
+                    </td>
+                    <td>
+                      <img
+                        alt=""
+                        src={partisanGraph}
+                        width="200"
+                        height="200"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </div>
           </div>
         </div>
-        <div className="body2">
+        
+        <div className="body3" ref={summaryRef}>
           <div className="text_summary">SUMMARY</div>
           <Table striped bordered hover variant="dark" className="table">
             <thead>
