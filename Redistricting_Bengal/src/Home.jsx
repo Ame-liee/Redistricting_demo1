@@ -23,6 +23,7 @@ function Home() {
   const customStates = ["Alabama", "Mississippi", "Pennsylvania"];
   const [showInfo1, setShowInfo1] = useState(false);
   const [showInfo2, setShowInfo2] = useState(false);
+  const [showFairness, setShowFairness] = useState([true, false]);
   const [coordinate, setCoordinate] = useState([32.3547, -90.0]);
   // const geoJson_features = congDist.features;
   const stateSelectionRef = useRef(0);
@@ -99,17 +100,28 @@ function Home() {
   const onEachDistrict = (district, layer) => {
     const properties = district.properties;
     const population = properties.vap;
-    const percentageWhite = ((properties.vap_white / population) * 100).toFixed(2);
-    const percentageAsian = ((district.properties.vap_asian / population) * 100).toFixed(2);
-    const percentageBlack = ((district.properties.vap_black / population) * 100).toFixed(2);
-    const percentageHispanic = ((district.properties.vap_hisp / population) * 100).toFixed(2);
+    const percentageWhite = ((properties.vap_white / population) * 100).toFixed(
+      2
+    );
+    const percentageAsian = (
+      (district.properties.vap_asian / population) *
+      100
+    ).toFixed(2);
+    const percentageBlack = (
+      (district.properties.vap_black / population) *
+      100
+    ).toFixed(2);
+    const percentageHispanic = (
+      (district.properties.vap_hisp / population) *
+      100
+    ).toFixed(2);
     const onMouseOver = (e) => {
       layer.setStyle({
         weight: 4,
         color: "rgb(40, 38, 38)",
       });
     };
-    
+
     const onMouseOut = (e) => {
       layer.setStyle({
         weight: 3,
@@ -117,27 +129,28 @@ function Home() {
       });
     };
 
-    const fillColor = percentageAsian <= 16.7
-      ? "rgb(250, 200, 185)"
-      : percentageAsian <= 33.3
-      ? "rgb(248, 180, 160)"
-      : percentageAsian <= 49.8
-      ? "rgb(245, 150, 130)"
-      : percentageAsian <= 66.5
-      ? "rgb(240, 105, 90)"
-      : percentageAsian <= 83.1
-      ? "rgb(235, 60, 45)"
-      : "rgb(220, 25, 10)";
-    
+    const fillColor =
+      percentageAsian <= 16.7
+        ? "rgb(250, 200, 185)"
+        : percentageAsian <= 33.3
+        ? "rgb(248, 180, 160)"
+        : percentageAsian <= 49.8
+        ? "rgb(245, 150, 130)"
+        : percentageAsian <= 66.5
+        ? "rgb(240, 105, 90)"
+        : percentageAsian <= 83.1
+        ? "rgb(235, 60, 45)"
+        : "rgb(220, 25, 10)";
+
     layer.setStyle({
       color: "rgba(241, 243, 243, 1)",
       fillColor: fillColor,
-    });    
+    });
     layer.on({
       mouseout: onMouseOut,
       mouseover: onMouseOver,
     });
-};
+  };
 
   return (
     <>
@@ -310,223 +323,294 @@ function Home() {
           </Container>
         </div>
         <div className="body2">
-          <div className="analysis1" ref={analysis1Ref}>
-            <h2 className="text_subQuestion1_1">
-              WILL FAIR REPRESENTATION ACT(FRA) for MMD
-              <span className="text_subQuestion2"> INCREASE FAIRNESS?</span>
-              <Button
-                variant="link"
-                className="button_information"
-                onClick={() => setShowInfo1(true)}
-              >
-                <svg
-                  fill="rgb(40, 38, 38)"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                  width="30px"
-                  height="30px"
-                  viewBox="0 0 416.979 416.979"
-                  xmlSpace="preserve"
-                >
-                  <g>
-                    <path
-                      d="M356.004,61.156c-81.37-81.47-213.377-81.551-294.848-0.182c-81.47,81.371-81.552,213.379-0.181,294.85
-    c81.369,81.47,213.378,81.551,294.849,0.181C437.293,274.636,437.375,142.626,356.004,61.156z M237.6,340.786
-    c0,3.217-2.607,5.822-5.822,5.822h-46.576c-3.215,0-5.822-2.605-5.822-5.822V167.885c0-3.217,2.607-5.822,5.822-5.822h46.576
-    c3.215,0,5.822,2.604,5.822,5.822V340.786z M208.49,137.901c-18.618,0-33.766-15.146-33.766-33.765
-    c0-18.617,15.147-33.766,33.766-33.766c18.619,0,33.766,15.148,33.766,33.766C242.256,122.755,227.107,137.901,208.49,137.901z"
-                    />
-                  </g>
-                </svg>
-              </Button>
-            </h2>
-            {showInfo1 && (
-              <Alert
-                variant="dark"
-                className="alert_dataInformation"
-                onClose={() => setShowInfo1(false)}
-                dismissible
-              >
-                <Alert.Heading>ABOUT THE DATA</Alert.Heading>
-                <p>In this section, ..</p>
-              </Alert>
-            )}
-          </div>
-          <br />
-          <br />
           <Nav
-            fill
             variant="tabs"
             defaultActiveKey="link-1"
-            className="navbar_race"
+            className="navbar_fairness"
           >
             <Nav.Item>
-              <Nav.Link eventKey="link-1" className="text_navElement">
-                African American
+              <Nav.Link
+                eventKey="link-1"
+                className="text_navElement_fairness"
+                onClick={() => setShowFairness([true, false])}
+              >
+                Minority Fairness
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link eventKey="link-2" className="text_navElement">
-                Hispanic
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="link-3" className="text_navElement">
-                Asian American
+              <Nav.Link
+                eventKey="link-2"
+                className="text_navElement_fairness"
+                onClick={() => setShowFairness([false, true])}
+              >
+                Political Fairness
               </Nav.Link>
             </Nav.Item>
           </Nav>
-          <div className="graph">
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>SMD</th>
-                  <th>MMD</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <img alt="" src={boxGraph} width="230" height="230" />
-                  </td>
-                  <td>
-                    <img alt="" src={boxGraph} width="230" height="230" />
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
-          </div>
-          <br />
-          <div className="analysis2" ref={analysis2Ref}>
-            <h2 className="text_subQuestion1_2">
-              WILL FAIR REPRESENTATION ACT(FRA) for MMD
-              <span className="text_subQuestion2">
-                {" "}
-                LESSEN THE GERRYMANDERING EFFECTS?
-              </span>
-              <Button
-                variant="link"
-                className="button_information"
-                onClick={() => setShowInfo2(true)}
-              >
-                <svg
-                  fill="rgb(40, 38, 38)"
-                  version="1.1"
-                  id="Capa_1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  xmlnsXlink="http://www.w3.org/1999/xlink"
-                  width="30px"
-                  height="30px"
-                  viewBox="0 0 416.979 416.979"
-                  xmlSpace="preserve"
+          {showFairness[0] && (
+            <div className="analysis1" ref={analysis1Ref}>
+              <h2 className="text_subQuestion1_1">
+                WILL FAIR REPRESENTATION ACT(FRA) for MMD
+                <span className="text_subQuestion2">
+                  {" "}
+                  INCREASE MINORITY FAIRNESS?
+                </span>
+                <Button
+                  variant="link"
+                  className="button_information"
+                  onClick={() => setShowInfo1(true)}
                 >
-                  <g>
-                    <path
-                      d="M356.004,61.156c-81.37-81.47-213.377-81.551-294.848-0.182c-81.47,81.371-81.552,213.379-0.181,294.85
+                  <svg
+                    fill="rgb(40, 38, 38)"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                    width="30px"
+                    height="30px"
+                    viewBox="0 0 416.979 416.979"
+                    xmlSpace="preserve"
+                  >
+                    <g>
+                      <path
+                        d="M356.004,61.156c-81.37-81.47-213.377-81.551-294.848-0.182c-81.47,81.371-81.552,213.379-0.181,294.85
     c81.369,81.47,213.378,81.551,294.849,0.181C437.293,274.636,437.375,142.626,356.004,61.156z M237.6,340.786
     c0,3.217-2.607,5.822-5.822,5.822h-46.576c-3.215,0-5.822-2.605-5.822-5.822V167.885c0-3.217,2.607-5.822,5.822-5.822h46.576
     c3.215,0,5.822,2.604,5.822,5.822V340.786z M208.49,137.901c-18.618,0-33.766-15.146-33.766-33.765
     c0-18.617,15.147-33.766,33.766-33.766c18.619,0,33.766,15.148,33.766,33.766C242.256,122.755,227.107,137.901,208.49,137.901z"
-                    />
-                  </g>
-                </svg>
-              </Button>
-            </h2>
-            {showInfo2 && (
-              <Alert
-                variant="dark"
-                className="alert_dataInformation"
-                onClose={() => setShowInfo2(false)}
-                dismissible
+                      />
+                    </g>
+                  </svg>
+                </Button>
+              </h2>
+              {showInfo1 && (
+                <Alert
+                  variant="dark"
+                  className="alert_dataInformation"
+                  onClose={() => setShowInfo1(false)}
+                  dismissible
+                >
+                  <Alert.Heading>ABOUT THE DATA</Alert.Heading>
+                  <p>In this section, ..</p>
+                </Alert>
+              )}
+              <br />
+              <br />
+              <div className="graph">
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th className="table_th0"></th>
+                      <th>SMD</th>
+                      <th>MMD</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>District Map</td>
+                      <td>
+                        <Container>
+                          <MapContainer
+                            key={coordinate}
+                            center={coordinate}
+                            zoom={6.3}
+                            zoomControl={false}
+                            scrollWheelZoom={false}
+                            className="map_district"
+                          >
+                            <GeoJSON
+                              data={congDist.features}
+                              onEachFeature={onEachDistrict}
+                            ></GeoJSON>
+                          </MapContainer>
+                        </Container>
+                      </td>
+                      <td>
+                        <Container>
+                          <MapContainer
+                            key={coordinate}
+                            center={coordinate}
+                            zoom={6.3}
+                            zoomControl={false}
+                            scrollWheelZoom={false}
+                            className="map_district"
+                          >
+                            <GeoJSON
+                              data={congDist.features}
+                              onEachFeature={onEachDistrict}
+                            ></GeoJSON>
+                          </MapContainer>
+                        </Container>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bar Chart</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Box & Whisker Analysis</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </div>
+              {/* <Nav
+                fill
+                variant="tabs"
+                defaultActiveKey="link-1"
+                className="navbar_race"
               >
-                <Alert.Heading>ABOUT THE DATA</Alert.Heading>
-                <p>In this section, ..</p>
-              </Alert>
-            )}
-            <br />
-            <br />
-            <div className="graph">
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>SMD</th>
-                    <th>MMD</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <img
-                        alt=""
-                        src={partisanGraph}
-                        width="230"
-                        height="230"
-                      />
-                    </td>
-                    <td>
-                      <img
-                        alt=""
-                        src={partisanGraph}
-                        width="230"
-                        height="230"
-                      />
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
+                <Nav.Item>
+                  <Nav.Link eventKey="link-1" className="text_navElement">
+                    African American
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="link-2" className="text_navElement">
+                    Hispanic
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey="link-3" className="text_navElement">
+                    Asian American
+                  </Nav.Link>
+                </Nav.Item>
+              </Nav> */}
+              {/* <div className="graph">
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>SMD</th>
+                      <th>MMD</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <img alt="" src={boxGraph} width="230" height="230" />
+                      </td>
+                      <td>
+                        <img alt="" src={boxGraph} width="230" height="230" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </div> */}
             </div>
-            <div className="graph">
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>SMD</th>
-                    <th>MMD</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>
-                      <Container>
-                        <MapContainer
-                          key={coordinate}
-                          center={coordinate}
-                          zoom={6.3}
-                          zoomControl={false}
-                          scrollWheelZoom={false}
-                          className="map_distrinct"
-                        >
-                          <GeoJSON
-                            data={congDist.features}
-                            onEachFeature={onEachDistrict}
-                          ></GeoJSON>
-                        </MapContainer>
-                      </Container>
-                    </td>
-                    <td>
-                      <Container>
-                        <MapContainer
-                          key={coordinate}
-                          center={coordinate}
-                          zoom={6.3}
-                          zoomControl={false}
-                          scrollWheelZoom={false}
-                          className="map_distrinct"
-                        >
-                          <GeoJSON
-                            data={congDist.features}
-                            onEachFeature={onEachDistrict}
-                          ></GeoJSON>
-                        </MapContainer>
-                      </Container>
-                    </td>
-                  </tr>
-                </tbody>
-              </Table>
+          )}
+          {showFairness[1] && (
+            <div className="analysis2" ref={analysis2Ref}>
+              <h2 className="text_subQuestion1_1">
+                WILL FAIR REPRESENTATION ACT(FRA) for MMD
+                <span className="text_subQuestion2">
+                  {" "}
+                  INCREASE POLITICAL FAIRNESS?
+                </span>
+                <Button
+                  variant="link"
+                  className="button_information"
+                  onClick={() => setShowInfo2(true)}
+                >
+                  <svg
+                    fill="rgb(40, 38, 38)"
+                    version="1.1"
+                    id="Capa_1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                    width="30px"
+                    height="30px"
+                    viewBox="0 0 416.979 416.979"
+                    xmlSpace="preserve"
+                  >
+                    <g>
+                      <path
+                        d="M356.004,61.156c-81.37-81.47-213.377-81.551-294.848-0.182c-81.47,81.371-81.552,213.379-0.181,294.85
+      c81.369,81.47,213.378,81.551,294.849,0.181C437.293,274.636,437.375,142.626,356.004,61.156z M237.6,340.786
+      c0,3.217-2.607,5.822-5.822,5.822h-46.576c-3.215,0-5.822-2.605-5.822-5.822V167.885c0-3.217,2.607-5.822,5.822-5.822h46.576
+      c3.215,0,5.822,2.604,5.822,5.822V340.786z M208.49,137.901c-18.618,0-33.766-15.146-33.766-33.765
+      c0-18.617,15.147-33.766,33.766-33.766c18.619,0,33.766,15.148,33.766,33.766C242.256,122.755,227.107,137.901,208.49,137.901z"
+                      />
+                    </g>
+                  </svg>
+                </Button>
+              </h2>
+              {showInfo2 && (
+                <Alert
+                  variant="dark"
+                  className="alert_dataInformation"
+                  onClose={() => setShowInfo2(false)}
+                  dismissible
+                >
+                  <Alert.Heading>ABOUT THE DATA</Alert.Heading>
+                  <p>In this section, ..</p>
+                </Alert>
+              )}
+              <br />
+              <br />
+              <div className="graph">
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th className="table_th0"></th>
+                      <th>SMD</th>
+                      <th>MMD</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>District Map</td>
+                      <td>
+                        <Container>
+                          <MapContainer
+                            key={coordinate}
+                            center={coordinate}
+                            zoom={6.3}
+                            zoomControl={false}
+                            scrollWheelZoom={false}
+                            className="map_district"
+                          >
+                            <GeoJSON
+                              data={congDist.features}
+                              onEachFeature={onEachDistrict}
+                            ></GeoJSON>
+                          </MapContainer>
+                        </Container>
+                      </td>
+                      <td>
+                        <Container>
+                          <MapContainer
+                            key={coordinate}
+                            center={coordinate}
+                            zoom={6.3}
+                            zoomControl={false}
+                            scrollWheelZoom={false}
+                            className="map_district"
+                          >
+                            <GeoJSON
+                              data={congDist.features}
+                              onEachFeature={onEachDistrict}
+                            ></GeoJSON>
+                          </MapContainer>
+                        </Container>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Bar Chart</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Seat vs. Vote Symmetry</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </div>
             </div>
-          </div>
+          )}
         </div>
-
         <div className="body3" ref={summaryRef}>
           <div className="text_summary">SUMMARY</div>
           <div className="summary_stateInformation">
@@ -536,7 +620,7 @@ function Home() {
               zoom={6.3}
               zoomControl={false}
               scrollWheelZoom={false}
-              className="map_distrinct"
+              className="map_district"
             >
               <GeoJSON
                 data={congDist.features}

@@ -120,7 +120,7 @@ h1 span {
 
 .body1 {
     background-color: rgb(40, 38, 38);
-    padding-bottom: 10%;
+    /* padding-bottom: 10%; */
     scroll-behavior: smooth;
 }
 
@@ -234,9 +234,10 @@ h1 span {
         width: 60%;
         font-weight: bold;
         padding-left: 8%;
-        padding-top: 8%;
+        padding-top: 5%;
     }
 
+    /* 
     .text_subQuestion1_2 {
         color: rgb(40, 38, 38);
         font-family: Tahoma;
@@ -245,7 +246,7 @@ h1 span {
         font-weight: bold;
         padding-left: 8%;
         padding-top: 8%;
-    }
+    } */
 }
 
 /* small screen */
@@ -276,9 +277,31 @@ h1 span {
     margin-right: 10%;
 }
 
+.navbar_fairness {
+    margin-top: 10%;
+    padding-left: 5%;
+    justify-content: rights;
+    background-color: rgb(40, 38, 38);
+}
+
 .navbar_race {
     margin-left: 10%;
     margin-right: 10%;
+}
+
+.text_navElement_fairness {
+    color: rgb(241, 243, 243);
+    font-weight: bold;
+    border-bottom: 0px;
+
+    &:hover {
+        cursor: pointer;
+        color: rgb(236, 31, 12);
+    }
+
+    &:active {
+        font-weight: bold;
+    }
 }
 
 .text_navElement {
@@ -335,7 +358,7 @@ h1 span {
     text-align: center;
 }
 
-.map_distrinct {
+.map_district {
     height: 43vh;
     position: relative;
     z-index: -0;
