@@ -1,7 +1,5 @@
 import React, { useState, useRef } from "react";
 import bengalLogo from "./assets/Bengal.svg";
-import boxGraph from "./assets/Box & Whisker Plot.png";
-import partisanGraph from "./assets/seats-votes curve.png";
 import usaMapData from "@svg-maps/usa";
 import congDist from "./assets/ms_cvap_2020_cd.json";
 import { MapContainer, GeoJSON } from "react-leaflet";
@@ -455,48 +453,6 @@ function Home() {
                   </tbody>
                 </Table>
               </div>
-              {/* <Nav
-                fill
-                variant="tabs"
-                defaultActiveKey="link-1"
-                className="navbar_race"
-              >
-                <Nav.Item>
-                  <Nav.Link eventKey="link-1" className="text_navElement">
-                    African American
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="link-2" className="text_navElement">
-                    Hispanic
-                  </Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="link-3" className="text_navElement">
-                    Asian American
-                  </Nav.Link>
-                </Nav.Item>
-              </Nav> */}
-              {/* <div className="graph">
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>SMD</th>
-                      <th>MMD</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <img alt="" src={boxGraph} width="230" height="230" />
-                      </td>
-                      <td>
-                        <img alt="" src={boxGraph} width="230" height="230" />
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </div> */}
             </div>
           )}
           {showFairness[1] && (
