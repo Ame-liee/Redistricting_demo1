@@ -174,8 +174,9 @@ function Home() {
     return `${(tick * 100).toFixed(0)}%`;
   };
   const stateSelectionRef = useRef(0);
-  const analysis1Ref = useRef(0);
-  const analysis2Ref = useRef(0);
+  const minorityFairnessRef = useRef(0);
+  const politicalFairnessRef = useRef(0);
+  const analysisRef = useRef(0);
   const summaryRef = useRef(0);
   const mapHandler = (value) => {
     setSelectedState(value);
@@ -186,7 +187,7 @@ function Home() {
     } else {
       setCoordinate([40.8781, -77.7996]);
     }
-    scrollTo("analysis1");
+    analysisRef.current.scrollIntoView();
   };
   const onEachDistrict_summary = (district, layer) => {
     layer.bindPopup(
@@ -363,24 +364,32 @@ function Home() {
                 <span className="char16">*</span>
               </h1>
               <Nav className="sidebar_nav">
-                <Nav.Link onClick={() => scrollTo("stateSelection")}>
+                <Nav.Link
+                  onClick={() => stateSelectionRef.current.scrollIntoView()}
+                >
                   STATE SELECTION
                 </Nav.Link>
                 <NavDropdown title="ANALYSIS" className="sidebar_dropdown">
                   <NavDropdown.Item
                     className="sidebar_dropdownItem"
-                    onClick={() => scrollTo("analysis1")}
+                    onClick={() => {
+                      analysisRef.current.scrollIntoView();
+                      minorityFairnessRef.current?.click();
+                    }}
                   >
-                    Fairness
+                    Minority Fairness
                   </NavDropdown.Item>
                   <NavDropdown.Item
                     className="sidebar_dropdownItem"
-                    onClick={() => scrollTo("analysis2")}
+                    onClick={() => {
+                      analysisRef.current.scrollIntoView();
+                      politicalFairnessRef.current?.click();
+                    }}
                   >
-                    Gerrymandering Effect
+                    Political Fairness
                   </NavDropdown.Item>
                 </NavDropdown>
-                <Nav.Link onClick={() => scrollTo("summaryRef")}>
+                <Nav.Link onClick={() => summaryRef.current.scrollIntoView()}>
                   SUMMARY
                 </Nav.Link>
                 <Nav.Link href="./about">ABOUT</Nav.Link>
@@ -460,7 +469,7 @@ function Home() {
             </div>
           </Container>
         </div>
-        <div className="body2">
+        <div className="body2" ref={analysisRef}>
           <Nav
             variant="tabs"
             defaultActiveKey="link-1"
@@ -471,6 +480,7 @@ function Home() {
                 eventKey="link-1"
                 className="text_navElement_fairness"
                 onClick={() => setShowFairness([true, false])}
+                ref={minorityFairnessRef}
               >
                 Minority Fairness
               </Nav.Link>
@@ -480,13 +490,14 @@ function Home() {
                 eventKey="link-2"
                 className="text_navElement_fairness"
                 onClick={() => setShowFairness([false, true])}
+                ref={politicalFairnessRef}
               >
                 Political Fairness
               </Nav.Link>
             </Nav.Item>
           </Nav>
           {showFairness[0] && (
-            <div className="analysis1" ref={analysis1Ref}>
+            <div className="analysis1">
               <h2 className="text_subQuestion1_1">
                 WILL FAIR REPRESENTATION ACT(FRA) for MMD
                 <span className="text_subQuestion2">
@@ -796,7 +807,7 @@ function Home() {
             </div>
           )}
           {showFairness[1] && (
-            <div className="analysis2" ref={analysis2Ref}>
+            <div className="analysis2">
               <h2 className="text_subQuestion1_1">
                 WILL FAIR REPRESENTATION ACT(FRA) for MMD
                 <span className="text_subQuestion2">
