@@ -140,8 +140,24 @@ const data_curve = [
 ];
 function Home() {
   const [selectedState, setSelectedState] = useState("SELECT A STATE");
-  const [selectedDistrictPop_SMD, setselectedDistrictPop_SMD] = useState([0]); // [population, White, Asian, Black, Hispanic, Democratic, Republican]
-  const [selectedDistrictPop_MMD, setselectedDistrictPop_MMD] = useState([0]);
+  const [selectedDistrictPop_SMD, setselectedDistrictPop_SMD] = useState([
+    congDist.features[0]["properties"]["vap"],
+    congDist.features[0]["properties"]["vap_white"],
+    congDist.features[0]["properties"]["vap_asian"],
+    congDist.features[0]["properties"]["vap_black"],
+    congDist.features[0]["properties"]["vap_hisp"],
+    0,
+    0,
+  ]); // [population, White, Asian, Black, Hispanic, Democratic, Republican]
+  const [selectedDistrictPop_MMD, setselectedDistrictPop_MMD] = useState([
+    congDist.features[0]["properties"]["vap"],
+    congDist.features[0]["properties"]["vap_white"],
+    congDist.features[0]["properties"]["vap_asian"],
+    congDist.features[0]["properties"]["vap_black"],
+    congDist.features[0]["properties"]["vap_hisp"],
+    0,
+    0,
+  ]);
   const [selectedDistrictSMD, setselectedDistrictSMD] = useState(null);
   const [selectedDistrictMMD, setselectedDistrictMMD] = useState(null);
   const [hoveredLocation, setHoveredLocation] = useState(null);
