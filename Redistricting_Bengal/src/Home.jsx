@@ -162,6 +162,7 @@ function Home() {
   const [selectedDistrictMMD, setSelectedDistrictMMD] = useState(null);
   const [hoveredLocation, setHoveredLocation] = useState(null);
   const customStates = ["Alabama", "Mississippi", "Pennsylvania"];
+  const [showBelowStateSelection, setShowBelowStateSelection] = useState(true);
   const [showInfo1, setShowInfo1] = useState(false);
   const [showInfo2, setShowInfo2] = useState(false);
   const [showFairness, setShowFairness] = useState([true, false]); // Minority, Political Party
@@ -441,7 +442,14 @@ function Home() {
                       strokeWidth={selectedState == location.name ? 3.0 : 0.9}
                       onMouseEnter={() => setHoveredLocation(location.name)}
                       onMouseLeave={() => setHoveredLocation(null)}
-                      onClick={() => mapHandler(location.name)}
+                      onClick={
+                        isCustom
+                          ? () => {
+                              mapHandler(location.name);
+                              // setShowBelowStateSelection(true);
+                            }
+                          : null
+                      }
                       style={{ cursor: "pointer" }}
                     />
                   );
@@ -469,667 +477,695 @@ function Home() {
             </div>
           </Container>
         </div>
-        <div className="body2" ref={analysisRef}>
-          <Nav
-            variant="tabs"
-            defaultActiveKey="link-1"
-            className="navbar_fairness"
-          >
-            <Nav.Item>
-              <Nav.Link
-                eventKey="link-1"
-                className="text_navElement_fairness"
-                onClick={() => setShowFairness([true, false])}
-                ref={minorityFairnessRef}
+        {showBelowStateSelection && (
+          <div className="belowStateSelection">
+            <div className="body2" ref={analysisRef}>
+              <Nav
+                variant="tabs"
+                defaultActiveKey="link-1"
+                className="navbar_fairness"
               >
-                Minority Fairness
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link
-                eventKey="link-2"
-                className="text_navElement_fairness"
-                onClick={() => setShowFairness([false, true])}
-                ref={politicalFairnessRef}
-              >
-                Political Fairness
-              </Nav.Link>
-            </Nav.Item>
-          </Nav>
-          {showFairness[0] && (
-            <div className="analysis1">
-              <h2 className="text_subQuestion1_1">
-                WILL FAIR REPRESENTATION ACT(FRA) for MMD
-                <span className="text_subQuestion2">
-                  {" "}
-                  INCREASE MINORITY FAIRNESS?
-                </span>
-                <Button
-                  variant="link"
-                  className="button_information"
-                  onClick={() => setShowInfo1(true)}
-                >
-                  <svg
-                    fill="rgb(40, 38, 38)"
-                    version="1.1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    xmlnsXlink="http://www.w3.org/1999/xlink"
-                    width="30px"
-                    height="30px"
-                    viewBox="0 0 416.979 416.979"
-                    xmlSpace="preserve"
+                <Nav.Item>
+                  <Nav.Link
+                    eventKey="link-1"
+                    className="text_navElement_fairness"
+                    onClick={() => setShowFairness([true, false])}
+                    ref={minorityFairnessRef}
                   >
-                    <g>
-                      <path
-                        d="M356.004,61.156c-81.37-81.47-213.377-81.551-294.848-0.182c-81.47,81.371-81.552,213.379-0.181,294.85
+                    Minority Fairness
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link
+                    eventKey="link-2"
+                    className="text_navElement_fairness"
+                    onClick={() => setShowFairness([false, true])}
+                    ref={politicalFairnessRef}
+                  >
+                    Political Fairness
+                  </Nav.Link>
+                </Nav.Item>
+              </Nav>
+              {showFairness[0] && (
+                <div className="analysis1">
+                  <h2 className="text_subQuestion1_1">
+                    WILL FAIR REPRESENTATION ACT(FRA) for MMD
+                    <span className="text_subQuestion2">
+                      {" "}
+                      INCREASE MINORITY FAIRNESS?
+                    </span>
+                    <Button
+                      variant="link"
+                      className="button_information"
+                      onClick={() => setShowInfo1(true)}
+                    >
+                      <svg
+                        fill="rgb(40, 38, 38)"
+                        version="1.1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlnsXlink="http://www.w3.org/1999/xlink"
+                        width="30px"
+                        height="30px"
+                        viewBox="0 0 416.979 416.979"
+                        xmlSpace="preserve"
+                      >
+                        <g>
+                          <path
+                            d="M356.004,61.156c-81.37-81.47-213.377-81.551-294.848-0.182c-81.47,81.371-81.552,213.379-0.181,294.85
     c81.369,81.47,213.378,81.551,294.849,0.181C437.293,274.636,437.375,142.626,356.004,61.156z M237.6,340.786
     c0,3.217-2.607,5.822-5.822,5.822h-46.576c-3.215,0-5.822-2.605-5.822-5.822V167.885c0-3.217,2.607-5.822,5.822-5.822h46.576
     c3.215,0,5.822,2.604,5.822,5.822V340.786z M208.49,137.901c-18.618,0-33.766-15.146-33.766-33.765
     c0-18.617,15.147-33.766,33.766-33.766c18.619,0,33.766,15.148,33.766,33.766C242.256,122.755,227.107,137.901,208.49,137.901z"
-                      />
-                    </g>
-                  </svg>
-                </Button>
-              </h2>
-              {showInfo1 && (
-                <Alert
-                  variant="dark"
-                  className="alert_dataInformation"
-                  onClose={() => setShowInfo1(false)}
-                  dismissible
-                >
-                  <Alert.Heading>ABOUT THE DATA</Alert.Heading>
-                  <p>In this section, ..</p>
-                </Alert>
+                          />
+                        </g>
+                      </svg>
+                    </Button>
+                  </h2>
+                  {showInfo1 && (
+                    <Alert
+                      variant="dark"
+                      className="alert_dataInformation"
+                      onClose={() => setShowInfo1(false)}
+                      dismissible
+                    >
+                      <Alert.Heading>ABOUT THE DATA</Alert.Heading>
+                      <p>In this section, ..</p>
+                    </Alert>
+                  )}
+                  <br />
+                  <br />
+                  <div className="tableContainer_analysis">
+                    <Table striped bordered hover className="table_analysis">
+                      <thead>
+                        <tr>
+                          <th className="table_0"></th>
+                          <th>SMD</th>
+                          <th>MMD</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="table_0">District Map</td>
+                          <td>
+                            <Container>
+                              <MapContainer
+                                key={coordinate}
+                                center={coordinate}
+                                zoom={6.3}
+                                zoomControl={false}
+                                scrollWheelZoom={false}
+                                className="map_district"
+                              >
+                                <GeoJSON
+                                  data={congDist.features}
+                                  onEachFeature={onEachDistrict_SMD}
+                                ></GeoJSON>
+                              </MapContainer>
+                            </Container>
+                          </td>
+                          <td>
+                            <Container>
+                              <MapContainer
+                                key={coordinate}
+                                center={coordinate}
+                                zoom={6.3}
+                                zoomControl={false}
+                                scrollWheelZoom={false}
+                                className="map_district"
+                              >
+                                <GeoJSON
+                                  data={congDist.features}
+                                  onEachFeature={onEachDistrict_MMD}
+                                ></GeoJSON>
+                              </MapContainer>
+                            </Container>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="table_0">Bar Chart</td>
+                          <td>
+                            {" "}
+                            <div style={{ width: "100%", height: 300 }}>
+                              <ResponsiveContainer width="100%" height="100%">
+                                <BarChart
+                                  width={500}
+                                  height={300}
+                                  data={[
+                                    {
+                                      name: "White",
+                                      White: selectedDistrictPop_SMD[1],
+                                    },
+                                    {
+                                      name: "Non-White",
+                                      Aisan: selectedDistrictPop_SMD[2],
+                                      Black: selectedDistrictPop_SMD[3],
+                                      Hispanic: selectedDistrictPop_SMD[4],
+                                    },
+                                  ]}
+                                  margin={{
+                                    top: 20,
+                                    right: 30,
+                                    left: 20,
+                                    bottom: 5,
+                                  }}
+                                >
+                                  <CartesianGrid strokeDasharray="3 3" />
+                                  <XAxis dataKey="name" />
+                                  <YAxis />
+                                  <Tooltip />
+                                  <Legend />
+                                  <Bar dataKey="Asian" stackId="a" fill="red" />
+                                  <Bar
+                                    dataKey="Black"
+                                    stackId="a"
+                                    fill="orange"
+                                  />
+                                  <Bar
+                                    dataKey="Hispanic"
+                                    stackId="a"
+                                    fill="green"
+                                  />
+                                  <Bar
+                                    dataKey="White"
+                                    stackId="a"
+                                    fill="blue"
+                                  />
+                                </BarChart>
+                              </ResponsiveContainer>
+                            </div>
+                          </td>
+                          <td>
+                            {" "}
+                            <div style={{ width: "100%", height: 300 }}>
+                              <ResponsiveContainer width="100%" height="100%">
+                                <BarChart
+                                  width={500}
+                                  height={300}
+                                  data={[
+                                    {
+                                      name: "White",
+                                      White: selectedDistrictPop_MMD[1],
+                                    },
+                                    {
+                                      name: "Non-White",
+                                      Aisan: selectedDistrictPop_MMD[2],
+                                      Black: selectedDistrictPop_MMD[3],
+                                      Hispanic: selectedDistrictPop_MMD[4],
+                                    },
+                                  ]}
+                                  margin={{
+                                    top: 20,
+                                    right: 30,
+                                    left: 20,
+                                    bottom: 5,
+                                  }}
+                                >
+                                  <CartesianGrid strokeDasharray="3 3" />
+                                  <XAxis dataKey="name" />
+                                  <YAxis />
+                                  <Tooltip />
+                                  <Legend />
+                                  <Bar dataKey="Asian" stackId="a" fill="red" />
+                                  <Bar
+                                    dataKey="Black"
+                                    stackId="a"
+                                    fill="orange"
+                                  />
+                                  <Bar
+                                    dataKey="Hispanic"
+                                    stackId="a"
+                                    fill="green"
+                                  />
+                                  <Bar
+                                    dataKey="White"
+                                    stackId="a"
+                                    fill="blue"
+                                  />
+                                </BarChart>
+                              </ResponsiveContainer>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="table_0">Box & Whisker Analysis</td>
+                          <td>
+                            <ResponsiveContainer minHeight={300}>
+                              <ComposedChart data={data_boxPlot[0]}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <Bar
+                                  stackId={"a"}
+                                  dataKey={"min"}
+                                  fill={"none"}
+                                />
+                                <Bar
+                                  stackId={"a"}
+                                  dataKey={"bar"}
+                                  shape={<HorizonBar />}
+                                />
+                                <Bar
+                                  stackId={"a"}
+                                  dataKey={"bottomWhisker"}
+                                  shape={<DotBar />}
+                                />
+                                <Bar
+                                  stackId={"a"}
+                                  dataKey={"bottomBox"}
+                                  fill={"#8884d8"}
+                                />
+                                <Bar
+                                  stackId={"a"}
+                                  dataKey={"bar"}
+                                  shape={<HorizonBar />}
+                                />
+                                <Bar
+                                  stackId={"a"}
+                                  dataKey={"topBox"}
+                                  fill={"#8884d8"}
+                                />
+                                <Bar
+                                  stackId={"a"}
+                                  dataKey={"topWhisker"}
+                                  shape={<DotBar />}
+                                />
+                                <Bar
+                                  stackId={"a"}
+                                  dataKey={"bar"}
+                                  shape={<HorizonBar />}
+                                />
+                                <ZAxis
+                                  type="number"
+                                  dataKey="size"
+                                  range={[0, 250]}
+                                />
+
+                                <Scatter
+                                  dataKey="average"
+                                  fill={"red"}
+                                  stroke={"#FFF"}
+                                />
+                                <XAxis />
+                                <YAxis
+                                  domain={[0, 1]}
+                                  tickFormatter={formatYAxisTick}
+                                />
+                              </ComposedChart>
+                            </ResponsiveContainer>
+                          </td>
+                          <td>
+                            <ResponsiveContainer minHeight={300}>
+                              <ComposedChart data={data_boxPlot[1]}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <Bar
+                                  stackId={"a"}
+                                  dataKey={"min"}
+                                  fill={"none"}
+                                />
+                                <Bar
+                                  stackId={"a"}
+                                  dataKey={"bar"}
+                                  shape={<HorizonBar />}
+                                />
+                                <Bar
+                                  stackId={"a"}
+                                  dataKey={"bottomWhisker"}
+                                  shape={<DotBar />}
+                                />
+                                <Bar
+                                  stackId={"a"}
+                                  dataKey={"bottomBox"}
+                                  fill={"#8884d8"}
+                                />
+                                <Bar
+                                  stackId={"a"}
+                                  dataKey={"bar"}
+                                  shape={<HorizonBar />}
+                                />
+                                <Bar
+                                  stackId={"a"}
+                                  dataKey={"topBox"}
+                                  fill={"#8884d8"}
+                                />
+                                <Bar
+                                  stackId={"a"}
+                                  dataKey={"topWhisker"}
+                                  shape={<DotBar />}
+                                />
+                                <Bar
+                                  stackId={"a"}
+                                  dataKey={"bar"}
+                                  shape={<HorizonBar />}
+                                />
+                                <ZAxis
+                                  type="number"
+                                  dataKey="size"
+                                  range={[0, 250]}
+                                />
+
+                                <Scatter
+                                  dataKey="average"
+                                  fill={"red"}
+                                  stroke={"#FFF"}
+                                />
+                                <XAxis />
+                                <YAxis
+                                  domain={[0, 1]}
+                                  tickFormatter={formatYAxisTick}
+                                />
+                              </ComposedChart>
+                            </ResponsiveContainer>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </div>
+                </div>
               )}
-              <br />
-              <br />
-              <div className="tableContainer_analysis">
-                <Table striped bordered hover className="table_analysis">
-                  <thead>
-                    <tr>
-                      <th className="table_0"></th>
-                      <th>SMD</th>
-                      <th>MMD</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="table_0">District Map</td>
-                      <td>
-                        <Container>
-                          <MapContainer
-                            key={coordinate}
-                            center={coordinate}
-                            zoom={6.3}
-                            zoomControl={false}
-                            scrollWheelZoom={false}
-                            className="map_district"
-                          >
-                            <GeoJSON
-                              data={congDist.features}
-                              onEachFeature={onEachDistrict_SMD}
-                            ></GeoJSON>
-                          </MapContainer>
-                        </Container>
-                      </td>
-                      <td>
-                        <Container>
-                          <MapContainer
-                            key={coordinate}
-                            center={coordinate}
-                            zoom={6.3}
-                            zoomControl={false}
-                            scrollWheelZoom={false}
-                            className="map_district"
-                          >
-                            <GeoJSON
-                              data={congDist.features}
-                              onEachFeature={onEachDistrict_MMD}
-                            ></GeoJSON>
-                          </MapContainer>
-                        </Container>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="table_0">Bar Chart</td>
-                      <td>
-                        {" "}
-                        <div style={{ width: "100%", height: 300 }}>
-                          <ResponsiveContainer width="100%" height="100%">
-                            <BarChart
-                              width={500}
-                              height={300}
-                              data={[
-                                {
-                                  name: "White",
-                                  White: selectedDistrictPop_SMD[1],
-                                },
-                                {
-                                  name: "Non-White",
-                                  Aisan: selectedDistrictPop_SMD[2],
-                                  Black: selectedDistrictPop_SMD[3],
-                                  Hispanic: selectedDistrictPop_SMD[4],
-                                },
-                              ]}
-                              margin={{
-                                top: 20,
-                                right: 30,
-                                left: 20,
-                                bottom: 5,
-                              }}
-                            >
-                              <CartesianGrid strokeDasharray="3 3" />
-                              <XAxis dataKey="name" />
-                              <YAxis />
-                              <Tooltip />
-                              <Legend />
-                              <Bar dataKey="Asian" stackId="a" fill="red" />
-                              <Bar dataKey="Black" stackId="a" fill="orange" />
-                              <Bar
-                                dataKey="Hispanic"
-                                stackId="a"
-                                fill="green"
-                              />
-                              <Bar dataKey="White" stackId="a" fill="blue" />
-                            </BarChart>
-                          </ResponsiveContainer>
-                        </div>
-                      </td>
-                      <td>
-                        {" "}
-                        <div style={{ width: "100%", height: 300 }}>
-                          <ResponsiveContainer width="100%" height="100%">
-                            <BarChart
-                              width={500}
-                              height={300}
-                              data={[
-                                {
-                                  name: "White",
-                                  White: selectedDistrictPop_MMD[1],
-                                },
-                                {
-                                  name: "Non-White",
-                                  Aisan: selectedDistrictPop_MMD[2],
-                                  Black: selectedDistrictPop_MMD[3],
-                                  Hispanic: selectedDistrictPop_MMD[4],
-                                },
-                              ]}
-                              margin={{
-                                top: 20,
-                                right: 30,
-                                left: 20,
-                                bottom: 5,
-                              }}
-                            >
-                              <CartesianGrid strokeDasharray="3 3" />
-                              <XAxis dataKey="name" />
-                              <YAxis />
-                              <Tooltip />
-                              <Legend />
-                              <Bar dataKey="Asian" stackId="a" fill="red" />
-                              <Bar dataKey="Black" stackId="a" fill="orange" />
-                              <Bar
-                                dataKey="Hispanic"
-                                stackId="a"
-                                fill="green"
-                              />
-                              <Bar dataKey="White" stackId="a" fill="blue" />
-                            </BarChart>
-                          </ResponsiveContainer>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="table_0">Box & Whisker Analysis</td>
-                      <td>
-                        <ResponsiveContainer minHeight={300}>
-                          <ComposedChart data={data_boxPlot[0]}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <Bar stackId={"a"} dataKey={"min"} fill={"none"} />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bottomWhisker"}
-                              shape={<DotBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bottomBox"}
-                              fill={"#8884d8"}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"topBox"}
-                              fill={"#8884d8"}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"topWhisker"}
-                              shape={<DotBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <ZAxis
-                              type="number"
-                              dataKey="size"
-                              range={[0, 250]}
-                            />
-
-                            <Scatter
-                              dataKey="average"
-                              fill={"red"}
-                              stroke={"#FFF"}
-                            />
-                            <XAxis />
-                            <YAxis
-                              domain={[0, 1]}
-                              tickFormatter={formatYAxisTick}
-                            />
-                          </ComposedChart>
-                        </ResponsiveContainer>
-                      </td>
-                      <td>
-                        <ResponsiveContainer minHeight={300}>
-                          <ComposedChart data={data_boxPlot[1]}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <Bar stackId={"a"} dataKey={"min"} fill={"none"} />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bottomWhisker"}
-                              shape={<DotBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bottomBox"}
-                              fill={"#8884d8"}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"topBox"}
-                              fill={"#8884d8"}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"topWhisker"}
-                              shape={<DotBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <ZAxis
-                              type="number"
-                              dataKey="size"
-                              range={[0, 250]}
-                            />
-
-                            <Scatter
-                              dataKey="average"
-                              fill={"red"}
-                              stroke={"#FFF"}
-                            />
-                            <XAxis />
-                            <YAxis
-                              domain={[0, 1]}
-                              tickFormatter={formatYAxisTick}
-                            />
-                          </ComposedChart>
-                        </ResponsiveContainer>
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </div>
-            </div>
-          )}
-          {showFairness[1] && (
-            <div className="analysis2">
-              <h2 className="text_subQuestion1_1">
-                WILL FAIR REPRESENTATION ACT(FRA) for MMD
-                <span className="text_subQuestion2">
-                  {" "}
-                  INCREASE POLITICAL FAIRNESS?
-                </span>
-                <Button
-                  variant="link"
-                  className="button_information"
-                  onClick={() => setShowInfo2(true)}
-                >
-                  <svg
-                    fill="rgb(40, 38, 38)"
-                    version="1.1"
-                    id="Capa_1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    xmlnsXlink="http://www.w3.org/1999/xlink"
-                    width="30px"
-                    height="30px"
-                    viewBox="0 0 416.979 416.979"
-                    xmlSpace="preserve"
-                  >
-                    <g>
-                      <path
-                        d="M356.004,61.156c-81.37-81.47-213.377-81.551-294.848-0.182c-81.47,81.371-81.552,213.379-0.181,294.85
+              {showFairness[1] && (
+                <div className="analysis2">
+                  <h2 className="text_subQuestion1_1">
+                    WILL FAIR REPRESENTATION ACT(FRA) for MMD
+                    <span className="text_subQuestion2">
+                      {" "}
+                      INCREASE POLITICAL FAIRNESS?
+                    </span>
+                    <Button
+                      variant="link"
+                      className="button_information"
+                      onClick={() => setShowInfo2(true)}
+                    >
+                      <svg
+                        fill="rgb(40, 38, 38)"
+                        version="1.1"
+                        id="Capa_1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlnsXlink="http://www.w3.org/1999/xlink"
+                        width="30px"
+                        height="30px"
+                        viewBox="0 0 416.979 416.979"
+                        xmlSpace="preserve"
+                      >
+                        <g>
+                          <path
+                            d="M356.004,61.156c-81.37-81.47-213.377-81.551-294.848-0.182c-81.47,81.371-81.552,213.379-0.181,294.85
       c81.369,81.47,213.378,81.551,294.849,0.181C437.293,274.636,437.375,142.626,356.004,61.156z M237.6,340.786
       c0,3.217-2.607,5.822-5.822,5.822h-46.576c-3.215,0-5.822-2.605-5.822-5.822V167.885c0-3.217,2.607-5.822,5.822-5.822h46.576
       c3.215,0,5.822,2.604,5.822,5.822V340.786z M208.49,137.901c-18.618,0-33.766-15.146-33.766-33.765
       c0-18.617,15.147-33.766,33.766-33.766c18.619,0,33.766,15.148,33.766,33.766C242.256,122.755,227.107,137.901,208.49,137.901z"
-                      />
-                    </g>
-                  </svg>
-                </Button>
-              </h2>
-              {showInfo2 && (
-                <Alert
-                  variant="dark"
-                  className="alert_dataInformation"
-                  onClose={() => setShowInfo2(false)}
-                  dismissible
-                >
-                  <Alert.Heading>ABOUT THE DATA</Alert.Heading>
-                  <p>In this section, ..</p>
-                </Alert>
+                          />
+                        </g>
+                      </svg>
+                    </Button>
+                  </h2>
+                  {showInfo2 && (
+                    <Alert
+                      variant="dark"
+                      className="alert_dataInformation"
+                      onClose={() => setShowInfo2(false)}
+                      dismissible
+                    >
+                      <Alert.Heading>ABOUT THE DATA</Alert.Heading>
+                      <p>In this section, ..</p>
+                    </Alert>
+                  )}
+                  <br />
+                  <br />
+                  <div className="tableContainer_analysis">
+                    <Table striped bordered hover className="table_analysis">
+                      <thead>
+                        <tr>
+                          <th className="table_0"></th>
+                          <th>SMD</th>
+                          <th>MMD</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td className="table_0">District Map</td>
+                          <td>
+                            <Container>
+                              <MapContainer
+                                key={coordinate}
+                                center={coordinate}
+                                zoom={6.3}
+                                zoomControl={false}
+                                scrollWheelZoom={false}
+                                className="map_district"
+                              >
+                                <GeoJSON
+                                  data={congDist.features}
+                                  onEachFeature={onEachDistrict_SMD}
+                                ></GeoJSON>
+                              </MapContainer>
+                            </Container>
+                          </td>
+                          <td>
+                            <Container>
+                              <MapContainer
+                                key={coordinate}
+                                center={coordinate}
+                                zoom={6.3}
+                                zoomControl={false}
+                                scrollWheelZoom={false}
+                                className="map_district"
+                              >
+                                <GeoJSON
+                                  data={congDist.features}
+                                  onEachFeature={onEachDistrict_MMD}
+                                ></GeoJSON>
+                              </MapContainer>
+                            </Container>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="table_0">Bar Chart</td>
+                          <td>
+                            {" "}
+                            <div style={{ width: "100%", height: 300 }}>
+                              <ResponsiveContainer width="100%" height="100%">
+                                <BarChart
+                                  width={500}
+                                  height={300}
+                                  data={[
+                                    {
+                                      name: "Democrats",
+                                      // Democrats: selectedDistrictPop_MMD[5],
+                                      Democrats: 90000,
+                                    },
+                                    {
+                                      name: "Republicans",
+                                      // Republicans: selectedDistrictPop_MMD[6],
+                                      Republicans: 50000,
+                                    },
+                                  ]}
+                                  margin={{
+                                    top: 20,
+                                    right: 30,
+                                    left: 20,
+                                    bottom: 5,
+                                  }}
+                                >
+                                  <CartesianGrid strokeDasharray="3 3" />
+                                  <XAxis dataKey="name" />
+                                  <YAxis />
+                                  <Tooltip />
+                                  <Legend />
+                                  <Bar
+                                    dataKey="Democrats"
+                                    stackId="a"
+                                    fill="blue"
+                                  />
+                                  <Bar
+                                    dataKey="Republicans"
+                                    stackId="a"
+                                    fill="red"
+                                  />
+                                </BarChart>
+                              </ResponsiveContainer>
+                            </div>
+                          </td>
+                          <td>
+                            {" "}
+                            <div style={{ width: "100%", height: 300 }}>
+                              <ResponsiveContainer width="100%" height="100%">
+                                <BarChart
+                                  width={500}
+                                  height={300}
+                                  data={[
+                                    {
+                                      name: "Democrats",
+                                      // Democrats: selectedDistrictPop_MMD[5],
+                                      Democrats: 50000,
+                                    },
+                                    {
+                                      name: "Republicans",
+                                      // Republicans: selectedDistrictPop_MMD[6],
+                                      Republicans: 50000,
+                                    },
+                                  ]}
+                                  margin={{
+                                    top: 20,
+                                    right: 30,
+                                    left: 20,
+                                    bottom: 5,
+                                  }}
+                                >
+                                  <CartesianGrid strokeDasharray="3 3" />
+                                  <XAxis dataKey="name" />
+                                  <YAxis />
+                                  <Tooltip />
+                                  <Legend />
+                                  <Bar
+                                    dataKey="Democrats"
+                                    stackId="a"
+                                    fill="blue"
+                                  />
+                                  <Bar
+                                    dataKey="Republicans"
+                                    stackId="a"
+                                    fill="red"
+                                  />
+                                </BarChart>
+                              </ResponsiveContainer>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="table_0">Seat vs. Vote Symmetry</td>
+                          <td>
+                            <div style={{ width: "100%", height: 300 }}>
+                              <ResponsiveContainer width="100%" height="100%">
+                                <LineChart
+                                  data={data_curve}
+                                  margin={{
+                                    top: 5,
+                                    right: 30,
+                                    left: 20,
+                                    bottom: 5,
+                                  }}
+                                >
+                                  <CartesianGrid strokeDasharray="3 3" />
+                                  <XAxis
+                                    domain={[0, 1]}
+                                    tickFormatter={formatXAxisTick}
+                                  />
+                                  <YAxis
+                                    domain={[0, 1]}
+                                    tickFormatter={formatYAxisTick}
+                                  />
+                                  <Tooltip />
+                                  <Legend />
+                                  <Line
+                                    type="monotone"
+                                    dataKey="Democrats"
+                                    stroke="#8884d8"
+                                    activeDot={{ r: 8 }}
+                                  />
+                                  <Line
+                                    type="monotone"
+                                    dataKey="Republicans"
+                                    stroke="#82ca9d"
+                                  />
+                                </LineChart>
+                              </ResponsiveContainer>
+                            </div>
+                          </td>
+                          <td>
+                            <div style={{ width: "100%", height: 300 }}>
+                              <ResponsiveContainer width="100%" height="100%">
+                                <LineChart
+                                  data={data_curve}
+                                  margin={{
+                                    top: 5,
+                                    right: 30,
+                                    left: 20,
+                                    bottom: 5,
+                                  }}
+                                >
+                                  <CartesianGrid strokeDasharray="3 3" />
+                                  <XAxis
+                                    domain={[0, 1]}
+                                    tickFormatter={formatXAxisTick}
+                                  />
+                                  <YAxis
+                                    domain={[0, 1]}
+                                    tickFormatter={formatYAxisTick}
+                                  />
+                                  <Tooltip />
+                                  <Legend />
+                                  <Line
+                                    type="monotone"
+                                    dataKey="Democrats"
+                                    stroke="#8884d8"
+                                    activeDot={{ r: 8 }}
+                                  />
+                                  <Line
+                                    type="monotone"
+                                    dataKey="Republicans"
+                                    stroke="#82ca9d"
+                                  />
+                                </LineChart>
+                              </ResponsiveContainer>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </Table>
+                  </div>
+                </div>
               )}
-              <br />
-              <br />
-              <div className="tableContainer_analysis">
-                <Table striped bordered hover className="table_analysis">
-                  <thead>
-                    <tr>
-                      <th className="table_0"></th>
-                      <th>SMD</th>
-                      <th>MMD</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="table_0">District Map</td>
-                      <td>
-                        <Container>
-                          <MapContainer
-                            key={coordinate}
-                            center={coordinate}
-                            zoom={6.3}
-                            zoomControl={false}
-                            scrollWheelZoom={false}
-                            className="map_district"
-                          >
-                            <GeoJSON
-                              data={congDist.features}
-                              onEachFeature={onEachDistrict_SMD}
-                            ></GeoJSON>
-                          </MapContainer>
-                        </Container>
-                      </td>
-                      <td>
-                        <Container>
-                          <MapContainer
-                            key={coordinate}
-                            center={coordinate}
-                            zoom={6.3}
-                            zoomControl={false}
-                            scrollWheelZoom={false}
-                            className="map_district"
-                          >
-                            <GeoJSON
-                              data={congDist.features}
-                              onEachFeature={onEachDistrict_MMD}
-                            ></GeoJSON>
-                          </MapContainer>
-                        </Container>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="table_0">Bar Chart</td>
-                      <td>
-                        {" "}
-                        <div style={{ width: "100%", height: 300 }}>
-                          <ResponsiveContainer width="100%" height="100%">
-                            <BarChart
-                              width={500}
-                              height={300}
-                              data={[
-                                {
-                                  name: "Democrats",
-                                  // Democrats: selectedDistrictPop_MMD[5],
-                                  Democrats: 90000,
-                                },
-                                {
-                                  name: "Republicans",
-                                  // Republicans: selectedDistrictPop_MMD[6],
-                                  Republicans: 50000,
-                                },
-                              ]}
-                              margin={{
-                                top: 20,
-                                right: 30,
-                                left: 20,
-                                bottom: 5,
-                              }}
-                            >
-                              <CartesianGrid strokeDasharray="3 3" />
-                              <XAxis dataKey="name" />
-                              <YAxis />
-                              <Tooltip />
-                              <Legend />
-                              <Bar
-                                dataKey="Democrats"
-                                stackId="a"
-                                fill="blue"
-                              />
-                              <Bar
-                                dataKey="Republicans"
-                                stackId="a"
-                                fill="red"
-                              />
-                            </BarChart>
-                          </ResponsiveContainer>
-                        </div>
-                      </td>
-                      <td>
-                        {" "}
-                        <div style={{ width: "100%", height: 300 }}>
-                          <ResponsiveContainer width="100%" height="100%">
-                            <BarChart
-                              width={500}
-                              height={300}
-                              data={[
-                                {
-                                  name: "Democrats",
-                                  // Democrats: selectedDistrictPop_MMD[5],
-                                  Democrats: 50000,
-                                },
-                                {
-                                  name: "Republicans",
-                                  // Republicans: selectedDistrictPop_MMD[6],
-                                  Republicans: 50000,
-                                },
-                              ]}
-                              margin={{
-                                top: 20,
-                                right: 30,
-                                left: 20,
-                                bottom: 5,
-                              }}
-                            >
-                              <CartesianGrid strokeDasharray="3 3" />
-                              <XAxis dataKey="name" />
-                              <YAxis />
-                              <Tooltip />
-                              <Legend />
-                              <Bar
-                                dataKey="Democrats"
-                                stackId="a"
-                                fill="blue"
-                              />
-                              <Bar
-                                dataKey="Republicans"
-                                stackId="a"
-                                fill="red"
-                              />
-                            </BarChart>
-                          </ResponsiveContainer>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="table_0">Seat vs. Vote Symmetry</td>
-                      <td>
-                        <div style={{ width: "100%", height: 300 }}>
-                          <ResponsiveContainer width="100%" height="100%">
-                            <LineChart
-                              data={data_curve}
-                              margin={{
-                                top: 5,
-                                right: 30,
-                                left: 20,
-                                bottom: 5,
-                              }}
-                            >
-                              <CartesianGrid strokeDasharray="3 3" />
-                              <XAxis
-                                domain={[0, 1]}
-                                tickFormatter={formatXAxisTick}
-                              />
-                              <YAxis
-                                domain={[0, 1]}
-                                tickFormatter={formatYAxisTick}
-                              />
-                              <Tooltip />
-                              <Legend />
-                              <Line
-                                type="monotone"
-                                dataKey="Democrats"
-                                stroke="#8884d8"
-                                activeDot={{ r: 8 }}
-                              />
-                              <Line
-                                type="monotone"
-                                dataKey="Republicans"
-                                stroke="#82ca9d"
-                              />
-                            </LineChart>
-                          </ResponsiveContainer>
-                        </div>
-                      </td>
-                      <td>
-                        <div style={{ width: "100%", height: 300 }}>
-                          <ResponsiveContainer width="100%" height="100%">
-                            <LineChart
-                              data={data_curve}
-                              margin={{
-                                top: 5,
-                                right: 30,
-                                left: 20,
-                                bottom: 5,
-                              }}
-                            >
-                              <CartesianGrid strokeDasharray="3 3" />
-                              <XAxis
-                                domain={[0, 1]}
-                                tickFormatter={formatXAxisTick}
-                              />
-                              <YAxis
-                                domain={[0, 1]}
-                                tickFormatter={formatYAxisTick}
-                              />
-                              <Tooltip />
-                              <Legend />
-                              <Line
-                                type="monotone"
-                                dataKey="Democrats"
-                                stroke="#8884d8"
-                                activeDot={{ r: 8 }}
-                              />
-                              <Line
-                                type="monotone"
-                                dataKey="Republicans"
-                                stroke="#82ca9d"
-                              />
-                            </LineChart>
-                          </ResponsiveContainer>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>
-              </div>
             </div>
-          )}
-        </div>
-        <div className="body3" ref={summaryRef}>
-          <div className="text_summary">SUMMARY</div>
-          <div className="summary_stateInformation">
-            <MapContainer
-              key={coordinate}
-              center={coordinate}
-              zoom={6.3}
-              zoomControl={false}
-              scrollWheelZoom={false}
-              className="map_district2"
-            >
-              <GeoJSON
-                data={congDist.features}
-                onEachFeature={onEachDistrict_summary}
-              ></GeoJSON>
-            </MapContainer>
-            <div className="text_summaryContent">
-              <p className="text_summaryState">{selectedState}</p>
-              <br />
-              <br />
-              <br />
-              <p>
-                Number of House Members:{" "}
-                {Object.keys(congDist["features"]).length}
-              </p>
-              <p>Majority Party: Democratic Party</p>
+            <div className="body3" ref={summaryRef}>
+              <div className="text_summary">SUMMARY</div>
+              <div className="summary_stateInformation">
+                <MapContainer
+                  key={coordinate}
+                  center={coordinate}
+                  zoom={6.3}
+                  zoomControl={false}
+                  scrollWheelZoom={false}
+                  className="map_district2"
+                >
+                  <GeoJSON
+                    data={congDist.features}
+                    onEachFeature={onEachDistrict_summary}
+                  ></GeoJSON>
+                </MapContainer>
+                <div className="text_summaryContent">
+                  <p className="text_summaryState">{selectedState}</p>
+                  <br />
+                  <br />
+                  <br />
+                  <p>
+                    Number of House Members:{" "}
+                    {Object.keys(congDist["features"]).length}
+                  </p>
+                  <p>Majority Party: Democratic Party</p>
+                </div>
+              </div>
+              <Table striped bordered hover variant="dark" className="table">
+                <thead>
+                  <tr>
+                    <th className="table_0"></th>
+                    <th className="table_th">SMD</th>
+                    <th className="table_th">MMD</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="table_0">Minority Fairness</td>
+                    <td className="table_th"></td>
+                    <td className="table_th"></td>
+                  </tr>
+                  <tr>
+                    <td className="table_0">Political Fairness</td>
+                    <td className="table_th"></td>
+                    <td className="table_th"></td>
+                  </tr>
+                </tbody>
+              </Table>
             </div>
           </div>
-          <Table striped bordered hover variant="dark" className="table">
-            <thead>
-              <tr>
-                <th className="table_0"></th>
-                <th className="table_th">SMD</th>
-                <th className="table_th">MMD</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="table_0">Minority Fairness</td>
-                <td className="table_th"></td>
-                <td className="table_th"></td>
-              </tr>
-              <tr>
-                <td className="table_0">Political Fairness</td>
-                <td className="table_th"></td>
-                <td className="table_th"></td>
-              </tr>
-            </tbody>
-          </Table>
-        </div>
+        )}
       </div>
     </>
   );
