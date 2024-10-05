@@ -148,7 +148,6 @@ function Home() {
   const [showInfo2, setShowInfo2] = useState(false);
   const [showFairness, setShowFairness] = useState([true, false]); // Minority, Political Party
   const [coordinate, setCoordinate] = useState([32.3547, -90.0]);
-  // const geoJson_features = congDist.features;
   const data_boxPlot = [useBoxPlot(boxPlots1), useBoxPlot(boxPlots2)];
   const formatXAxisTick = (tick) => {
     return `${(tick * 100).toFixed(0)}%`;
@@ -169,57 +168,20 @@ function Home() {
     } else {
       setCoordinate([40.8781, -77.7996]);
     }
-    // computeSum();
     scrollTo("analysis1");
   };
-  // const computeSum = () => {
-  //   let sum_population = 0;
-  //   let sum_white = 0;
-  //   let sum_asian = 0;
-  //   let sum_black = 0;
-  //   let sum_hispanic = 0;
-
-  //   for (var i = 0; i < geoJson_features.length; i++) {
-  //     console.log();
-  //     sum_population += geoJson_features[i]["properties"]["vap"];
-  //     sum_white += geoJson_features[i]["properties"]["vap_white"];
-  //     sum_asian += geoJson_features[i]["properties"]["vap_asian"];
-  //     sum_black += geoJson_features[i]["properties"]["vap_black"];
-  //     sum_hispanic += geoJson_features[i]["properties"]["vap_hisp"];
-  //   }
-  //   console.log(sum_population / geoJson_features.length);
-  //   console.log(sum_white / geoJson_features.length);
-  //   console.log(sum_asian / geoJson_features.length);
-  //   console.log(sum_black / geoJson_features.length);
-  //   console.log(sum_hispanic / geoJson_features.length);
-  // };
-  // const scrollTo = (value) => {
-  //   if (value === "stateSelection" && stateSelectionRef.current) {
-  //     stateSelectionRef.current.scrollIntoView({ behavior: "smooth" });
-  //   } else if (value === "analysis1" && analysis1Ref.current) {
-  //     analysis1Ref.current.scrollIntoView({ behavior: "smooth" });
-  //   } else if (value === "analysis2" && analysis2Ref.current) {
-  //     analysis2Ref.current.scrollIntoView({ behavior: "smooth" });
-  //   } else if (value === "summaryRef" && summaryRef.current) {
-  //     summaryRef.current.scrollIntoView({ behavior: "smooth" });
-  //   }
-  // };
   const onEachDistrict2 = (district, layer) => {
-    const population = district.properties.vap;
-    const white = district.properties.vap_white;
-    const asian = district.properties.vap_asian;
-    const black = district.properties.vap_black;
-    const hispanic = district.properties.vap_hisp;
-
     layer.bindPopup(
-      "Voting population: " +
-        population +
+      "Population: " +
+        district.properties.vap +
+        "White: " +
+        district.properties.vap_white +
         "Asian:" +
-        asian +
+        district.properties.vap_asian +
         "Black" +
-        black +
+        district.properties.vap_black +
         "Hispanic" +
-        hispanic
+        district.properties.vap_hisp
     );
     layer.setStyle({
       color: "rgb(236, 31, 12)",
@@ -228,23 +190,6 @@ function Home() {
     });
   };
   const onEachDistrict = (district, layer) => {
-    const properties = district.properties;
-    const population = properties.vap;
-    const percentageWhite = ((properties.vap_white / population) * 100).toFixed(
-      2
-    );
-    const percentageAsian = (
-      (district.properties.vap_asian / population) *
-      100
-    ).toFixed(2);
-    const percentageBlack = (
-      (district.properties.vap_black / population) *
-      100
-    ).toFixed(2);
-    const percentageHispanic = (
-      (district.properties.vap_hisp / population) *
-      100
-    ).toFixed(2);
     const onMouseOver = (e) => {
       layer.setStyle({
         weight: 4,
@@ -261,11 +206,11 @@ function Home() {
 
     const onClick = (e) => {
       setselectedDistrictPop_SMD([
-        properties.vap,
-        properties.vap_white,
-        properties.vap_asian,
-        properties.vap_black,
-        properties.vap_hisp,
+        district.properties.vap,
+        district.properties.vap_white,
+        district.properties.vap_asian,
+        district.properties.vap_black,
+        district.properties.vap_hisp,
         0,
         0,
       ]);
@@ -275,22 +220,9 @@ function Home() {
       });
     };
 
-    const fillColor =
-      percentageAsian <= 16.7
-        ? "rgb(250, 200, 185)"
-        : percentageAsian <= 33.3
-        ? "rgb(248, 180, 160)"
-        : percentageAsian <= 49.8
-        ? "rgb(245, 150, 130)"
-        : percentageAsian <= 66.5
-        ? "rgb(240, 105, 90)"
-        : percentageAsian <= 83.1
-        ? "rgb(235, 60, 45)"
-        : "rgb(220, 25, 10)";
-
     layer.setStyle({
       color: "rgba(241, 243, 243, 1)",
-      fillColor: fillColor,
+      fillColor: "rgb(220, 25, 10)",
     });
     layer.on({
       mouseout: onMouseOut,
@@ -299,23 +231,6 @@ function Home() {
     });
   };
   const onEachDistrict3 = (district, layer) => {
-    const properties = district.properties;
-    const population = properties.vap;
-    const percentageWhite = ((properties.vap_white / population) * 100).toFixed(
-      2
-    );
-    const percentageAsian = (
-      (district.properties.vap_asian / population) *
-      100
-    ).toFixed(2);
-    const percentageBlack = (
-      (district.properties.vap_black / population) *
-      100
-    ).toFixed(2);
-    const percentageHispanic = (
-      (district.properties.vap_hisp / population) *
-      100
-    ).toFixed(2);
     const onMouseOver = (e) => {
       layer.setStyle({
         weight: 4,
@@ -332,11 +247,11 @@ function Home() {
 
     const onClick = (e) => {
       setselectedDistrictPop_MMD([
-        properties.vap,
-        properties.vap_white,
-        properties.vap_asian,
-        properties.vap_black,
-        properties.vap_hisp,
+        district.properties.vap,
+        district.properties.vap_white,
+        district.properties.vap_asian,
+        district.properties.vap_black,
+        district.properties.vap_hisp,
         0,
         0,
       ]);
@@ -346,22 +261,9 @@ function Home() {
       });
     };
 
-    const fillColor =
-      percentageAsian <= 16.7
-        ? "rgb(250, 200, 185)"
-        : percentageAsian <= 33.3
-        ? "rgb(248, 180, 160)"
-        : percentageAsian <= 49.8
-        ? "rgb(245, 150, 130)"
-        : percentageAsian <= 66.5
-        ? "rgb(240, 105, 90)"
-        : percentageAsian <= 83.1
-        ? "rgb(235, 60, 45)"
-        : "rgb(220, 25, 10)";
-
     layer.setStyle({
       color: "rgba(241, 243, 243, 1)",
-      fillColor: fillColor,
+      fillColor: "rgb(220, 25, 10)",
     });
     layer.on({
       mouseout: onMouseOut,
