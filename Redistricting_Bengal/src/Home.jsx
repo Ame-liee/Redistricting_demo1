@@ -515,8 +515,8 @@ function Home() {
               )}
               <br />
               <br />
-              <div className="graph">
-                <Table striped bordered hover>
+              <div className="tableContainer_analysis">
+                <Table striped bordered hover className="table_analysis">
                   <thead>
                     <tr>
                       <th className="table_0"></th>
@@ -826,8 +826,8 @@ function Home() {
               )}
               <br />
               <br />
-              <div className="graph">
-                <Table striped bordered hover>
+              <div className="tableContainer_analysis">
+                <Table striped bordered hover className="table_analysis">
                   <thead>
                     <tr>
                       <th className="table_0"></th>
@@ -1060,7 +1060,7 @@ function Home() {
               zoom={6.3}
               zoomControl={false}
               scrollWheelZoom={false}
-              className="map_district"
+              className="map_district2"
             >
               <GeoJSON
                 data={congDist.features}
