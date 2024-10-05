@@ -1107,12 +1107,12 @@ function Home() {
             </thead>
             <tbody>
               <tr>
-                <td className="table_0">Fairness</td>
+                <td className="table_0">Minority Fairness</td>
                 <td className="table_th"></td>
                 <td className="table_th"></td>
               </tr>
               <tr>
-                <td className="table_0">Gerrymandering Effect</td>
+                <td className="table_0">Political Fairness</td>
                 <td className="table_th"></td>
                 <td className="table_th"></td>
               </tr>
