@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import bengalLogo from "./assets/Bengal.svg";
 import usaMapData from "@svg-maps/usa";
 import congDist from "./assets/ms_cvap_2020_cd.json";
@@ -12,6 +12,9 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  ZAxis,
+  Scatter,
+  ComposedChart,
 } from "recharts";
 
 import {
@@ -24,7 +27,105 @@ import {
   Alert,
   Table,
 } from "react-bootstrap";
+const boxPlots1 = [
+  {
+    min: 0,
+    lowerQuartile: 0.3,
+    median: 0.2,
+    upperQuartile: 0.8,
+    max: 1,
+    average: 0.6,
+  },
+  {
+    min: 0,
+    lowerQuartile: 0.3,
+    median: 0.1,
+    upperQuartile: 0.8,
+    max: 1,
+    average: 0.5,
+  },
+  {
+    min: 0,
+    lowerQuartile: 0.3,
+    median: 0.8,
+    upperQuartile: 0.8,
+    max: 1,
+    average: 0.4,
+  },
+  {
+    min: 0,
+    lowerQuartile: 0.2,
+    median: 0.3,
+    upperQuartile: 0.84,
+    max: 1,
+    average: 0.3,
+  },
+];
+const boxPlots2 = [
+  {
+    min: 0,
+    lowerQuartile: 0.3,
+    median: 0.2,
+    upperQuartile: 0.8,
+    max: 1,
+    average: 0.6,
+  },
+];
 
+// Horizontal Line
+const HorizonBar = (props) => {
+  const { x, y, width, height } = props;
+
+  if (x == null || y == null || width == null || height == null) {
+    return null;
+  }
+
+  return (
+    <line x1={x} y1={y} x2={x + width} y2={y} stroke={"#000"} strokeWidth={3} />
+  );
+};
+
+// Whisker
+const DotBar = (props) => {
+  const { x, y, width, height } = props;
+
+  if (x == null || y == null || width == null || height == null) {
+    return null;
+  }
+
+  return (
+    <line
+      x1={x + width / 2}
+      y1={y + height}
+      x2={x + width / 2}
+      y2={y}
+      stroke={"#000"}
+      strokeWidth={5}
+      strokeDasharray={"5"}
+    />
+  );
+};
+
+// BoxPlot
+const useBoxPlot = (boxPlots) => {
+  const data = useMemo(
+    () =>
+      boxPlots.map((v) => {
+        return {
+          min: v.min,
+          bottomWhisker: v.lowerQuartile - v.min,
+          bottomBox: v.median - v.lowerQuartile,
+          topBox: v.upperQuartile - v.median,
+          topWhisker: v.max - v.upperQuartile,
+          average: v.average,
+          size: 250,
+        };
+      }),
+    [boxPlots]
+  );
+
+  return data;
+};
 function Home() {
   const [selectedState, setSelectedState] = useState("SELECT A STATE");
   const [selectedDistrictPop_SMD, setselectedDistrictPop_SMD] = useState([0]); // [population, White, Asian, Black, Hispanic, Democratic, Republican]
@@ -36,7 +137,10 @@ function Home() {
   const [showFairness, setShowFairness] = useState([true, false]); // Minority, Political Party
   const [coordinate, setCoordinate] = useState([32.3547, -90.0]);
   // const geoJson_features = congDist.features;
-
+  const data_boxPlot = [useBoxPlot(boxPlots1), useBoxPlot(boxPlots2)];
+  const formatYAxisTick = (tick) => {
+    return `${(tick * 100).toFixed(0)}%`;
+  };
   const stateSelectionRef = useRef(0);
   const analysis1Ref = useRef(0);
   const analysis2Ref = useRef(0);
@@ -632,8 +736,124 @@ function Home() {
                     </tr>
                     <tr>
                       <td>Box & Whisker Analysis</td>
-                      <td></td>
-                      <td></td>
+                      <td>
+                        <ResponsiveContainer minHeight={400}>
+                          <ComposedChart data={data_boxPlot[0]}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <Bar stackId={"a"} dataKey={"min"} fill={"none"} />
+                            <Bar
+                              stackId={"a"}
+                              dataKey={"bar"}
+                              shape={<HorizonBar />}
+                            />
+                            <Bar
+                              stackId={"a"}
+                              dataKey={"bottomWhisker"}
+                              shape={<DotBar />}
+                            />
+                            <Bar
+                              stackId={"a"}
+                              dataKey={"bottomBox"}
+                              fill={"#8884d8"}
+                            />
+                            <Bar
+                              stackId={"a"}
+                              dataKey={"bar"}
+                              shape={<HorizonBar />}
+                            />
+                            <Bar
+                              stackId={"a"}
+                              dataKey={"topBox"}
+                              fill={"#8884d8"}
+                            />
+                            <Bar
+                              stackId={"a"}
+                              dataKey={"topWhisker"}
+                              shape={<DotBar />}
+                            />
+                            <Bar
+                              stackId={"a"}
+                              dataKey={"bar"}
+                              shape={<HorizonBar />}
+                            />
+                            <ZAxis
+                              type="number"
+                              dataKey="size"
+                              range={[0, 250]}
+                            />
+
+                            <Scatter
+                              dataKey="average"
+                              fill={"red"}
+                              stroke={"#FFF"}
+                            />
+                            <XAxis />
+                            <YAxis
+                              domain={[0, 1]}
+                              tickFormatter={formatYAxisTick}
+                            />
+                          </ComposedChart>
+                        </ResponsiveContainer>
+                      </td>
+                      <td>
+                        <ResponsiveContainer minHeight={400}>
+                          <ComposedChart data={data_boxPlot[1]}>
+                            <CartesianGrid strokeDasharray="3 3" />
+                            <Bar stackId={"a"} dataKey={"min"} fill={"none"} />
+                            <Bar
+                              stackId={"a"}
+                              dataKey={"bar"}
+                              shape={<HorizonBar />}
+                            />
+                            <Bar
+                              stackId={"a"}
+                              dataKey={"bottomWhisker"}
+                              shape={<DotBar />}
+                            />
+                            <Bar
+                              stackId={"a"}
+                              dataKey={"bottomBox"}
+                              fill={"#8884d8"}
+                            />
+                            <Bar
+                              stackId={"a"}
+                              dataKey={"bar"}
+                              shape={<HorizonBar />}
+                            />
+                            <Bar
+                              stackId={"a"}
+                              dataKey={"topBox"}
+                              fill={"#8884d8"}
+                            />
+                            <Bar
+                              stackId={"a"}
+                              dataKey={"topWhisker"}
+                              shape={<DotBar />}
+                            />
+                            <Bar
+                              stackId={"a"}
+                              dataKey={"bar"}
+                              shape={<HorizonBar />}
+                            />
+                            <ZAxis
+                              type="number"
+                              dataKey="size"
+                              range={[0, 250]}
+                            />
+
+                            <Scatter
+                              dataKey="average"
+                              fill={"red"}
+                              stroke={"#FFF"}
+                            />
+                            <XAxis />
+                            <YAxis
+                              domain={[0, 1]}
+                              tickFormatter={formatYAxisTick}
+                            />
+                          </ComposedChart>
+                        </ResponsiveContainer>
+                      </td>
                     </tr>
                   </tbody>
                 </Table>
