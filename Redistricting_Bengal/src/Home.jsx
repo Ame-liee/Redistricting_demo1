@@ -142,6 +142,8 @@ function Home() {
   const [selectedState, setSelectedState] = useState("SELECT A STATE");
   const [selectedDistrictPop_SMD, setselectedDistrictPop_SMD] = useState([0]); // [population, White, Asian, Black, Hispanic, Democratic, Republican]
   const [selectedDistrictPop_MMD, setselectedDistrictPop_MMD] = useState([0]);
+  const [selectedDistrictSMD, setselectedDistrictSMD] = useState(null);
+  const [selectedDistrictMMD, setselectedDistrictMMD] = useState(null);
   const [hoveredLocation, setHoveredLocation] = useState(null);
   const customStates = ["Alabama", "Mississippi", "Pennsylvania"];
   const [showInfo1, setShowInfo1] = useState(false);
@@ -170,7 +172,7 @@ function Home() {
     }
     scrollTo("analysis1");
   };
-  const onEachDistrict2 = (district, layer) => {
+  const onEachDistrict_summary = (district, layer) => {
     layer.bindPopup(
       "Population: " +
         district.properties.vap +
@@ -189,22 +191,21 @@ function Home() {
       fillOpacity: 1,
     });
   };
-  const onEachDistrict = (district, layer) => {
+  const onEachDistrict_SMD = (district, layer) => {
     const onMouseOver = (e) => {
       layer.setStyle({
-        weight: 4,
-        color: "rgb(40, 38, 38)",
+        fillColor: "rgb(40, 38, 38)",
       });
     };
 
     const onMouseOut = (e) => {
       layer.setStyle({
-        weight: 3,
-        color: "rgb(241, 243, 243)",
+        fillColor: "rgb(220, 25, 10)",
       });
     };
 
     const onClick = (e) => {
+      setselectedDistrictSMD(district);
       setselectedDistrictPop_SMD([
         district.properties.vap,
         district.properties.vap_white,
@@ -214,10 +215,10 @@ function Home() {
         0,
         0,
       ]);
-      layer.setStyle({
-        weight: 3,
-        fillColor: "blue",
-      });
+      // layer.setStyle({
+      //   weight: 3,
+      //   fillColor: "blue",
+      // });
     };
 
     layer.setStyle({
@@ -230,22 +231,23 @@ function Home() {
       click: onClick,
     });
   };
-  const onEachDistrict3 = (district, layer) => {
+  const onEachDistrict_MMD = (district, layer) => {
     const onMouseOver = (e) => {
       layer.setStyle({
         weight: 4,
-        color: "rgb(40, 38, 38)",
+        fillColor: "rgb(40, 38, 38)",
       });
     };
 
     const onMouseOut = (e) => {
       layer.setStyle({
         weight: 3,
-        color: "rgb(241, 243, 243)",
+        fillColor: "rgb(220, 25, 10)",
       });
     };
 
     const onClick = (e) => {
+      setselectedDistrictMMD(district);
       setselectedDistrictPop_MMD([
         district.properties.vap,
         district.properties.vap_white,
@@ -255,10 +257,10 @@ function Home() {
         0,
         0,
       ]);
-      layer.setStyle({
-        weight: 3,
-        fillColor: "blue",
-      });
+      // layer.setStyle({
+      //   weight: 3,
+      //   fillColor: "blue",
+      // });
     };
 
     layer.setStyle({
@@ -539,7 +541,7 @@ function Home() {
                           >
                             <GeoJSON
                               data={congDist.features}
-                              onEachFeature={onEachDistrict}
+                              onEachFeature={onEachDistrict_SMD}
                             ></GeoJSON>
                           </MapContainer>
                         </Container>
@@ -556,7 +558,7 @@ function Home() {
                           >
                             <GeoJSON
                               data={congDist.features}
-                              onEachFeature={onEachDistrict3}
+                              onEachFeature={onEachDistrict_MMD}
                             ></GeoJSON>
                           </MapContainer>
                         </Container>
@@ -850,7 +852,7 @@ function Home() {
                           >
                             <GeoJSON
                               data={congDist.features}
-                              onEachFeature={onEachDistrict}
+                              onEachFeature={onEachDistrict_SMD}
                             ></GeoJSON>
                           </MapContainer>
                         </Container>
@@ -867,7 +869,7 @@ function Home() {
                           >
                             <GeoJSON
                               data={congDist.features}
-                              onEachFeature={onEachDistrict}
+                              onEachFeature={onEachDistrict_MMD}
                             ></GeoJSON>
                           </MapContainer>
                         </Container>
@@ -1064,7 +1066,7 @@ function Home() {
             >
               <GeoJSON
                 data={congDist.features}
-                onEachFeature={onEachDistrict2}
+                onEachFeature={onEachDistrict_summary}
               ></GeoJSON>
             </MapContainer>
             <div className="text_summaryContent">
