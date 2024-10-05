@@ -519,14 +519,14 @@ function Home() {
                 <Table striped bordered hover>
                   <thead>
                     <tr>
-                      <th className="table_th0"></th>
+                      <th className="table_0"></th>
                       <th>SMD</th>
                       <th>MMD</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>District Map</td>
+                      <td className="table_0">District Map</td>
                       <td>
                         <Container>
                           <MapContainer
@@ -563,10 +563,10 @@ function Home() {
                       </td>
                     </tr>
                     <tr>
-                      <td>Bar Chart</td>
+                      <td className="table_0">Bar Chart</td>
                       <td>
                         {" "}
-                        <div style={{ width: "100%", height: 400 }}>
+                        <div style={{ width: "100%", height: 300 }}>
                           <ResponsiveContainer width="100%" height="100%">
                             <BarChart
                               width={500}
@@ -609,7 +609,7 @@ function Home() {
                       </td>
                       <td>
                         {" "}
-                        <div style={{ width: "100%", height: 400 }}>
+                        <div style={{ width: "100%", height: 300 }}>
                           <ResponsiveContainer width="100%" height="100%">
                             <BarChart
                               width={500}
@@ -652,9 +652,9 @@ function Home() {
                       </td>
                     </tr>
                     <tr>
-                      <td>Box & Whisker Analysis</td>
+                      <td className="table_0">Box & Whisker Analysis</td>
                       <td>
-                        <ResponsiveContainer minHeight={400}>
+                        <ResponsiveContainer minHeight={300}>
                           <ComposedChart data={data_boxPlot[0]}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <Bar stackId={"a"} dataKey={"min"} fill={"none"} />
@@ -713,7 +713,7 @@ function Home() {
                         </ResponsiveContainer>
                       </td>
                       <td>
-                        <ResponsiveContainer minHeight={400}>
+                        <ResponsiveContainer minHeight={300}>
                           <ComposedChart data={data_boxPlot[1]}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <Bar stackId={"a"} dataKey={"min"} fill={"none"} />
@@ -830,14 +830,14 @@ function Home() {
                 <Table striped bordered hover>
                   <thead>
                     <tr>
-                      <th className="table_th0"></th>
+                      <th className="table_0"></th>
                       <th>SMD</th>
                       <th>MMD</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>District Map</td>
+                      <td className="table_0">District Map</td>
                       <td>
                         <Container>
                           <MapContainer
@@ -874,10 +874,10 @@ function Home() {
                       </td>
                     </tr>
                     <tr>
-                      <td>Bar Chart</td>
+                      <td className="table_0">Bar Chart</td>
                       <td>
                         {" "}
-                        <div style={{ width: "100%", height: 400 }}>
+                        <div style={{ width: "100%", height: 300 }}>
                           <ResponsiveContainer width="100%" height="100%">
                             <BarChart
                               width={500}
@@ -922,7 +922,7 @@ function Home() {
                       </td>
                       <td>
                         {" "}
-                        <div style={{ width: "100%", height: 400 }}>
+                        <div style={{ width: "100%", height: 300 }}>
                           <ResponsiveContainer width="100%" height="100%">
                             <BarChart
                               width={500}
@@ -967,7 +967,7 @@ function Home() {
                       </td>
                     </tr>
                     <tr>
-                      <td>Seat vs. Vote Symmetry</td>
+                      <td className="table_0">Seat vs. Vote Symmetry</td>
                       <td>
                         <div style={{ width: "100%", height: 300 }}>
                           <ResponsiveContainer width="100%" height="100%">
@@ -1079,19 +1079,19 @@ function Home() {
           <Table striped bordered hover variant="dark" className="table">
             <thead>
               <tr>
-                <th className="table_th0"></th>
+                <th className="table_0"></th>
                 <th className="table_th">SMD</th>
                 <th className="table_th">MMD</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td className="table_th0">Fairness</td>
+                <td className="table_0">Fairness</td>
                 <td className="table_th"></td>
                 <td className="table_th"></td>
               </tr>
               <tr>
-                <td className="table_th0">Gerrymandering Effect</td>
+                <td className="table_0">Gerrymandering Effect</td>
                 <td className="table_th"></td>
                 <td className="table_th"></td>
               </tr>
