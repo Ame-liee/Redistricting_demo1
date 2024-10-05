@@ -15,6 +15,8 @@ import {
   ZAxis,
   Scatter,
   ComposedChart,
+  LineChart,
+  Line,
 } from "recharts";
 
 import {
@@ -126,6 +128,16 @@ const useBoxPlot = (boxPlots) => {
 
   return data;
 };
+const data_curve = [
+  {
+    Republicans: 0,
+    Democrats: 0,
+  },
+  {
+    Republicans: 1,
+    Democrats: 1,
+  },
+];
 function Home() {
   const [selectedState, setSelectedState] = useState("SELECT A STATE");
   const [selectedDistrictPop_SMD, setselectedDistrictPop_SMD] = useState([0]); // [population, White, Asian, Black, Hispanic, Democratic, Republican]
@@ -138,6 +150,9 @@ function Home() {
   const [coordinate, setCoordinate] = useState([32.3547, -90.0]);
   // const geoJson_features = congDist.features;
   const data_boxPlot = [useBoxPlot(boxPlots1), useBoxPlot(boxPlots2)];
+  const formatXAxisTick = (tick) => {
+    return `${(tick * 100).toFixed(0)}%`;
+  };
   const formatYAxisTick = (tick) => {
     return `${(tick * 100).toFixed(0)}%`;
   };
@@ -1051,8 +1066,82 @@ function Home() {
                     </tr>
                     <tr>
                       <td>Seat vs. Vote Symmetry</td>
-                      <td></td>
-                      <td></td>
+                      <td>
+                        <div style={{ width: "100%", height: 300 }}>
+                          <ResponsiveContainer width="100%" height="100%">
+                            <LineChart
+                              data={data_curve}
+                              margin={{
+                                top: 5,
+                                right: 30,
+                                left: 20,
+                                bottom: 5,
+                              }}
+                            >
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <XAxis
+                                domain={[0, 1]}
+                                tickFormatter={formatXAxisTick}
+                              />
+                              <YAxis
+                                domain={[0, 1]}
+                                tickFormatter={formatYAxisTick}
+                              />
+                              <Tooltip />
+                              <Legend />
+                              <Line
+                                type="monotone"
+                                dataKey="Democrats"
+                                stroke="#8884d8"
+                                activeDot={{ r: 8 }}
+                              />
+                              <Line
+                                type="monotone"
+                                dataKey="Republicans"
+                                stroke="#82ca9d"
+                              />
+                            </LineChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </td>
+                      <td>
+                        <div style={{ width: "100%", height: 300 }}>
+                          <ResponsiveContainer width="100%" height="100%">
+                            <LineChart
+                              data={data_curve}
+                              margin={{
+                                top: 5,
+                                right: 30,
+                                left: 20,
+                                bottom: 5,
+                              }}
+                            >
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <XAxis
+                                domain={[0, 1]}
+                                tickFormatter={formatXAxisTick}
+                              />
+                              <YAxis
+                                domain={[0, 1]}
+                                tickFormatter={formatYAxisTick}
+                              />
+                              <Tooltip />
+                              <Legend />
+                              <Line
+                                type="monotone"
+                                dataKey="Democrats"
+                                stroke="#8884d8"
+                                activeDot={{ r: 8 }}
+                              />
+                              <Line
+                                type="monotone"
+                                dataKey="Republicans"
+                                stroke="#82ca9d"
+                              />
+                            </LineChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </td>
                     </tr>
                   </tbody>
                 </Table>
