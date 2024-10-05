@@ -295,7 +295,7 @@ function Home() {
       <div className="body" ref={stateSelectionRef}>
         <Navbar
           expand={false}
-          // sticky="top"
+          sticky="top"
           data-bs-theme="dark"
           className="sidebar"
         >
