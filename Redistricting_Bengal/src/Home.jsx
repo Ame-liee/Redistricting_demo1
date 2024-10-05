@@ -158,8 +158,8 @@ function Home() {
     0,
     0,
   ]);
-  const [selectedDistrictSMD, setselectedDistrictSMD] = useState(null);
-  const [selectedDistrictMMD, setselectedDistrictMMD] = useState(null);
+  const [selectedDistrictSMD, setSelectedDistrictSMD] = useState(null);
+  const [selectedDistrictMMD, setSelectedDistrictMMD] = useState(null);
   const [hoveredLocation, setHoveredLocation] = useState(null);
   const customStates = ["Alabama", "Mississippi", "Pennsylvania"];
   const [showInfo1, setShowInfo1] = useState(false);
@@ -221,7 +221,7 @@ function Home() {
     };
 
     const onClick = (e) => {
-      setselectedDistrictSMD(district);
+      setSelectedDistrictSMD(district.properties);
       setselectedDistrictPop_SMD([
         district.properties.vap,
         district.properties.vap_white,
@@ -263,7 +263,7 @@ function Home() {
     };
 
     const onClick = (e) => {
-      setselectedDistrictMMD(district);
+      setSelectedDistrictMMD(district.properties);
       setselectedDistrictPop_MMD([
         district.properties.vap,
         district.properties.vap_white,
@@ -904,7 +904,7 @@ function Home() {
                                 {
                                   name: "Democrats",
                                   // Democrats: selectedDistrictPop_MMD[5],
-                                  Democrats: 50000,
+                                  Democrats: 90000,
                                 },
                                 {
                                   name: "Republicans",
@@ -1090,8 +1090,11 @@ function Home() {
               <br />
               <br />
               <br />
-              <p>Number of House Members: </p>
-              <p>Majority Party: </p>
+              <p>
+                Number of House Members:{" "}
+                {Object.keys(congDist["features"]).length}
+              </p>
+              <p>Majority Party: Democratic Party</p>
             </div>
           </div>
           <Table striped bordered hover variant="dark" className="table">
