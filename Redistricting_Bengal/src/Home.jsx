@@ -3,6 +3,16 @@ import bengalLogo from "./assets/Bengal.svg";
 import usaMapData from "@svg-maps/usa";
 import congDist from "./assets/ms_cvap_2020_cd.json";
 import { MapContainer, GeoJSON } from "react-leaflet";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 
 import {
   Offcanvas,
@@ -17,13 +27,16 @@ import {
 
 function Home() {
   const [selectedState, setSelectedState] = useState("SELECT A STATE");
+  const [selectedDistrictPop_SMD, setselectedDistrictPop_SMD] = useState([0]); // [population, White, Asian, Black, Hispanic, Democratic, Republican]
+  const [selectedDistrictPop_MMD, setselectedDistrictPop_MMD] = useState([0]);
   const [hoveredLocation, setHoveredLocation] = useState(null);
   const customStates = ["Alabama", "Mississippi", "Pennsylvania"];
   const [showInfo1, setShowInfo1] = useState(false);
   const [showInfo2, setShowInfo2] = useState(false);
-  const [showFairness, setShowFairness] = useState([true, false]);
+  const [showFairness, setShowFairness] = useState([true, false]); // Minority, Political Party
   const [coordinate, setCoordinate] = useState([32.3547, -90.0]);
   // const geoJson_features = congDist.features;
+
   const stateSelectionRef = useRef(0);
   const analysis1Ref = useRef(0);
   const analysis2Ref = useRef(0);
@@ -127,6 +140,22 @@ function Home() {
       });
     };
 
+    const onClick = (e) => {
+      setselectedDistrictPop_SMD([
+        properties.vap,
+        properties.vap_white,
+        properties.vap_asian,
+        properties.vap_black,
+        properties.vap_hisp,
+        0,
+        0,
+      ]);
+      layer.setStyle({
+        weight: 3,
+        fillColor: "blue",
+      });
+    };
+
     const fillColor =
       percentageAsian <= 16.7
         ? "rgb(250, 200, 185)"
@@ -147,6 +176,78 @@ function Home() {
     layer.on({
       mouseout: onMouseOut,
       mouseover: onMouseOver,
+      click: onClick,
+    });
+  };
+  const onEachDistrict3 = (district, layer) => {
+    const properties = district.properties;
+    const population = properties.vap;
+    const percentageWhite = ((properties.vap_white / population) * 100).toFixed(
+      2
+    );
+    const percentageAsian = (
+      (district.properties.vap_asian / population) *
+      100
+    ).toFixed(2);
+    const percentageBlack = (
+      (district.properties.vap_black / population) *
+      100
+    ).toFixed(2);
+    const percentageHispanic = (
+      (district.properties.vap_hisp / population) *
+      100
+    ).toFixed(2);
+    const onMouseOver = (e) => {
+      layer.setStyle({
+        weight: 4,
+        color: "rgb(40, 38, 38)",
+      });
+    };
+
+    const onMouseOut = (e) => {
+      layer.setStyle({
+        weight: 3,
+        color: "rgb(241, 243, 243)",
+      });
+    };
+
+    const onClick = (e) => {
+      setselectedDistrictPop_MMD([
+        properties.vap,
+        properties.vap_white,
+        properties.vap_asian,
+        properties.vap_black,
+        properties.vap_hisp,
+        0,
+        0,
+      ]);
+      layer.setStyle({
+        weight: 3,
+        fillColor: "blue",
+      });
+    };
+
+    const fillColor =
+      percentageAsian <= 16.7
+        ? "rgb(250, 200, 185)"
+        : percentageAsian <= 33.3
+        ? "rgb(248, 180, 160)"
+        : percentageAsian <= 49.8
+        ? "rgb(245, 150, 130)"
+        : percentageAsian <= 66.5
+        ? "rgb(240, 105, 90)"
+        : percentageAsian <= 83.1
+        ? "rgb(235, 60, 45)"
+        : "rgb(220, 25, 10)";
+
+    layer.setStyle({
+      color: "rgba(241, 243, 243, 1)",
+      fillColor: fillColor,
+    });
+    layer.on({
+      mouseout: onMouseOut,
+      mouseover: onMouseOver,
+      click: onClick,
     });
   };
 
@@ -434,7 +535,7 @@ function Home() {
                           >
                             <GeoJSON
                               data={congDist.features}
-                              onEachFeature={onEachDistrict}
+                              onEachFeature={onEachDistrict3}
                             ></GeoJSON>
                           </MapContainer>
                         </Container>
@@ -442,8 +543,92 @@ function Home() {
                     </tr>
                     <tr>
                       <td>Bar Chart</td>
-                      <td></td>
-                      <td></td>
+                      <td>
+                        {" "}
+                        <div style={{ width: "100%", height: 400 }}>
+                          <ResponsiveContainer width="100%" height="100%">
+                            <BarChart
+                              width={500}
+                              height={300}
+                              data={[
+                                {
+                                  name: "White",
+                                  White: selectedDistrictPop_SMD[1],
+                                },
+                                {
+                                  name: "Non-White",
+                                  Aisan: selectedDistrictPop_SMD[2],
+                                  Black: selectedDistrictPop_SMD[3],
+                                  Hispanic: selectedDistrictPop_SMD[4],
+                                },
+                              ]}
+                              margin={{
+                                top: 20,
+                                right: 30,
+                                left: 20,
+                                bottom: 5,
+                              }}
+                            >
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <XAxis dataKey="name" />
+                              <YAxis />
+                              <Tooltip />
+                              <Legend />
+                              <Bar dataKey="Asian" stackId="a" fill="red" />
+                              <Bar dataKey="Black" stackId="a" fill="orange" />
+                              <Bar
+                                dataKey="Hispanic"
+                                stackId="a"
+                                fill="green"
+                              />
+                              <Bar dataKey="White" stackId="a" fill="blue" />
+                            </BarChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </td>
+                      <td>
+                        {" "}
+                        <div style={{ width: "100%", height: 400 }}>
+                          <ResponsiveContainer width="100%" height="100%">
+                            <BarChart
+                              width={500}
+                              height={300}
+                              data={[
+                                {
+                                  name: "White",
+                                  White: selectedDistrictPop_MMD[1],
+                                },
+                                {
+                                  name: "Non-White",
+                                  Aisan: selectedDistrictPop_MMD[2],
+                                  Black: selectedDistrictPop_MMD[3],
+                                  Hispanic: selectedDistrictPop_MMD[4],
+                                },
+                              ]}
+                              margin={{
+                                top: 20,
+                                right: 30,
+                                left: 20,
+                                bottom: 5,
+                              }}
+                            >
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <XAxis dataKey="name" />
+                              <YAxis />
+                              <Tooltip />
+                              <Legend />
+                              <Bar dataKey="Asian" stackId="a" fill="red" />
+                              <Bar dataKey="Black" stackId="a" fill="orange" />
+                              <Bar
+                                dataKey="Hispanic"
+                                stackId="a"
+                                fill="green"
+                              />
+                              <Bar dataKey="White" stackId="a" fill="blue" />
+                            </BarChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </td>
                     </tr>
                     <tr>
                       <td>Box & Whisker Analysis</td>
@@ -553,8 +738,96 @@ function Home() {
                     </tr>
                     <tr>
                       <td>Bar Chart</td>
-                      <td></td>
-                      <td></td>
+                      <td>
+                        {" "}
+                        <div style={{ width: "100%", height: 400 }}>
+                          <ResponsiveContainer width="100%" height="100%">
+                            <BarChart
+                              width={500}
+                              height={300}
+                              data={[
+                                {
+                                  name: "Democrats",
+                                  // Democrats: selectedDistrictPop_MMD[5],
+                                  Democrats: 50000,
+                                },
+                                {
+                                  name: "Republicans",
+                                  // Republicans: selectedDistrictPop_MMD[6],
+                                  Republicans: 50000,
+                                },
+                              ]}
+                              margin={{
+                                top: 20,
+                                right: 30,
+                                left: 20,
+                                bottom: 5,
+                              }}
+                            >
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <XAxis dataKey="name" />
+                              <YAxis />
+                              <Tooltip />
+                              <Legend />
+                              <Bar
+                                dataKey="Democrats"
+                                stackId="a"
+                                fill="blue"
+                              />
+                              <Bar
+                                dataKey="Republicans"
+                                stackId="a"
+                                fill="red"
+                              />
+                            </BarChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </td>
+                      <td>
+                        {" "}
+                        <div style={{ width: "100%", height: 400 }}>
+                          <ResponsiveContainer width="100%" height="100%">
+                            <BarChart
+                              width={500}
+                              height={300}
+                              data={[
+                                {
+                                  name: "Democrats",
+                                  // Democrats: selectedDistrictPop_MMD[5],
+                                  Democrats: 50000,
+                                },
+                                {
+                                  name: "Republicans",
+                                  // Republicans: selectedDistrictPop_MMD[6],
+                                  Republicans: 50000,
+                                },
+                              ]}
+                              margin={{
+                                top: 20,
+                                right: 30,
+                                left: 20,
+                                bottom: 5,
+                              }}
+                            >
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <XAxis dataKey="name" />
+                              <YAxis />
+                              <Tooltip />
+                              <Legend />
+                              <Bar
+                                dataKey="Democrats"
+                                stackId="a"
+                                fill="blue"
+                              />
+                              <Bar
+                                dataKey="Republicans"
+                                stackId="a"
+                                fill="red"
+                              />
+                            </BarChart>
+                          </ResponsiveContainer>
+                        </div>
+                      </td>
                     </tr>
                     <tr>
                       <td>Seat vs. Vote Symmetry</td>
