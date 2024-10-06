@@ -31,40 +31,45 @@ import {
 } from "react-bootstrap";
 const boxPlots1 = [
   {
-    min: 0,
-    lowerQuartile: 0.3,
-    median: 0.2,
-    upperQuartile: 0.8,
-    max: 1,
-    average: 0.6,
+    name: "District 1",
+    min: 0.125,
+    lowerQuartile: 0.25,
+    median: 0.3125,
+    upperQuartile: 0.5625,
+    max: 0.8125,
+    average: 0.1875,
   },
   {
+    name: "District 2",
+    min: 0.25,
+    lowerQuartile: 0.5,
+    median: 0.75,
+    upperQuartile: 0.875,
+    max: 1,
+    average: 0.6875,
+  },
+  {
+    name: "District 3",
     min: 0,
-    lowerQuartile: 0.3,
-    median: 0.1,
-    upperQuartile: 0.8,
+    lowerQuartile: 0.25,
+    median: 0.5,
+    upperQuartile: 0.75,
     max: 1,
     average: 0.5,
   },
   {
+    name: "District 4",
     min: 0,
-    lowerQuartile: 0.3,
-    median: 0.8,
-    upperQuartile: 0.8,
-    max: 1,
+    lowerQuartile: 0.15,
+    median: 0.4,
+    upperQuartile: 0.65,
+    max: 0.9,
     average: 0.4,
-  },
-  {
-    min: 0,
-    lowerQuartile: 0.2,
-    median: 0.3,
-    upperQuartile: 0.84,
-    max: 1,
-    average: 0.3,
   },
 ];
 const boxPlots2 = [
   {
+    name: "District 1",
     min: 0,
     lowerQuartile: 0.3,
     median: 0.2,
@@ -114,6 +119,7 @@ const useBoxPlot = (boxPlots) => {
     () =>
       boxPlots.map((v) => {
         return {
+          name: v.name,
           min: v.min,
           bottomWhisker: v.lowerQuartile - v.min,
           bottomBox: v.median - v.lowerQuartile,
@@ -209,7 +215,7 @@ function Home() {
       fillOpacity: 1,
     });
   };
-  const onEachDistrict_SMD = (district, layer) => {
+  const onEachDistrict_SMD = (district, layer, index) => {
     const onMouseOver = (e) => {
       layer.setStyle({
         fillColor: "rgb(40, 38, 38)",
@@ -237,8 +243,13 @@ function Home() {
       //   weight: 3,
       //   fillColor: "blue",
       // });
+      const label = L.divIcon({
+        className: "district-label",
+        html: `<div style="font-size: 20px; color: black;">${index + 1}</div>`,
+      });
+      const center = layer.getBounds().getCenter();
+      L.marker(center, { icon: label }).addTo(layer._map);
     };
-
     layer.setStyle({
       color: "rgba(241, 243, 243, 1)",
       fillColor: "rgb(220, 25, 10)",
@@ -249,7 +260,7 @@ function Home() {
       click: onClick,
     });
   };
-  const onEachDistrict_MMD = (district, layer) => {
+  const onEachDistrict_MMD = (district, layer, index) => {
     const onMouseOver = (e) => {
       layer.setStyle({
         weight: 4,
@@ -279,8 +290,13 @@ function Home() {
       //   weight: 3,
       //   fillColor: "blue",
       // });
+      const label = L.divIcon({
+        className: "district-label",
+        html: `<div style="font-size: 20px; color: black;">${index + 1}</div>`,
+      });
+      const center = layer.getBounds().getCenter();
+      L.marker(center, { icon: label }).addTo(layer._map);
     };
-
     layer.setStyle({
       color: "rgba(241, 243, 243, 1)",
       fillColor: "rgb(220, 25, 10)",
@@ -578,7 +594,13 @@ function Home() {
                               >
                                 <GeoJSON
                                   data={congDist.features}
-                                  onEachFeature={onEachDistrict_SMD}
+                                  onEachFeature={(district, layer) =>
+                                    onEachDistrict_SMD(
+                                      district,
+                                      layer,
+                                      congDist.features.indexOf(district)
+                                    )
+                                  }
                                 ></GeoJSON>
                               </MapContainer>
                             </Container>
@@ -595,7 +617,13 @@ function Home() {
                               >
                                 <GeoJSON
                                   data={congDist.features}
-                                  onEachFeature={onEachDistrict_MMD}
+                                  onEachFeature={(district, layer) =>
+                                    onEachDistrict_MMD(
+                                      district,
+                                      layer,
+                                      congDist.features.indexOf(district)
+                                    )
+                                  }
                                 ></GeoJSON>
                               </MapContainer>
                             </Container>
@@ -763,7 +791,7 @@ function Home() {
                                   fill={"red"}
                                   stroke={"#FFF"}
                                 />
-                                <XAxis />
+                                <XAxis dataKey="name" />
                                 <YAxis
                                   domain={[0, 1]}
                                   tickFormatter={formatYAxisTick}
@@ -826,7 +854,7 @@ function Home() {
                                   fill={"red"}
                                   stroke={"#FFF"}
                                 />
-                                <XAxis />
+                                <XAxis dataKey="name" />
                                 <YAxis
                                   domain={[0, 1]}
                                   tickFormatter={formatYAxisTick}
@@ -913,7 +941,13 @@ function Home() {
                               >
                                 <GeoJSON
                                   data={congDist.features}
-                                  onEachFeature={onEachDistrict_SMD}
+                                  onEachFeature={(district, layer) =>
+                                    onEachDistrict_SMD(
+                                      district,
+                                      layer,
+                                      congDist.features.indexOf(district)
+                                    )
+                                  }
                                 ></GeoJSON>
                               </MapContainer>
                             </Container>
@@ -930,7 +964,13 @@ function Home() {
                               >
                                 <GeoJSON
                                   data={congDist.features}
-                                  onEachFeature={onEachDistrict_MMD}
+                                  onEachFeature={(district, layer) =>
+                                    onEachDistrict_MMD(
+                                      district,
+                                      layer,
+                                      congDist.features.indexOf(district)
+                                    )
+                                  }
                                 ></GeoJSON>
                               </MapContainer>
                             </Container>
