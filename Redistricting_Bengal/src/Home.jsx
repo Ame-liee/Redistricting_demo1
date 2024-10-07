@@ -38,51 +38,52 @@ const boxPlots1 = [
   {
     name: "District 1",
     min: 0.05,
-    lowerQuartile: 0.2,
-    median: 0.35,
-    upperQuartile: 0.5,
-    max: 0.65,
-    average: 0.35,
+    lowerQuartile: 0.1,
+    median: 0.15,
+    upperQuartile: 0.2,
+    max: 0.25,
+    average: 0.18,
   },
   {
     name: "District 2",
-    min: 0.1,
-    lowerQuartile: 0.25,
-    median: 0.45,
-    upperQuartile: 0.6,
-    max: 0.75,
-    average: 0.43,
+    min: 0.12,
+    lowerQuartile: 0.16,
+    median: 0.22,
+    upperQuartile: 0.25,
+    max: 0.3,
+    average: 0.24,
   },
   {
     name: "District 3",
-    min: 0.12,
-    lowerQuartile: 0.3,
-    median: 0.5,
-    upperQuartile: 0.7,
-    max: 0.85,
-    average: 0.49,
+    min: 0.3,
+    lowerQuartile: 0.35,
+    median: 0.4,
+    upperQuartile: 0.45,
+    max: 0.5,
+    average: 0.42,
   },
   {
     name: "District 4",
-    min: 0.2,
-    lowerQuartile: 0.35,
-    median: 0.55,
-    upperQuartile: 0.75,
-    max: 0.9,
-    average: 0.55,
+    min: 0.38,
+    lowerQuartile: 0.42,
+    median: 0.5,
+    upperQuartile: 0.55,
+    max: 0.6,
+    average: 0.45,
   },
 ];
 const boxPlots2 = [
   {
     name: "District 1",
-    min: 0,
-    lowerQuartile: 0.3,
-    median: 0.2,
-    upperQuartile: 0.8,
-    max: 1,
-    average: 0.6,
+    min: 0.38,
+    lowerQuartile: 0.42,
+    median: 0.5,
+    upperQuartile: 0.55,
+    max: 0.6,
+    average: 0.45,
   },
 ];
+
 const data_curve1 = [
   {
     Republicans: 0,
@@ -964,12 +965,12 @@ function Home() {
                                   dataKey="size"
                                   range={[0, 250]}
                                 />
-
+                                {/* 
                                 <Scatter
                                   dataKey="average"
                                   fill={"red"}
                                   stroke={"#FFF"}
-                                />
+                                /> */}
                                 <XAxis dataKey="name" />
                                 <YAxis
                                   domain={[0, 1]}
@@ -1027,12 +1028,11 @@ function Home() {
                                   dataKey="size"
                                   range={[0, 250]}
                                 />
-
-                                <Scatter
+                                {/* <Scatter
                                   dataKey="average"
                                   fill={"red"}
                                   stroke={"#FFF"}
-                                />
+                                /> */}
                                 <XAxis dataKey="name" />
                                 <YAxis
                                   domain={[0, 1]}
