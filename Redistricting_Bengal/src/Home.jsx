@@ -162,7 +162,6 @@ function Home() {
   const onPieEnter = (_, index) => {
     setActiveIndex(index);
   };
-
   const [selectedState, setSelectedState] = useState("SELECT A STATE");
   const [selectedDistrictPop_SMD, setselectedDistrictPop_SMD] = useState([
     congDist.features[0]["properties"]["vap"],
@@ -334,12 +333,15 @@ function Home() {
       //   weight: 3,
       //   fillColor: "blue",
       // });
+    };
+    const onAdd = (e) => {
       const label = L.divIcon({
         className: "district-label",
         html: `<div style="font-size: 20px; color: black;">${index + 1}</div>`,
       });
-      const center = layer.getBounds().getCenter();
-      L.marker(center, { icon: label }).addTo(layer._map);
+      L.marker(layer.getBounds().getCenter(), { icon: label }).addTo(
+        layer._map
+      );
     };
     layer.setStyle({
       color: "rgba(241, 243, 243, 1)",
@@ -349,6 +351,7 @@ function Home() {
       mouseout: onMouseOut,
       mouseover: onMouseOver,
       click: onClick,
+      add: onAdd,
     });
   };
   const onEachDistrict_MMD = (district, layer, index) => {
@@ -377,25 +380,25 @@ function Home() {
         0,
         0,
       ]);
-      // layer.setStyle({
-      //   weight: 3,
-      //   fillColor: "blue",
-      // });
+    };
+    const onAdd = (e) => {
       const label = L.divIcon({
         className: "district-label",
         html: `<div style="font-size: 20px; color: black;">${index + 1}</div>`,
       });
-      const center = layer.getBounds().getCenter();
-      L.marker(center, { icon: label }).addTo(layer._map);
+      L.marker(layer.getBounds().getCenter(), { icon: label }).addTo(
+        layer._map
+      );
     };
     layer.setStyle({
-      color: "rgba(220, 25, 10, 0.1)",
+      color: "rgba(241, 243, 243, 1)",
       fillColor: "rgb(220, 25, 10)",
     });
     layer.on({
       mouseout: onMouseOut,
       mouseover: onMouseOver,
       click: onClick,
+      add: onAdd,
     });
   };
 
