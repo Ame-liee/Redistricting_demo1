@@ -275,7 +275,6 @@ function Home() {
   const minorityFairnessRef = useRef(0);
   const politicalFairnessRef = useRef(0);
   const analysisRef = useRef(0);
-  const summaryRef = useRef(0);
   const mapHandler = (value) => {
     setSelectedState(value);
     if (value == "Alabama") {
@@ -287,25 +286,7 @@ function Home() {
     }
     analysisRef.current.scrollIntoView();
   };
-  const onEachDistrict_summary = (district, layer) => {
-    layer.bindPopup(
-      "Population: " +
-        district.properties.vap +
-        "White: " +
-        district.properties.vap_white +
-        "Asian:" +
-        district.properties.vap_asian +
-        "Black" +
-        district.properties.vap_black +
-        "Hispanic" +
-        district.properties.vap_hisp
-    );
-    layer.setStyle({
-      color: "rgb(236, 31, 12)",
-      fillColor: "black",
-      fillOpacity: 1,
-    });
-  };
+
   const onEachDistrict_SMD = (district, layer, index) => {
     const onMouseOver = (e) => {
       layer.setStyle({
@@ -501,9 +482,6 @@ function Home() {
                     Political Fairness
                   </NavDropdown.Item>
                 </NavDropdown>
-                <Nav.Link onClick={() => summaryRef.current.scrollIntoView()}>
-                  SUMMARY
-                </Nav.Link>
                 <Nav.Link href="./about">ABOUT</Nav.Link>
               </Nav>
             </Offcanvas.Body>
@@ -915,7 +893,7 @@ function Home() {
                           </td>
                         </tr>
                         <tr>
-                          <td className="table_0">Box & Whisker Analysis</td>
+                          <td className="table_0">Box & Whisker Plot</td>
                           <td>
                             <ResponsiveContainer minHeight={300}>
                               <ComposedChart data={data_boxPlot[0]}>
@@ -1344,56 +1322,6 @@ function Home() {
                   </div>
                 </div>
               )}
-            </div>
-            <div className="body3" ref={summaryRef}>
-              <div className="text_summary">SUMMARY</div>
-              <div className="summary_stateInformation">
-                <MapContainer
-                  key={coordinate}
-                  center={coordinate}
-                  zoom={6.3}
-                  zoomControl={false}
-                  scrollWheelZoom={false}
-                  className="map_district2"
-                >
-                  <GeoJSON
-                    data={congDist.features}
-                    onEachFeature={onEachDistrict_summary}
-                  ></GeoJSON>
-                </MapContainer>
-                <div className="text_summaryContent">
-                  <p className="text_summaryState">{selectedState}</p>
-                  <br />
-                  <br />
-                  <br />
-                  <p>
-                    Number of House Members:{" "}
-                    {Object.keys(congDist["features"]).length}
-                  </p>
-                  <p>Majority Party: Democratic Party</p>
-                </div>
-              </div>
-              <Table striped bordered hover variant="dark" className="table">
-                <thead>
-                  <tr>
-                    <th className="table_0"></th>
-                    <th className="table_th">SMD</th>
-                    <th className="table_th">MMD</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td className="table_0">Minority Fairness</td>
-                    <td className="table_th"></td>
-                    <td className="table_th"></td>
-                  </tr>
-                  <tr>
-                    <td className="table_0">Political Fairness</td>
-                    <td className="table_th"></td>
-                    <td className="table_th"></td>
-                  </tr>
-                </tbody>
-              </Table>
             </div>
           </div>
         )}
