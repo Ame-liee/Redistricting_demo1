@@ -768,22 +768,22 @@ function Home() {
                                     <Bar
                                       dataKey="Asian"
                                       stackId="a"
-                                      fill="red"
+                                      fill="#8884d8"
                                     />
                                     <Bar
                                       dataKey="Black"
                                       stackId="a"
-                                      fill="orange"
+                                      fill="#82ca9d"
                                     />
                                     <Bar
                                       dataKey="Hispanic"
                                       stackId="a"
-                                      fill="green"
+                                      fill="#f7a1b8"
                                     />
                                     <Bar
                                       dataKey="White"
                                       stackId="a"
-                                      fill="blue"
+                                      fill="#ffc658"
                                     />
                                   </BarChart>
                                 )}
@@ -814,7 +814,7 @@ function Home() {
                                       cy="50%"
                                       innerRadius={60}
                                       outerRadius={80}
-                                      fill="#8884d8"
+                                      fill="#4b8fe2"
                                       dataKey="value"
                                       onMouseEnter={onPieEnter}
                                     />
@@ -857,22 +857,22 @@ function Home() {
                                     <Bar
                                       dataKey="Asian"
                                       stackId="a"
-                                      fill="red"
+                                      fill="#8884d8"
                                     />
                                     <Bar
                                       dataKey="Black"
                                       stackId="a"
-                                      fill="orange"
+                                      fill="#82ca9d"
                                     />
                                     <Bar
                                       dataKey="Hispanic"
                                       stackId="a"
-                                      fill="green"
+                                      fill="#f7a1b8"
                                     />
                                     <Bar
                                       dataKey="White"
                                       stackId="a"
-                                      fill="blue"
+                                      fill="#ffc658"
                                     />
                                   </BarChart>
                                 )}
@@ -903,7 +903,7 @@ function Home() {
                                       cy="50%"
                                       innerRadius={60}
                                       outerRadius={80}
-                                      fill="#8884d8"
+                                      fill="#4b8fe2"
                                       dataKey="value"
                                       onMouseEnter={onPieEnter}
                                     />
@@ -1279,13 +1279,13 @@ function Home() {
                                   <Line
                                     type="monotone"
                                     dataKey="Democrats"
-                                    stroke="#8884d8"
+                                    stroke="blue"
                                     activeDot={{ r: 8 }}
                                   />
                                   <Line
                                     type="monotone"
                                     dataKey="Republicans"
-                                    stroke="#82ca9d"
+                                    stroke="red"
                                   />
                                 </LineChart>
                               </ResponsiveContainer>
@@ -1326,13 +1326,13 @@ function Home() {
                                   <Line
                                     type="monotone"
                                     dataKey="Democrats"
-                                    stroke="#8884d8"
+                                    stroke="blue"
                                     activeDot={{ r: 8 }}
                                   />
                                   <Line
                                     type="monotone"
                                     dataKey="Republicans"
-                                    stroke="#82ca9d"
+                                    stroke="red"
                                   />
                                 </LineChart>
                               </ResponsiveContainer>
