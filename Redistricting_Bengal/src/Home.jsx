@@ -2,6 +2,7 @@ import React, { useState, useRef, useMemo } from "react";
 import bengalLogo from "./assets/Bengal.svg";
 import usaMapData from "@svg-maps/usa";
 import congDist from "./assets/ms_cvap_2020_cd.json";
+import copyGeo from "./assets/copyGeo.json";
 import { MapContainer, GeoJSON } from "react-leaflet";
 import {
   BarChart,
@@ -36,39 +37,39 @@ import {
 const boxPlots1 = [
   {
     name: "District 1",
-    min: 0.125,
-    lowerQuartile: 0.25,
-    median: 0.3125,
-    upperQuartile: 0.5625,
-    max: 0.8125,
-    average: 0.1875,
+    min: 0.05,
+    lowerQuartile: 0.2,
+    median: 0.35,
+    upperQuartile: 0.5,
+    max: 0.65,
+    average: 0.35,
   },
   {
     name: "District 2",
-    min: 0.25,
-    lowerQuartile: 0.5,
-    median: 0.75,
-    upperQuartile: 0.875,
-    max: 1,
-    average: 0.6875,
+    min: 0.1,
+    lowerQuartile: 0.25,
+    median: 0.45,
+    upperQuartile: 0.6,
+    max: 0.75,
+    average: 0.43,
   },
   {
     name: "District 3",
-    min: 0,
-    lowerQuartile: 0.25,
+    min: 0.12,
+    lowerQuartile: 0.3,
     median: 0.5,
-    upperQuartile: 0.75,
-    max: 1,
-    average: 0.5,
+    upperQuartile: 0.7,
+    max: 0.85,
+    average: 0.49,
   },
   {
     name: "District 4",
-    min: 0,
-    lowerQuartile: 0.15,
-    median: 0.4,
-    upperQuartile: 0.65,
+    min: 0.2,
+    lowerQuartile: 0.35,
+    median: 0.55,
+    upperQuartile: 0.75,
     max: 0.9,
-    average: 0.4,
+    average: 0.55,
   },
 ];
 const boxPlots2 = [
@@ -80,6 +81,24 @@ const boxPlots2 = [
     upperQuartile: 0.8,
     max: 1,
     average: 0.6,
+  },
+];
+const data_curve1 = [
+  {
+    Republicans: 0,
+    Democrats: 0,
+  },
+  {
+    Republicans: 0.5,
+    Democrats: 0.4,
+  },
+  {
+    Republicans: 0.5,
+    Democrats: 0.4,
+  },
+  {
+    Republicans: 1,
+    Democrats: 1,
   },
 ];
 
@@ -138,16 +157,6 @@ const useBoxPlot = (boxPlots) => {
 
   return data;
 };
-const data_curve = [
-  {
-    Republicans: 0,
-    Democrats: 0,
-  },
-  {
-    Republicans: 1,
-    Democrats: 1,
-  },
-];
 function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
   const onPieEnter = (_, index) => {
@@ -165,11 +174,11 @@ function Home() {
     0,
   ]); // [population, White, Asian, Black, Hispanic, Democratic, Republican]
   const [selectedDistrictPop_MMD, setselectedDistrictPop_MMD] = useState([
-    congDist.features[0]["properties"]["vap"],
-    congDist.features[0]["properties"]["vap_white"],
-    congDist.features[0]["properties"]["vap_asian"],
-    congDist.features[0]["properties"]["vap_black"],
-    congDist.features[0]["properties"]["vap_hisp"],
+    copyGeo.features[0]["properties"]["vap"],
+    copyGeo.features[0]["properties"]["vap_white"],
+    copyGeo.features[0]["properties"]["vap_asian"],
+    copyGeo.features[0]["properties"]["vap_black"],
+    copyGeo.features[0]["properties"]["vap_hisp"],
     0,
     0,
   ]);
@@ -380,7 +389,7 @@ function Home() {
       L.marker(center, { icon: label }).addTo(layer._map);
     };
     layer.setStyle({
-      color: "rgba(241, 243, 243, 1)",
+      color: "rgba(220, 25, 10, 0.1)",
       fillColor: "rgb(220, 25, 10)",
     });
     layer.on({
@@ -698,7 +707,7 @@ function Home() {
                                 className="map_district"
                               >
                                 <GeoJSON
-                                  data={congDist.features}
+                                  data={copyGeo.features}
                                   onEachFeature={(district, layer) =>
                                     onEachDistrict_MMD(
                                       district,
@@ -872,19 +881,19 @@ function Home() {
                                       data={[
                                         {
                                           name: "White",
-                                          value: selectedDistrictPop_SMD[1],
+                                          value: selectedDistrictPop_MMD[1],
                                         },
                                         {
                                           name: "Asian",
-                                          value: selectedDistrictPop_SMD[2],
+                                          value: selectedDistrictPop_MMD[2],
                                         },
                                         {
                                           name: "Black",
-                                          value: selectedDistrictPop_SMD[3],
+                                          value: selectedDistrictPop_MMD[3],
                                         },
                                         {
                                           name: "Hispanic",
-                                          value: selectedDistrictPop_SMD[4],
+                                          value: selectedDistrictPop_MMD[4],
                                         },
                                       ].sort((a, b) => b.value - a.value)}
                                       cx="50%"
@@ -1130,7 +1139,7 @@ function Home() {
                                 className="map_district"
                               >
                                 <GeoJSON
-                                  data={congDist.features}
+                                  data={copyGeo.features}
                                   onEachFeature={(district, layer) =>
                                     onEachDistrict_MMD(
                                       district,
@@ -1240,7 +1249,7 @@ function Home() {
                             <div style={{ width: "100%", height: 300 }}>
                               <ResponsiveContainer width="100%" height="100%">
                                 <LineChart
-                                  data={data_curve}
+                                  data={data_curve1}
                                   margin={{
                                     top: 5,
                                     right: 30,
@@ -1251,7 +1260,12 @@ function Home() {
                                   <CartesianGrid strokeDasharray="3 3" />
                                   <XAxis
                                     domain={[0, 1]}
-                                    tickFormatter={formatXAxisTick}
+                                    tickFormatter={(tick) => {
+                                      return `${(
+                                        (tick * 100) /
+                                        (data_curve1.length - 1)
+                                      ).toFixed(0)}%`;
+                                    }}
                                   />
                                   <YAxis
                                     domain={[0, 1]}
@@ -1278,7 +1292,16 @@ function Home() {
                             <div style={{ width: "100%", height: 300 }}>
                               <ResponsiveContainer width="100%" height="100%">
                                 <LineChart
-                                  data={data_curve}
+                                  data={[
+                                    {
+                                      Republicans: 0,
+                                      Democrats: 0,
+                                    },
+                                    {
+                                      Republicans: 1,
+                                      Democrats: 1,
+                                    },
+                                  ]}
                                   margin={{
                                     top: 5,
                                     right: 30,
