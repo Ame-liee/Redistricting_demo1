@@ -715,7 +715,7 @@ function Home() {
                                     onEachDistrict_MMD(
                                       district,
                                       layer,
-                                      congDist.features.indexOf(district)
+                                      copyGeo.features.indexOf(district)
                                     )
                                   }
                                 ></GeoJSON>
@@ -1147,7 +1147,7 @@ function Home() {
                                     onEachDistrict_MMD(
                                       district,
                                       layer,
-                                      congDist.features.indexOf(district)
+                                      copyGeo.features.indexOf(district)
                                     )
                                   }
                                 ></GeoJSON>
