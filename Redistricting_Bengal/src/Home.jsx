@@ -17,6 +17,9 @@ import {
   ComposedChart,
   LineChart,
   Line,
+  PieChart,
+  Pie,
+  Sector,
 } from "recharts";
 
 import {
@@ -28,6 +31,7 @@ import {
   Button,
   Alert,
   Table,
+  Form,
 } from "react-bootstrap";
 const boxPlots1 = [
   {
@@ -145,6 +149,11 @@ const data_curve = [
   },
 ];
 function Home() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const onPieEnter = (_, index) => {
+    setActiveIndex(index);
+  };
+
   const [selectedState, setSelectedState] = useState("SELECT A STATE");
   const [selectedDistrictPop_SMD, setselectedDistrictPop_SMD] = useState([
     congDist.features[0]["properties"]["vap"],
@@ -164,6 +173,79 @@ function Home() {
     0,
     0,
   ]);
+  const [onBarChart, setOnBarChart] = useState(true);
+  const renderActiveShape = (props) => {
+    const RADIAN = Math.PI / 180;
+    const {
+      cx,
+      cy,
+      midAngle,
+      innerRadius,
+      outerRadius,
+      startAngle,
+      endAngle,
+      fill,
+      payload,
+      percent,
+      value,
+    } = props;
+    const sin = Math.sin(-RADIAN * midAngle);
+    const cos = Math.cos(-RADIAN * midAngle);
+    const sx = cx + (outerRadius + 10) * cos;
+    const sy = cy + (outerRadius + 10) * sin;
+    const mx = cx + (outerRadius + 30) * cos;
+    const my = cy + (outerRadius + 30) * sin;
+    const ex = mx + (cos >= 0 ? 1 : -1) * 22;
+    const ey = my;
+    const textAnchor = cos >= 0 ? "start" : "end";
+
+    return (
+      <g>
+        <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
+          {payload.name}
+        </text>
+        <Sector
+          cx={cx}
+          cy={cy}
+          innerRadius={innerRadius}
+          outerRadius={outerRadius}
+          startAngle={startAngle}
+          endAngle={endAngle}
+          fill={fill}
+        />
+        <Sector
+          cx={cx}
+          cy={cy}
+          startAngle={startAngle}
+          endAngle={endAngle}
+          innerRadius={outerRadius + 6}
+          outerRadius={outerRadius + 10}
+          fill={fill}
+        />
+        <path
+          d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`}
+          stroke={fill}
+          fill="none"
+        />
+        <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
+        <text
+          x={ex + (cos >= 0 ? 1 : -1) * 12}
+          y={ey}
+          textAnchor={textAnchor}
+          fill="#333"
+        >{`${(percent * 100).toFixed(2)}%`}</text>
+        <text
+          x={ex + (cos >= 0 ? 1 : -1) * 12}
+          y={ey}
+          dy={18}
+          textAnchor={textAnchor}
+          fill="#999"
+        >
+          {`(${value})`}
+        </text>
+      </g>
+    );
+  };
   const [selectedDistrictSMD, setSelectedDistrictSMD] = useState(null);
   const [selectedDistrictMMD, setSelectedDistrictMMD] = useState(null);
   const [hoveredLocation, setHoveredLocation] = useState(null);
@@ -630,106 +712,191 @@ function Home() {
                           </td>
                         </tr>
                         <tr>
-                          <td className="table_0">Bar Chart</td>
+                          <td className="table_0">
+                            Population Chart
+                            <Form>
+                              <Form.Check
+                                type="switch"
+                                id="custom-switch"
+                                onChange={() => setOnBarChart(!onBarChart)}
+                              />
+                            </Form>
+                          </td>
                           <td>
-                            {" "}
                             <div style={{ width: "100%", height: 300 }}>
                               <ResponsiveContainer width="100%" height="100%">
-                                <BarChart
-                                  width={500}
-                                  height={300}
-                                  data={[
-                                    {
-                                      name: "White",
-                                      White: selectedDistrictPop_SMD[1],
-                                    },
-                                    {
-                                      name: "Non-White",
-                                      Aisan: selectedDistrictPop_SMD[2],
-                                      Black: selectedDistrictPop_SMD[3],
-                                      Hispanic: selectedDistrictPop_SMD[4],
-                                    },
-                                  ]}
-                                  margin={{
-                                    top: 20,
-                                    right: 30,
-                                    left: 20,
-                                    bottom: 5,
-                                  }}
-                                >
-                                  <CartesianGrid strokeDasharray="3 3" />
-                                  <XAxis dataKey="name" />
-                                  <YAxis />
-                                  <Tooltip />
-                                  <Legend />
-                                  <Bar dataKey="Asian" stackId="a" fill="red" />
-                                  <Bar
-                                    dataKey="Black"
-                                    stackId="a"
-                                    fill="orange"
-                                  />
-                                  <Bar
-                                    dataKey="Hispanic"
-                                    stackId="a"
-                                    fill="green"
-                                  />
-                                  <Bar
-                                    dataKey="White"
-                                    stackId="a"
-                                    fill="blue"
-                                  />
-                                </BarChart>
+                                {onBarChart && (
+                                  <BarChart
+                                    width={500}
+                                    height={300}
+                                    data={[
+                                      {
+                                        name: "White",
+                                        White: selectedDistrictPop_SMD[1],
+                                      },
+                                      {
+                                        name: "Non-White",
+                                        Aisan: selectedDistrictPop_SMD[2],
+                                        Black: selectedDistrictPop_SMD[3],
+                                        Hispanic: selectedDistrictPop_SMD[4],
+                                      },
+                                    ]}
+                                    margin={{
+                                      top: 20,
+                                      right: 30,
+                                      left: 20,
+                                      bottom: 5,
+                                    }}
+                                  >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="name" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Legend />
+                                    <Bar
+                                      dataKey="Asian"
+                                      stackId="a"
+                                      fill="red"
+                                    />
+                                    <Bar
+                                      dataKey="Black"
+                                      stackId="a"
+                                      fill="orange"
+                                    />
+                                    <Bar
+                                      dataKey="Hispanic"
+                                      stackId="a"
+                                      fill="green"
+                                    />
+                                    <Bar
+                                      dataKey="White"
+                                      stackId="a"
+                                      fill="blue"
+                                    />
+                                  </BarChart>
+                                )}
+                                {!onBarChart && (
+                                  <PieChart width={100} height={100}>
+                                    <Pie
+                                      activeIndex={activeIndex}
+                                      activeShape={renderActiveShape}
+                                      data={[
+                                        {
+                                          name: "White",
+                                          value: selectedDistrictPop_SMD[1],
+                                        },
+                                        {
+                                          name: "Asian",
+                                          value: selectedDistrictPop_SMD[2],
+                                        },
+                                        {
+                                          name: "Black",
+                                          value: selectedDistrictPop_SMD[3],
+                                        },
+                                        {
+                                          name: "Hispanic",
+                                          value: selectedDistrictPop_SMD[4],
+                                        },
+                                      ].sort((a, b) => b.value - a.value)}
+                                      cx="50%"
+                                      cy="50%"
+                                      innerRadius={60}
+                                      outerRadius={80}
+                                      fill="#8884d8"
+                                      dataKey="value"
+                                      onMouseEnter={onPieEnter}
+                                    />
+                                  </PieChart>
+                                )}
                               </ResponsiveContainer>
                             </div>
                           </td>
                           <td>
-                            {" "}
                             <div style={{ width: "100%", height: 300 }}>
                               <ResponsiveContainer width="100%" height="100%">
-                                <BarChart
-                                  width={500}
-                                  height={300}
-                                  data={[
-                                    {
-                                      name: "White",
-                                      White: selectedDistrictPop_MMD[1],
-                                    },
-                                    {
-                                      name: "Non-White",
-                                      Aisan: selectedDistrictPop_MMD[2],
-                                      Black: selectedDistrictPop_MMD[3],
-                                      Hispanic: selectedDistrictPop_MMD[4],
-                                    },
-                                  ]}
-                                  margin={{
-                                    top: 20,
-                                    right: 30,
-                                    left: 20,
-                                    bottom: 5,
-                                  }}
-                                >
-                                  <CartesianGrid strokeDasharray="3 3" />
-                                  <XAxis dataKey="name" />
-                                  <YAxis />
-                                  <Tooltip />
-                                  <Legend />
-                                  <Bar dataKey="Asian" stackId="a" fill="red" />
-                                  <Bar
-                                    dataKey="Black"
-                                    stackId="a"
-                                    fill="orange"
-                                  />
-                                  <Bar
-                                    dataKey="Hispanic"
-                                    stackId="a"
-                                    fill="green"
-                                  />
-                                  <Bar
-                                    dataKey="White"
-                                    stackId="a"
-                                    fill="blue"
-                                  />
-                                </BarChart>
+                                {onBarChart && (
+                                  <BarChart
+                                    width={500}
+                                    height={300}
+                                    data={[
+                                      {
+                                        name: "White",
+                                        White: selectedDistrictPop_MMD[1],
+                                      },
+                                      {
+                                        name: "Non-White",
+                                        Aisan: selectedDistrictPop_MMD[2],
+                                        Black: selectedDistrictPop_MMD[3],
+                                        Hispanic: selectedDistrictPop_MMD[4],
+                                      },
+                                    ]}
+                                    margin={{
+                                      top: 20,
+                                      right: 30,
+                                      left: 20,
+                                      bottom: 5,
+                                    }}
+                                  >
+                                    <CartesianGrid strokeDasharray="3 3" />
+                                    <XAxis dataKey="name" />
+                                    <YAxis />
+                                    <Tooltip />
+                                    <Legend />
+                                    <Bar
+                                      dataKey="Asian"
+                                      stackId="a"
+                                      fill="red"
+                                    />
+                                    <Bar
+                                      dataKey="Black"
+                                      stackId="a"
+                                      fill="orange"
+                                    />
+                                    <Bar
+                                      dataKey="Hispanic"
+                                      stackId="a"
+                                      fill="green"
+                                    />
+                                    <Bar
+                                      dataKey="White"
+                                      stackId="a"
+                                      fill="blue"
+                                    />
+                                  </BarChart>
+                                )}
+                                {!onBarChart && (
+                                  <PieChart width={100} height={100}>
+                                    <Pie
+                                      activeIndex={activeIndex}
+                                      activeShape={renderActiveShape}
+                                      data={[
+                                        {
+                                          name: "White",
+                                          value: selectedDistrictPop_SMD[1],
+                                        },
+                                        {
+                                          name: "Asian",
+                                          value: selectedDistrictPop_SMD[2],
+                                        },
+                                        {
+                                          name: "Black",
+                                          value: selectedDistrictPop_SMD[3],
+                                        },
+                                        {
+                                          name: "Hispanic",
+                                          value: selectedDistrictPop_SMD[4],
+                                        },
+                                      ].sort((a, b) => b.value - a.value)}
+                                      cx="50%"
+                                      cy="50%"
+                                      innerRadius={60}
+                                      outerRadius={80}
+                                      fill="#8884d8"
+                                      dataKey="value"
+                                      onMouseEnter={onPieEnter}
+                                    />
+                                  </PieChart>
+                                )}
                               </ResponsiveContainer>
                             </div>
                           </td>
@@ -979,7 +1146,6 @@ function Home() {
                         <tr>
                           <td className="table_0">Bar Chart</td>
                           <td>
-                            {" "}
                             <div style={{ width: "100%", height: 300 }}>
                               <ResponsiveContainer width="100%" height="100%">
                                 <BarChart
@@ -1024,7 +1190,6 @@ function Home() {
                             </div>
                           </td>
                           <td>
-                            {" "}
                             <div style={{ width: "100%", height: 300 }}>
                               <ResponsiveContainer width="100%" height="100%">
                                 <BarChart
