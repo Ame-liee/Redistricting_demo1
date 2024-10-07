@@ -182,7 +182,7 @@ function Home() {
     0,
     0,
   ]);
-  const [onBarChart, setOnBarChart] = useState(true);
+  const [onPieChart, setOnPieChart] = useState(false);
   const renderActiveShape = (props) => {
     const RADIAN = Math.PI / 180;
     const {
@@ -262,7 +262,7 @@ function Home() {
   const [showBelowStateSelection, setShowBelowStateSelection] = useState(true);
   const [showInfo1, setShowInfo1] = useState(false);
   const [showInfo2, setShowInfo2] = useState(false);
-  const [showFairness, setShowFairness] = useState([true, false]); // Minority, Political Party
+  const [showPoliticalFairness, setShowPoliticalFairness] = useState(false); // Minority, Political Party
   const [coordinate, setCoordinate] = useState([32.3547, -90.0]);
   const data_boxPlot = [useBoxPlot(boxPlots1), useBoxPlot(boxPlots2)];
   const formatXAxisTick = (tick) => {
@@ -596,7 +596,7 @@ function Home() {
                   <Nav.Link
                     eventKey="link-1"
                     className="text_navElement_fairness"
-                    onClick={() => setShowFairness([true, false])}
+                    onClick={() => setShowPoliticalFairness(false)}
                     ref={minorityFairnessRef}
                   >
                     Minority Fairness
@@ -606,14 +606,14 @@ function Home() {
                   <Nav.Link
                     eventKey="link-2"
                     className="text_navElement_fairness"
-                    onClick={() => setShowFairness([false, true])}
+                    onClick={() => setShowPoliticalFairness(true)}
                     ref={politicalFairnessRef}
                   >
                     Political Fairness
                   </Nav.Link>
                 </Nav.Item>
               </Nav>
-              {showFairness[0] && (
+              {!showPoliticalFairness && (
                 <div className="analysis1">
                   <h2 className="text_subQuestion1_1">
                     WILL FAIR REPRESENTATION ACT(FRA) for MMD
@@ -727,14 +727,14 @@ function Home() {
                               <Form.Check
                                 type="switch"
                                 id="custom-switch"
-                                onChange={() => setOnBarChart(!onBarChart)}
+                                onChange={() => setOnPieChart(!onPieChart)}
                               />
                             </Form>
                           </td>
                           <td>
                             <div style={{ width: "100%", height: 300 }}>
                               <ResponsiveContainer width="100%" height="100%">
-                                {onBarChart && (
+                                {!onPieChart && (
                                   <BarChart
                                     width={500}
                                     height={300}
@@ -784,7 +784,7 @@ function Home() {
                                     />
                                   </BarChart>
                                 )}
-                                {!onBarChart && (
+                                {onPieChart && (
                                   <PieChart width={100} height={100}>
                                     <Pie
                                       activeIndex={activeIndex}
@@ -823,7 +823,7 @@ function Home() {
                           <td>
                             <div style={{ width: "100%", height: 300 }}>
                               <ResponsiveContainer width="100%" height="100%">
-                                {onBarChart && (
+                                {!onPieChart && (
                                   <BarChart
                                     width={500}
                                     height={300}
@@ -873,7 +873,7 @@ function Home() {
                                     />
                                   </BarChart>
                                 )}
-                                {!onBarChart && (
+                                {onPieChart && (
                                   <PieChart width={100} height={100}>
                                     <Pie
                                       activeIndex={activeIndex}
@@ -1044,7 +1044,7 @@ function Home() {
                   </div>
                 </div>
               )}
-              {showFairness[1] && (
+              {showPoliticalFairness && (
                 <div className="analysis2">
                   <h2 className="text_subQuestion1_1">
                     WILL FAIR REPRESENTATION ACT(FRA) for MMD
