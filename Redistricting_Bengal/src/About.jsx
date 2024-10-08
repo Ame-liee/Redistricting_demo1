@@ -85,7 +85,7 @@ function About() {
                 <span className="char16">*</span>
               </h1>
               <Nav className="sidebar_nav">
-                <Nav.Link href="/">Home</Nav.Link>
+                <Nav.Link href="/">STATE SELECTION</Nav.Link>
               </Nav>
             </Offcanvas.Body>
           </Navbar.Offcanvas>

@@ -514,11 +514,7 @@ function Analysis() {
                 <span className="char16">*</span>
               </h1>
               <Nav className="sidebar_nav">
-                <Nav.Link
-                  onClick={() => stateSelectionRef.current.scrollIntoView()}
-                >
-                  STATE SELECTION
-                </Nav.Link>
+                <Nav.Link href="/">STATE SELECTION</Nav.Link>
                 {/* <NavDropdown title="ANALYSIS" className="sidebar_dropdown">
                   <NavDropdown.Item
                     className="sidebar_dropdownItem"
