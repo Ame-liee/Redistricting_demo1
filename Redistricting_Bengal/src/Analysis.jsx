@@ -555,7 +555,7 @@ function Analysis() {
         <div className="body2" ref={analysisRef}>
           <Container>
             <Row>
-              <Col>
+              <Col className="col_stateInformation">
                 <Row>
                   <h1 className="text_selectedState_Analysis">
                     {selectedState.toUpperCase()}
@@ -586,7 +586,7 @@ function Analysis() {
                         <MapContainer
                           key={coordinate}
                           center={coordinate}
-                          zoom={7}
+                          zoom={6.5}
                           zoomControl={false}
                           scrollWheelZoom={false}
                           className="map_district"
@@ -616,7 +616,7 @@ function Analysis() {
                         <MapContainer
                           key={coordinate}
                           center={coordinate}
-                          zoom={7}
+                          zoom={6.5}
                           zoomControl={false}
                           scrollWheelZoom={false}
                           className="map_district"
@@ -644,7 +644,7 @@ function Analysis() {
                   </div>
                 </Row>
               </Col>
-              <Col>
+              <Col className="col_districtInformation">
                 <Row>
                   <Nav
                     variant="tabs"
@@ -740,9 +740,16 @@ function Analysis() {
                       </Alert>
                     )}
                     <div className="tableContainer_analysis">
-                      <Row>
-                        <div style={{ width: "100%", height: 300 }}>
-                          <ResponsiveContainer width="100%" height="100%">
+                      <Row style={{ padding: 0 }}>
+                        <div
+                          className="graphContainer"
+                          style={{ width: "100%", height: 300 }}
+                        >
+                          <ResponsiveContainer
+                            className="responsiveContainer"
+                            width="100%"
+                            height="100%"
+                          >
                             <BarChart
                               width={500}
                               height={300}
