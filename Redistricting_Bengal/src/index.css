@@ -117,6 +117,7 @@ h1 span {
     background-color: rgb(40, 38, 38);
     padding-bottom: 5%;
     scroll-behavior: smooth;
+    justify-content: center;
 }
 
 .body1 {
@@ -279,7 +280,7 @@ h1 span {
 }
 
 .navbar_fairness {
-    margin-top: 10%;
+    /* margin-top: 10%; */
     padding-left: 5%;
     justify-content: rights;
     background-color: rgb(40, 38, 38);
@@ -411,4 +412,8 @@ tbody {
 .text_aboutContent {
     color: white;
     margin: 10%;
+}
+
+.button_toAnalysis {
+    float: right;
 }

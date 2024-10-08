@@ -1,4 +1,5 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import bengalLogo from "./assets/Bengal.svg";
 import usaMapData from "@svg-maps/usa";
 import congDist from "./assets/ms_cvap_2020_cd.json";
@@ -252,10 +253,10 @@ function Home() {
   // const formatYAxisTick = (tick) => {
   //   return `${(tick * 100).toFixed(0)}%`;
   // };
-  const stateSelectionRef = useRef(0);
+  // const stateSelectionRef = useRef(0);
   // const minorityFairnessRef = useRef(0);
   // const politicalFairnessRef = useRef(0);
-  const analysisRef = useRef(0);
+  // const analysisRef = useRef(0);
   const mapHandler = (value) => {
     setSelectedState(value);
     if (value == "Alabama") {
@@ -265,7 +266,7 @@ function Home() {
     } else {
       setCoordinate([40.8781, -77.7996]);
     }
-    analysisRef.current.scrollIntoView();
+    // analysisRef.current.scrollIntoView();
   };
 
   // const onEachDistrict_SMD = (district, layer, index) => {
@@ -364,10 +365,13 @@ function Home() {
   //     add: onAdd,
   //   });
   // };
-
+  const navigate = useNavigate();
+  const toAnalysis = (state) => {
+    navigate(`/${state}`, { state: { selectedState } });
+  };
   return (
     <>
-      <div className="body" ref={stateSelectionRef}>
+      <div className="body">
         <Navbar
           expand={false}
           sticky="top"
@@ -438,11 +442,11 @@ function Home() {
                 <span className="char16">*</span>
               </h1>
               <Nav className="sidebar_nav">
-                <Nav.Link
+                {/* <Nav.Link
                   onClick={() => stateSelectionRef.current.scrollIntoView()}
                 >
                   STATE SELECTION
-                </Nav.Link>
+                </Nav.Link> */}
                 {/* <NavDropdown title="ANALYSIS" className="sidebar_dropdown">
                   <NavDropdown.Item
                     className="sidebar_dropdownItem"
@@ -468,7 +472,7 @@ function Home() {
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Navbar>
-        <div className="body1" ref={stateSelectionRef}>
+        <div className="body1">
           <Navbar data-bs-theme="dark" className="brand">
             <Navbar.Brand href="/" className="text_FAIRWIN">
               <img
@@ -526,6 +530,30 @@ function Home() {
                 })}
               </svg>
             </Container>
+            <div className="button_toAnalysis">
+              <Button variant="link" onClick={() => toAnalysis(selectedState)}>
+                <svg
+                  width="50px"
+                  height="50px"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12Z"
+                    stroke="rgb(255, 255, 255)"
+                    strokeWidth="2"
+                  />
+                  <path
+                    d="M8 12H16M16 12L12 16M16 12L12 8"
+                    stroke="rgb(255, 255, 255)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </Button>
+            </div>
             <div className="dataExplaination">
               <svg
                 width="10px"
