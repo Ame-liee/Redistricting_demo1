@@ -169,24 +169,24 @@ function Analysis() {
     setActiveIndex(index);
   };
   //   const [selectedState, setSelectedState] = useState("Mississipi");
-  const [selectedDistrictPop_SMD, setselectedDistrictPop_SMD] = useState([
-    congDist.features[0]["properties"]["vap"],
-    congDist.features[0]["properties"]["vap_white"],
-    congDist.features[0]["properties"]["vap_asian"],
-    congDist.features[0]["properties"]["vap_black"],
-    congDist.features[0]["properties"]["vap_hisp"],
-    0,
-    0,
-  ]); // [population, White, Asian, Black, Hispanic, Democratic, Republican]
-  const [selectedDistrictPop_MMD, setselectedDistrictPop_MMD] = useState([
-    copyGeo.features[0]["properties"]["vap"],
-    copyGeo.features[0]["properties"]["vap_white"],
-    copyGeo.features[0]["properties"]["vap_asian"],
-    copyGeo.features[0]["properties"]["vap_black"],
-    copyGeo.features[0]["properties"]["vap_hisp"],
-    0,
-    0,
-  ]);
+  // const [selectedDistrictPop_SMD, setselectedDistrictPop_SMD] = useState([
+  //   congDist.features[0]["properties"]["vap"],
+  //   congDist.features[0]["properties"]["vap_white"],
+  //   congDist.features[0]["properties"]["vap_asian"],
+  //   congDist.features[0]["properties"]["vap_black"],
+  //   congDist.features[0]["properties"]["vap_hisp"],
+  //   0,
+  //   0,
+  // ]); // [population, White, Asian, Black, Hispanic, Democratic, Republican]
+  // const [selectedDistrictPop_MMD, setselectedDistrictPop_MMD] = useState([
+  //   copyGeo.features[0]["properties"]["vap"],
+  //   copyGeo.features[0]["properties"]["vap_white"],
+  //   copyGeo.features[0]["properties"]["vap_asian"],
+  //   copyGeo.features[0]["properties"]["vap_black"],
+  //   copyGeo.features[0]["properties"]["vap_hisp"],
+  //   0,
+  //   0,
+  // ]);
   const [onPieChart, setOnPieChart] = useState(false);
   const renderActiveShape = (props) => {
     const RADIAN = Math.PI / 180;
@@ -260,8 +260,12 @@ function Analysis() {
       </g>
     );
   };
-  const [selectedDistrictSMD, setSelectedDistrictSMD] = useState(null);
-  const [selectedDistrictMMD, setSelectedDistrictMMD] = useState(null);
+  const [data_barchart_SMD, setData_barchart_SMD] = useState([]);
+  const [data_barchart_MMD, setData_barchart_MMD] = useState([]);
+  const [data_barchart_SMD2, setData_barchart_SMD2] = useState([]);
+  const [data_barchart_MMD2, setData_barchart_MMD2] = useState([]);
+  // const [selectedDistrictSMD, setSelectedDistrictSMD] = useState(null);
+  // const [selectedDistrictMMD, setSelectedDistrictMMD] = useState(null);
   const [hoveredLocation, setHoveredLocation] = useState(null);
   const customStates = ["Alabama", "Mississippi", "Pennsylvania"];
   const [showBelowStateSelection, setShowBelowStateSelection] = useState(true);
@@ -305,22 +309,22 @@ function Analysis() {
       });
     };
 
-    const onClick = (e) => {
-      setSelectedDistrictSMD(district.properties);
-      setselectedDistrictPop_SMD([
-        district.properties.vap,
-        district.properties.vap_white,
-        district.properties.vap_asian,
-        district.properties.vap_black,
-        district.properties.vap_hisp,
-        0,
-        0,
-      ]);
-      // layer.setStyle({
-      //   weight: 3,
-      //   fillColor: "blue",
-      // });
-    };
+    // const onClick = (e) => {
+    //   setSelectedDistrictSMD(district.properties);
+    //   setselectedDistrictPop_SMD([
+    //     district.properties.vap,
+    //     district.properties.vap_white,
+    //     district.properties.vap_asian,
+    //     district.properties.vap_black,
+    //     district.properties.vap_hisp,
+    //     0,
+    //     0,
+    //   ]);
+    //   // layer.setStyle({
+    //   //   weight: 3,
+    //   //   fillColor: "blue",
+    //   // });
+    // };
     const onAdd = (e) => {
       const label = L.divIcon({
         className: "district-label",
@@ -337,7 +341,7 @@ function Analysis() {
     layer.on({
       mouseout: onMouseOut,
       mouseover: onMouseOver,
-      click: onClick,
+      // click: onClick,
       add: onAdd,
     });
   };
@@ -389,6 +393,12 @@ function Analysis() {
     });
   };
   useEffect(() => {
+    const selectedDistrictSMD = congDist.features;
+    const selectedDistrictMMD = copyGeo.features;
+    let data_barchart_SMD = [];
+    let data_barchart_MMD = [];
+    let data_barchart_SMD2 = [];
+    let data_barchart_MMD2 = [];
     if (selectedState === "Alabama") {
       setCoordinate([32.8067, -86.7911]);
     } else if (selectedState === "Mississippi") {
@@ -396,6 +406,39 @@ function Analysis() {
     } else {
       setCoordinate([40.8781, -77.7996]);
     }
+    for (var i = 0; i < selectedDistrictSMD.length; i++) {
+      data_barchart_SMD.push({
+        name: i + 1,
+        White: selectedDistrictSMD[i]["properties"]["vap_white"],
+        Aisan: selectedDistrictSMD[i]["properties"]["vap_asian"],
+        Black: selectedDistrictSMD[i]["properties"]["vap_black"],
+        Hispanic: selectedDistrictSMD[i]["properties"]["vap_hisp"],
+      });
+      data_barchart_SMD2.push({
+        name: i + 1,
+        Democrats: 90000,
+        Republicans: 50000,
+      });
+    }
+    setData_barchart_SMD(data_barchart_SMD);
+    setData_barchart_SMD2(data_barchart_SMD2);
+    console.log(data_barchart_SMD2);
+    for (var i = 0; i < selectedDistrictMMD.length; i++) {
+      data_barchart_MMD.push({
+        name: i + 1,
+        White: selectedDistrictMMD[i]["properties"]["vap_white"],
+        Aisan: selectedDistrictMMD[i]["properties"]["vap_asian"],
+        Black: selectedDistrictMMD[i]["properties"]["vap_black"],
+        Hispanic: selectedDistrictMMD[i]["properties"]["vap_hisp"],
+      });
+      data_barchart_MMD2.push({
+        name: i + 1,
+        Democrats: 50000,
+        Republicans: 50000,
+      });
+    }
+    setData_barchart_MMD(data_barchart_MMD);
+    setData_barchart_MMD2(data_barchart_MMD2);
   }, [selectedState]);
 
   return (
@@ -707,18 +750,7 @@ function Analysis() {
                             <BarChart
                               width={500}
                               height={300}
-                              data={[
-                                {
-                                  name: "White",
-                                  White: selectedDistrictPop_SMD[1],
-                                },
-                                {
-                                  name: "Non-White",
-                                  Aisan: selectedDistrictPop_SMD[2],
-                                  Black: selectedDistrictPop_SMD[3],
-                                  Hispanic: selectedDistrictPop_SMD[4],
-                                },
-                              ]}
+                              data={data_barchart_SMD}
                               margin={{
                                 top: 20,
                                 right: 30,
@@ -731,6 +763,7 @@ function Analysis() {
                               <YAxis />
                               <Tooltip />
                               <Legend />
+                              <Bar dataKey="White" fill="#ffc658" />
                               <Bar dataKey="Asian" stackId="a" fill="#8884d8" />
                               <Bar dataKey="Black" stackId="a" fill="#82ca9d" />
                               <Bar
@@ -738,7 +771,6 @@ function Analysis() {
                                 stackId="a"
                                 fill="#f7a1b8"
                               />
-                              <Bar dataKey="White" stackId="a" fill="#ffc658" />
                             </BarChart>
                           </ResponsiveContainer>
                         </div>
@@ -749,18 +781,19 @@ function Analysis() {
                             <BarChart
                               width={500}
                               height={300}
-                              data={[
-                                {
-                                  name: "White",
-                                  White: selectedDistrictPop_MMD[1],
-                                },
-                                {
-                                  name: "Non-White",
-                                  Aisan: selectedDistrictPop_MMD[2],
-                                  Black: selectedDistrictPop_MMD[3],
-                                  Hispanic: selectedDistrictPop_MMD[4],
-                                },
-                              ]}
+                              data={
+                                data_barchart_MMD
+                                // {
+                                //   name: "White",
+                                //   White: selectedDistrictPop_MMD[1],
+                                // },
+                                // {
+                                //   name: "Non-White",
+                                //   Aisan: selectedDistrictPop_MMD[2],
+                                //   Black: selectedDistrictPop_MMD[3],
+                                //   Hispanic: selectedDistrictPop_MMD[4],
+                                // },
+                              }
                               margin={{
                                 top: 20,
                                 right: 30,
@@ -773,6 +806,7 @@ function Analysis() {
                               <YAxis />
                               <Tooltip />
                               <Legend />
+                              <Bar dataKey="White" fill="#ffc658" />
                               <Bar dataKey="Asian" stackId="a" fill="#8884d8" />
                               <Bar dataKey="Black" stackId="a" fill="#82ca9d" />
                               <Bar
@@ -780,7 +814,6 @@ function Analysis() {
                                 stackId="a"
                                 fill="#f7a1b8"
                               />
-                              <Bar dataKey="White" stackId="a" fill="#ffc658" />
                             </BarChart>
                           </ResponsiveContainer>
                         </div>
@@ -1001,18 +1034,7 @@ function Analysis() {
                         <BarChart
                           width={500}
                           height={300}
-                          data={[
-                            {
-                              name: "Democrats",
-                              // Democrats: selectedDistrictPop_MMD[5],
-                              Democrats: 90000,
-                            },
-                            {
-                              name: "Republicans",
-                              // Republicans: selectedDistrictPop_MMD[6],
-                              Republicans: 50000,
-                            },
-                          ]}
+                          data={data_barchart_SMD2}
                           margin={{
                             top: 20,
                             right: 30,
@@ -1025,8 +1047,8 @@ function Analysis() {
                           <YAxis />
                           <Tooltip />
                           <Legend />
-                          <Bar dataKey="Democrats" stackId="a" fill="blue" />
-                          <Bar dataKey="Republicans" stackId="a" fill="red" />
+                          <Bar dataKey="Democrats" fill="blue" />
+                          <Bar dataKey="Republicans" fill="red" />
                         </BarChart>
                       </ResponsiveContainer>
                     </div>
@@ -1035,18 +1057,7 @@ function Analysis() {
                         <BarChart
                           width={500}
                           height={300}
-                          data={[
-                            {
-                              name: "Democrats",
-                              // Democrats: selectedDistrictPop_MMD[5],
-                              Democrats: 50000,
-                            },
-                            {
-                              name: "Republicans",
-                              // Republicans: selectedDistrictPop_MMD[6],
-                              Republicans: 50000,
-                            },
-                          ]}
+                          data={data_barchart_MMD2}
                           margin={{
                             top: 20,
                             right: 30,
@@ -1059,8 +1070,8 @@ function Analysis() {
                           <YAxis />
                           <Tooltip />
                           <Legend />
-                          <Bar dataKey="Democrats" stackId="a" fill="blue" />
-                          <Bar dataKey="Republicans" stackId="a" fill="red" />
+                          <Bar dataKey="Democrats" fill="blue" />
+                          <Bar dataKey="Republicans" fill="red" />
                         </BarChart>
                       </ResponsiveContainer>
                     </div>
