@@ -159,7 +159,7 @@ const useBoxPlot = (boxPlots) => {
   return data;
 };
 
-function State() {
+function Analysis() {
   const { id: selectedState } = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
   const onPieEnter = (_, index) => {
@@ -539,7 +539,7 @@ function State() {
         <div className="body2" ref={analysisRef}>
           {!showPoliticalFairness && (
             <div className="analysis1">
-              <h2 className="text_subQuestion1_1">
+              {/* <h2 className="text_subQuestion1_1">
                 WILL FAIR REPRESENTATION ACT(FRA) for MMD
                 <span className="text_subQuestion2">
                   {" "}
@@ -571,7 +571,7 @@ function State() {
                     </g>
                   </svg>
                 </Button>
-              </h2>
+              </h2> */}
               {showInfo1 && (
                 <Alert
                   variant="dark"
@@ -586,7 +586,7 @@ function State() {
               <br />
               <br />
               <div className="tableContainer_analysis">
-                <Table striped bordered hover className="table_analysis">
+                {/* <Table striped bordered hover className="table_analysis">
                   <thead>
                     <tr>
                       <th className="table_0"></th>
@@ -597,371 +597,285 @@ function State() {
                   <tbody>
                     <tr>
                       <td className="table_0">District Map</td>
-                      <td>
-                        <Container>
-                          <MapContainer
-                            key={coordinate}
-                            center={coordinate}
-                            zoom={6.3}
-                            zoomControl={false}
-                            scrollWheelZoom={false}
-                            className="map_district"
-                          >
-                            <GeoJSON
-                              data={congDist.features}
-                              onEachFeature={(district, layer) =>
-                                onEachDistrict_SMD(
-                                  district,
-                                  layer,
-                                  congDist.features.indexOf(district)
-                                )
-                              }
-                            ></GeoJSON>
-                          </MapContainer>
-                        </Container>
-                      </td>
-                      <td>
-                        <Container>
-                          <MapContainer
-                            key={coordinate}
-                            center={coordinate}
-                            zoom={6.3}
-                            zoomControl={false}
-                            scrollWheelZoom={false}
-                            className="map_district"
-                          >
-                            <GeoJSON
-                              data={copyGeo.features}
-                              onEachFeature={(district, layer) =>
-                                onEachDistrict_MMD(
-                                  district,
-                                  layer,
-                                  copyGeo.features.indexOf(district)
-                                )
-                              }
-                            ></GeoJSON>
-                          </MapContainer>
-                        </Container>
-                      </td>
+                      <td> */}
+                <Container>
+                  <MapContainer
+                    key={coordinate}
+                    center={coordinate}
+                    zoom={6.3}
+                    zoomControl={false}
+                    scrollWheelZoom={false}
+                    className="map_district"
+                  >
+                    <GeoJSON
+                      data={congDist.features}
+                      onEachFeature={(district, layer) =>
+                        onEachDistrict_SMD(
+                          district,
+                          layer,
+                          congDist.features.indexOf(district)
+                        )
+                      }
+                    ></GeoJSON>
+                  </MapContainer>
+                </Container>
+                {/* </td>
+                      <td> */}
+                <Container>
+                  <MapContainer
+                    key={coordinate}
+                    center={coordinate}
+                    zoom={6.3}
+                    zoomControl={false}
+                    scrollWheelZoom={false}
+                    className="map_district"
+                  >
+                    <GeoJSON
+                      data={copyGeo.features}
+                      onEachFeature={(district, layer) =>
+                        onEachDistrict_MMD(
+                          district,
+                          layer,
+                          copyGeo.features.indexOf(district)
+                        )
+                      }
+                    ></GeoJSON>
+                  </MapContainer>
+                </Container>
+                {/* </td>
                     </tr>
-                    <tr>
-                      <td className="table_0">
-                        Population Chart
-                        <Form>
-                          <Form.Check
-                            type="switch"
-                            id="custom-switch"
-                            onChange={() => setOnPieChart(!onPieChart)}
-                          />
-                        </Form>
-                      </td>
-                      <td>
-                        <div style={{ width: "100%", height: 300 }}>
-                          <ResponsiveContainer width="100%" height="100%">
-                            {!onPieChart && (
-                              <BarChart
-                                width={500}
-                                height={300}
-                                data={[
-                                  {
-                                    name: "White",
-                                    White: selectedDistrictPop_SMD[1],
-                                  },
-                                  {
-                                    name: "Non-White",
-                                    Aisan: selectedDistrictPop_SMD[2],
-                                    Black: selectedDistrictPop_SMD[3],
-                                    Hispanic: selectedDistrictPop_SMD[4],
-                                  },
-                                ]}
-                                margin={{
-                                  top: 20,
-                                  right: 30,
-                                  left: 20,
-                                  bottom: 5,
-                                }}
-                              >
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="name" />
-                                <YAxis />
-                                <Tooltip />
-                                <Legend />
-                                <Bar
-                                  dataKey="Asian"
-                                  stackId="a"
-                                  fill="#8884d8"
-                                />
-                                <Bar
-                                  dataKey="Black"
-                                  stackId="a"
-                                  fill="#82ca9d"
-                                />
-                                <Bar
-                                  dataKey="Hispanic"
-                                  stackId="a"
-                                  fill="#f7a1b8"
-                                />
-                                <Bar
-                                  dataKey="White"
-                                  stackId="a"
-                                  fill="#ffc658"
-                                />
-                              </BarChart>
-                            )}
-                            {onPieChart && (
-                              <PieChart width={100} height={100}>
-                                <Pie
-                                  activeIndex={activeIndex}
-                                  activeShape={renderActiveShape}
-                                  data={[
-                                    {
-                                      name: "White",
-                                      value: selectedDistrictPop_SMD[1],
-                                    },
-                                    {
-                                      name: "Asian",
-                                      value: selectedDistrictPop_SMD[2],
-                                    },
-                                    {
-                                      name: "Black",
-                                      value: selectedDistrictPop_SMD[3],
-                                    },
-                                    {
-                                      name: "Hispanic",
-                                      value: selectedDistrictPop_SMD[4],
-                                    },
-                                  ].sort((a, b) => b.value - a.value)}
-                                  cx="50%"
-                                  cy="50%"
-                                  innerRadius={60}
-                                  outerRadius={80}
-                                  fill="#4b8fe2"
-                                  dataKey="value"
-                                  onMouseEnter={onPieEnter}
-                                />
-                              </PieChart>
-                            )}
-                          </ResponsiveContainer>
-                        </div>
-                      </td>
-                      <td>
-                        <div style={{ width: "100%", height: 300 }}>
-                          <ResponsiveContainer width="100%" height="100%">
-                            {!onPieChart && (
-                              <BarChart
-                                width={500}
-                                height={300}
-                                data={[
-                                  {
-                                    name: "White",
-                                    White: selectedDistrictPop_MMD[1],
-                                  },
-                                  {
-                                    name: "Non-White",
-                                    Aisan: selectedDistrictPop_MMD[2],
-                                    Black: selectedDistrictPop_MMD[3],
-                                    Hispanic: selectedDistrictPop_MMD[4],
-                                  },
-                                ]}
-                                margin={{
-                                  top: 20,
-                                  right: 30,
-                                  left: 20,
-                                  bottom: 5,
-                                }}
-                              >
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <XAxis dataKey="name" />
-                                <YAxis />
-                                <Tooltip />
-                                <Legend />
-                                <Bar
-                                  dataKey="Asian"
-                                  stackId="a"
-                                  fill="#8884d8"
-                                />
-                                <Bar
-                                  dataKey="Black"
-                                  stackId="a"
-                                  fill="#82ca9d"
-                                />
-                                <Bar
-                                  dataKey="Hispanic"
-                                  stackId="a"
-                                  fill="#f7a1b8"
-                                />
-                                <Bar
-                                  dataKey="White"
-                                  stackId="a"
-                                  fill="#ffc658"
-                                />
-                              </BarChart>
-                            )}
-                            {onPieChart && (
-                              <PieChart width={100} height={100}>
-                                <Pie
-                                  activeIndex={activeIndex}
-                                  activeShape={renderActiveShape}
-                                  data={[
-                                    {
-                                      name: "White",
-                                      value: selectedDistrictPop_MMD[1],
-                                    },
-                                    {
-                                      name: "Asian",
-                                      value: selectedDistrictPop_MMD[2],
-                                    },
-                                    {
-                                      name: "Black",
-                                      value: selectedDistrictPop_MMD[3],
-                                    },
-                                    {
-                                      name: "Hispanic",
-                                      value: selectedDistrictPop_MMD[4],
-                                    },
-                                  ].sort((a, b) => b.value - a.value)}
-                                  cx="50%"
-                                  cy="50%"
-                                  innerRadius={60}
-                                  outerRadius={80}
-                                  fill="#4b8fe2"
-                                  dataKey="value"
-                                  onMouseEnter={onPieEnter}
-                                />
-                              </PieChart>
-                            )}
-                          </ResponsiveContainer>
-                        </div>
-                      </td>
+                    <tr> */}
+                {/* <td className="table_0">
+                        Population Chart */}
+                <Form>
+                  <Form.Check
+                    type="switch"
+                    id="custom-switch"
+                    onChange={() => setOnPieChart(!onPieChart)}
+                  />
+                </Form>
+                {/* </td>
+                      <td> */}
+                <div style={{ width: "100%", height: 300 }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    {!onPieChart && (
+                      <BarChart
+                        width={500}
+                        height={300}
+                        data={[
+                          {
+                            name: "White",
+                            White: selectedDistrictPop_SMD[1],
+                          },
+                          {
+                            name: "Non-White",
+                            Aisan: selectedDistrictPop_SMD[2],
+                            Black: selectedDistrictPop_SMD[3],
+                            Hispanic: selectedDistrictPop_SMD[4],
+                          },
+                        ]}
+                        margin={{
+                          top: 20,
+                          right: 30,
+                          left: 20,
+                          bottom: 5,
+                        }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="Asian" stackId="a" fill="#8884d8" />
+                        <Bar dataKey="Black" stackId="a" fill="#82ca9d" />
+                        <Bar dataKey="Hispanic" stackId="a" fill="#f7a1b8" />
+                        <Bar dataKey="White" stackId="a" fill="#ffc658" />
+                      </BarChart>
+                    )}
+                    {onPieChart && (
+                      <PieChart width={100} height={100}>
+                        <Pie
+                          activeIndex={activeIndex}
+                          activeShape={renderActiveShape}
+                          data={[
+                            {
+                              name: "White",
+                              value: selectedDistrictPop_SMD[1],
+                            },
+                            {
+                              name: "Asian",
+                              value: selectedDistrictPop_SMD[2],
+                            },
+                            {
+                              name: "Black",
+                              value: selectedDistrictPop_SMD[3],
+                            },
+                            {
+                              name: "Hispanic",
+                              value: selectedDistrictPop_SMD[4],
+                            },
+                          ].sort((a, b) => b.value - a.value)}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={60}
+                          outerRadius={80}
+                          fill="#4b8fe2"
+                          dataKey="value"
+                          onMouseEnter={onPieEnter}
+                        />
+                      </PieChart>
+                    )}
+                  </ResponsiveContainer>
+                </div>
+                {/* </td>
+                      <td> */}
+                <div style={{ width: "100%", height: 300 }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    {!onPieChart && (
+                      <BarChart
+                        width={500}
+                        height={300}
+                        data={[
+                          {
+                            name: "White",
+                            White: selectedDistrictPop_MMD[1],
+                          },
+                          {
+                            name: "Non-White",
+                            Aisan: selectedDistrictPop_MMD[2],
+                            Black: selectedDistrictPop_MMD[3],
+                            Hispanic: selectedDistrictPop_MMD[4],
+                          },
+                        ]}
+                        margin={{
+                          top: 20,
+                          right: 30,
+                          left: 20,
+                          bottom: 5,
+                        }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="name" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend />
+                        <Bar dataKey="Asian" stackId="a" fill="#8884d8" />
+                        <Bar dataKey="Black" stackId="a" fill="#82ca9d" />
+                        <Bar dataKey="Hispanic" stackId="a" fill="#f7a1b8" />
+                        <Bar dataKey="White" stackId="a" fill="#ffc658" />
+                      </BarChart>
+                    )}
+                    {onPieChart && (
+                      <PieChart width={100} height={100}>
+                        <Pie
+                          activeIndex={activeIndex}
+                          activeShape={renderActiveShape}
+                          data={[
+                            {
+                              name: "White",
+                              value: selectedDistrictPop_MMD[1],
+                            },
+                            {
+                              name: "Asian",
+                              value: selectedDistrictPop_MMD[2],
+                            },
+                            {
+                              name: "Black",
+                              value: selectedDistrictPop_MMD[3],
+                            },
+                            {
+                              name: "Hispanic",
+                              value: selectedDistrictPop_MMD[4],
+                            },
+                          ].sort((a, b) => b.value - a.value)}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={60}
+                          outerRadius={80}
+                          fill="#4b8fe2"
+                          dataKey="value"
+                          onMouseEnter={onPieEnter}
+                        />
+                      </PieChart>
+                    )}
+                  </ResponsiveContainer>
+                </div>
+                {/* </td>
                     </tr>
                     <tr>
                       <td className="table_0">Box & Whisker Plot</td>
-                      <td>
-                        <ResponsiveContainer minHeight={300}>
-                          <ComposedChart data={data_boxPlot[0]}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <Bar stackId={"a"} dataKey={"min"} fill={"none"} />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bottomWhisker"}
-                              shape={<DotBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bottomBox"}
-                              fill={"#8884d8"}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"topBox"}
-                              fill={"#8884d8"}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"topWhisker"}
-                              shape={<DotBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <ZAxis
-                              type="number"
-                              dataKey="size"
-                              range={[0, 250]}
-                            />
-                            {/* 
+                      <td> */}
+                <ResponsiveContainer minHeight={300}>
+                  <ComposedChart data={data_boxPlot[0]}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <Bar stackId={"a"} dataKey={"min"} fill={"none"} />
+                    <Bar stackId={"a"} dataKey={"bar"} shape={<HorizonBar />} />
+                    <Bar
+                      stackId={"a"}
+                      dataKey={"bottomWhisker"}
+                      shape={<DotBar />}
+                    />
+                    <Bar stackId={"a"} dataKey={"bottomBox"} fill={"#8884d8"} />
+                    <Bar stackId={"a"} dataKey={"bar"} shape={<HorizonBar />} />
+                    <Bar stackId={"a"} dataKey={"topBox"} fill={"#8884d8"} />
+                    <Bar
+                      stackId={"a"}
+                      dataKey={"topWhisker"}
+                      shape={<DotBar />}
+                    />
+                    <Bar stackId={"a"} dataKey={"bar"} shape={<HorizonBar />} />
+                    <ZAxis type="number" dataKey="size" range={[0, 250]} />
+                    {/* 
                                 <Scatter
                                   dataKey="average"
                                   fill={"red"}
                                   stroke={"#FFF"}
                                 /> */}
-                            <XAxis dataKey="name" />
-                            <YAxis
-                              domain={[0, 1]}
-                              tickFormatter={formatYAxisTick}
-                            />
-                          </ComposedChart>
-                        </ResponsiveContainer>
-                      </td>
-                      <td>
-                        <ResponsiveContainer minHeight={300}>
-                          <ComposedChart data={data_boxPlot[1]}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <Bar stackId={"a"} dataKey={"min"} fill={"none"} />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bottomWhisker"}
-                              shape={<DotBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bottomBox"}
-                              fill={"#8884d8"}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"topBox"}
-                              fill={"#8884d8"}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"topWhisker"}
-                              shape={<DotBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <ZAxis
-                              type="number"
-                              dataKey="size"
-                              range={[0, 250]}
-                            />
-                            {/* <Scatter
+                    <XAxis dataKey="name" />
+                    <YAxis domain={[0, 1]} tickFormatter={formatYAxisTick} />
+                  </ComposedChart>
+                </ResponsiveContainer>
+                {/* </td>
+                      <td> */}
+                <ResponsiveContainer minHeight={300}>
+                  <ComposedChart data={data_boxPlot[1]}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <Bar stackId={"a"} dataKey={"min"} fill={"none"} />
+                    <Bar stackId={"a"} dataKey={"bar"} shape={<HorizonBar />} />
+                    <Bar
+                      stackId={"a"}
+                      dataKey={"bottomWhisker"}
+                      shape={<DotBar />}
+                    />
+                    <Bar stackId={"a"} dataKey={"bottomBox"} fill={"#8884d8"} />
+                    <Bar stackId={"a"} dataKey={"bar"} shape={<HorizonBar />} />
+                    <Bar stackId={"a"} dataKey={"topBox"} fill={"#8884d8"} />
+                    <Bar
+                      stackId={"a"}
+                      dataKey={"topWhisker"}
+                      shape={<DotBar />}
+                    />
+                    <Bar stackId={"a"} dataKey={"bar"} shape={<HorizonBar />} />
+                    <ZAxis type="number" dataKey="size" range={[0, 250]} />
+                    {/* <Scatter
                                   dataKey="average"
                                   fill={"red"}
                                   stroke={"#FFF"}
                                 /> */}
-                            <XAxis dataKey="name" />
-                            <YAxis
-                              domain={[0, 1]}
-                              tickFormatter={formatYAxisTick}
-                            />
-                          </ComposedChart>
-                        </ResponsiveContainer>
-                      </td>
+                    <XAxis dataKey="name" />
+                    <YAxis domain={[0, 1]} tickFormatter={formatYAxisTick} />
+                  </ComposedChart>
+                </ResponsiveContainer>
+                {/* </td>
                     </tr>
                   </tbody>
-                </Table>
+                </Table> */}
               </div>
             </div>
           )}
           {showPoliticalFairness && (
             <div className="analysis2">
-              <h2 className="text_subQuestion1_1">
+              {/* <h2 className="text_subQuestion1_1">
                 WILL FAIR REPRESENTATION ACT(FRA) for MMD
                 <span className="text_subQuestion2">
                   {" "}
@@ -994,7 +908,7 @@ function State() {
                     </g>
                   </svg>
                 </Button>
-              </h2>
+              </h2> */}
               {showInfo2 && (
                 <Alert
                   variant="dark"
@@ -1009,7 +923,7 @@ function State() {
               <br />
               <br />
               <div className="tableContainer_analysis">
-                <Table striped bordered hover className="table_analysis">
+                {/* <Table striped bordered hover className="table_analysis">
                   <thead>
                     <tr>
                       <th className="table_0"></th>
@@ -1020,239 +934,214 @@ function State() {
                   <tbody>
                     <tr>
                       <td className="table_0">District Map</td>
-                      <td>
-                        <Container>
-                          <MapContainer
-                            key={coordinate}
-                            center={coordinate}
-                            zoom={6.3}
-                            zoomControl={false}
-                            scrollWheelZoom={false}
-                            className="map_district"
-                          >
-                            <GeoJSON
-                              data={congDist.features}
-                              onEachFeature={(district, layer) =>
-                                onEachDistrict_SMD(
-                                  district,
-                                  layer,
-                                  congDist.features.indexOf(district)
-                                )
-                              }
-                            ></GeoJSON>
-                          </MapContainer>
-                        </Container>
-                      </td>
-                      <td>
-                        <Container>
-                          <MapContainer
-                            key={coordinate}
-                            center={coordinate}
-                            zoom={6.3}
-                            zoomControl={false}
-                            scrollWheelZoom={false}
-                            className="map_district"
-                          >
-                            <GeoJSON
-                              data={copyGeo.features}
-                              onEachFeature={(district, layer) =>
-                                onEachDistrict_MMD(
-                                  district,
-                                  layer,
-                                  copyGeo.features.indexOf(district)
-                                )
-                              }
-                            ></GeoJSON>
-                          </MapContainer>
-                        </Container>
-                      </td>
+                      <td> */}
+                <Container>
+                  <MapContainer
+                    key={coordinate}
+                    center={coordinate}
+                    zoom={6.3}
+                    zoomControl={false}
+                    scrollWheelZoom={false}
+                    className="map_district"
+                  >
+                    <GeoJSON
+                      data={congDist.features}
+                      onEachFeature={(district, layer) =>
+                        onEachDistrict_SMD(
+                          district,
+                          layer,
+                          congDist.features.indexOf(district)
+                        )
+                      }
+                    ></GeoJSON>
+                  </MapContainer>
+                </Container>
+                {/* </td>
+                      <td> */}
+                <Container>
+                  <MapContainer
+                    key={coordinate}
+                    center={coordinate}
+                    zoom={6.3}
+                    zoomControl={false}
+                    scrollWheelZoom={false}
+                    className="map_district"
+                  >
+                    <GeoJSON
+                      data={copyGeo.features}
+                      onEachFeature={(district, layer) =>
+                        onEachDistrict_MMD(
+                          district,
+                          layer,
+                          copyGeo.features.indexOf(district)
+                        )
+                      }
+                    ></GeoJSON>
+                  </MapContainer>
+                </Container>
+                {/* </td>
                     </tr>
                     <tr>
                       <td className="table_0">Bar Chart</td>
-                      <td>
-                        <div style={{ width: "100%", height: 300 }}>
-                          <ResponsiveContainer width="100%" height="100%">
-                            <BarChart
-                              width={500}
-                              height={300}
-                              data={[
-                                {
-                                  name: "Democrats",
-                                  // Democrats: selectedDistrictPop_MMD[5],
-                                  Democrats: 90000,
-                                },
-                                {
-                                  name: "Republicans",
-                                  // Republicans: selectedDistrictPop_MMD[6],
-                                  Republicans: 50000,
-                                },
-                              ]}
-                              margin={{
-                                top: 20,
-                                right: 30,
-                                left: 20,
-                                bottom: 5,
-                              }}
-                            >
-                              <CartesianGrid strokeDasharray="3 3" />
-                              <XAxis dataKey="name" />
-                              <YAxis />
-                              <Tooltip />
-                              <Legend />
-                              <Bar
-                                dataKey="Democrats"
-                                stackId="a"
-                                fill="blue"
-                              />
-                              <Bar
-                                dataKey="Republicans"
-                                stackId="a"
-                                fill="red"
-                              />
-                            </BarChart>
-                          </ResponsiveContainer>
-                        </div>
-                      </td>
-                      <td>
-                        <div style={{ width: "100%", height: 300 }}>
-                          <ResponsiveContainer width="100%" height="100%">
-                            <BarChart
-                              width={500}
-                              height={300}
-                              data={[
-                                {
-                                  name: "Democrats",
-                                  // Democrats: selectedDistrictPop_MMD[5],
-                                  Democrats: 50000,
-                                },
-                                {
-                                  name: "Republicans",
-                                  // Republicans: selectedDistrictPop_MMD[6],
-                                  Republicans: 50000,
-                                },
-                              ]}
-                              margin={{
-                                top: 20,
-                                right: 30,
-                                left: 20,
-                                bottom: 5,
-                              }}
-                            >
-                              <CartesianGrid strokeDasharray="3 3" />
-                              <XAxis dataKey="name" />
-                              <YAxis />
-                              <Tooltip />
-                              <Legend />
-                              <Bar
-                                dataKey="Democrats"
-                                stackId="a"
-                                fill="blue"
-                              />
-                              <Bar
-                                dataKey="Republicans"
-                                stackId="a"
-                                fill="red"
-                              />
-                            </BarChart>
-                          </ResponsiveContainer>
-                        </div>
-                      </td>
+                      <td> */}
+                <div style={{ width: "100%", height: 300 }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      width={500}
+                      height={300}
+                      data={[
+                        {
+                          name: "Democrats",
+                          // Democrats: selectedDistrictPop_MMD[5],
+                          Democrats: 90000,
+                        },
+                        {
+                          name: "Republicans",
+                          // Republicans: selectedDistrictPop_MMD[6],
+                          Republicans: 50000,
+                        },
+                      ]}
+                      margin={{
+                        top: 20,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                      }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="Democrats" stackId="a" fill="blue" />
+                      <Bar dataKey="Republicans" stackId="a" fill="red" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+                {/* </td>
+                      <td> */}
+                <div style={{ width: "100%", height: 300 }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      width={500}
+                      height={300}
+                      data={[
+                        {
+                          name: "Democrats",
+                          // Democrats: selectedDistrictPop_MMD[5],
+                          Democrats: 50000,
+                        },
+                        {
+                          name: "Republicans",
+                          // Republicans: selectedDistrictPop_MMD[6],
+                          Republicans: 50000,
+                        },
+                      ]}
+                      margin={{
+                        top: 20,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                      }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="Democrats" stackId="a" fill="blue" />
+                      <Bar dataKey="Republicans" stackId="a" fill="red" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+                {/* </td>
                     </tr>
                     <tr>
                       <td className="table_0">Seat vs. Vote Symmetry</td>
-                      <td>
-                        <div style={{ width: "100%", height: 300 }}>
-                          <ResponsiveContainer width="100%" height="100%">
-                            <LineChart
-                              data={data_curve1}
-                              margin={{
-                                top: 5,
-                                right: 30,
-                                left: 20,
-                                bottom: 5,
-                              }}
-                            >
-                              <CartesianGrid strokeDasharray="3 3" />
-                              <XAxis
-                                domain={[0, 1]}
-                                tickFormatter={(tick) => {
-                                  return `${(
-                                    (tick * 100) /
-                                    (data_curve1.length - 1)
-                                  ).toFixed(0)}%`;
-                                }}
-                              />
-                              <YAxis
-                                domain={[0, 1]}
-                                tickFormatter={formatYAxisTick}
-                              />
-                              <Tooltip />
-                              <Legend />
-                              <Line
-                                type="monotone"
-                                dataKey="Democrats"
-                                stroke="blue"
-                                activeDot={{ r: 8 }}
-                              />
-                              <Line
-                                type="monotone"
-                                dataKey="Republicans"
-                                stroke="red"
-                              />
-                            </LineChart>
-                          </ResponsiveContainer>
-                        </div>
-                      </td>
-                      <td>
-                        <div style={{ width: "100%", height: 300 }}>
-                          <ResponsiveContainer width="100%" height="100%">
-                            <LineChart
-                              data={[
-                                {
-                                  Republicans: 0,
-                                  Democrats: 0,
-                                },
-                                {
-                                  Republicans: 1,
-                                  Democrats: 1,
-                                },
-                              ]}
-                              margin={{
-                                top: 5,
-                                right: 30,
-                                left: 20,
-                                bottom: 5,
-                              }}
-                            >
-                              <CartesianGrid strokeDasharray="3 3" />
-                              <XAxis
-                                domain={[0, 1]}
-                                tickFormatter={formatXAxisTick}
-                              />
-                              <YAxis
-                                domain={[0, 1]}
-                                tickFormatter={formatYAxisTick}
-                              />
-                              <Tooltip />
-                              <Legend />
-                              <Line
-                                type="monotone"
-                                dataKey="Democrats"
-                                stroke="blue"
-                                activeDot={{ r: 8 }}
-                              />
-                              <Line
-                                type="monotone"
-                                dataKey="Republicans"
-                                stroke="red"
-                              />
-                            </LineChart>
-                          </ResponsiveContainer>
-                        </div>
-                      </td>
+                      <td> */}
+                <div style={{ width: "100%", height: 300 }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart
+                      data={data_curve1}
+                      margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                      }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis
+                        domain={[0, 1]}
+                        tickFormatter={(tick) => {
+                          return `${(
+                            (tick * 100) /
+                            (data_curve1.length - 1)
+                          ).toFixed(0)}%`;
+                        }}
+                      />
+                      <YAxis domain={[0, 1]} tickFormatter={formatYAxisTick} />
+                      <Tooltip />
+                      <Legend />
+                      <Line
+                        type="monotone"
+                        dataKey="Democrats"
+                        stroke="blue"
+                        activeDot={{ r: 8 }}
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="Republicans"
+                        stroke="red"
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+                {/* </td>
+                      <td> */}
+                <div style={{ width: "100%", height: 300 }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart
+                      data={[
+                        {
+                          Republicans: 0,
+                          Democrats: 0,
+                        },
+                        {
+                          Republicans: 1,
+                          Democrats: 1,
+                        },
+                      ]}
+                      margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5,
+                      }}
+                    >
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis domain={[0, 1]} tickFormatter={formatXAxisTick} />
+                      <YAxis domain={[0, 1]} tickFormatter={formatYAxisTick} />
+                      <Tooltip />
+                      <Legend />
+                      <Line
+                        type="monotone"
+                        dataKey="Democrats"
+                        stroke="blue"
+                        activeDot={{ r: 8 }}
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="Republicans"
+                        stroke="red"
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+                {/* </td>
                     </tr>
                   </tbody>
-                </Table>
+                </Table> */}
               </div>
             </div>
           )}
@@ -1262,4 +1151,4 @@ function State() {
   );
 }
 
-export default State;
+export default Analysis;
