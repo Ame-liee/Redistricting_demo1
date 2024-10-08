@@ -33,6 +33,7 @@ import {
   Alert,
   Table,
   Form,
+  Row,
 } from "react-bootstrap";
 const boxPlots1 = [
   {
@@ -160,6 +161,7 @@ const useBoxPlot = (boxPlots) => {
 };
 
 function Analysis() {
+  const [onMMD, setOnMMD] = useState(false);
   const { id: selectedState } = useParams();
   const [activeIndex, setActiveIndex] = useState(0);
   const onPieEnter = (_, index) => {
@@ -537,6 +539,69 @@ function Analysis() {
           </Nav.Item>
         </Nav>
         <div className="body2" ref={analysisRef}>
+          <Row className="districtMap">
+            <Form>
+              <Form.Check
+                type="switch"
+                id="custom-switch"
+                onChange={() => setOnMMD(!onMMD)}
+              />
+            </Form>
+
+            {!onMMD && (
+              <Container>
+                <MapContainer
+                  key={coordinate}
+                  center={coordinate}
+                  zoom={6.3}
+                  zoomControl={false}
+                  scrollWheelZoom={false}
+                  className="map_district"
+                >
+                  <GeoJSON
+                    data={congDist.features}
+                    onEachFeature={(district, layer) => {
+                      onEachDistrict_SMD(
+                        district,
+                        layer,
+                        congDist.features.indexOf(district)
+                      );
+                    }}
+                  />
+                </MapContainer>
+              </Container>
+            )}
+
+            {/* </MapContainer> */}
+
+            {/* </Container> */}
+            {/* </td>
+                      <td> */}
+            {/* <Container> */}
+            {onMMD && (
+              <Container>
+                <MapContainer
+                  key={coordinate}
+                  center={coordinate}
+                  zoom={6.3}
+                  zoomControl={false}
+                  scrollWheelZoom={false}
+                  className="map_district"
+                >
+                  <GeoJSON
+                    data={copyGeo.features}
+                    onEachFeature={(district, layer) =>
+                      onEachDistrict_MMD(
+                        district,
+                        layer,
+                        copyGeo.features.indexOf(district)
+                      )
+                    }
+                  />
+                </MapContainer>
+              </Container>
+            )}
+          </Row>
           {!showPoliticalFairness && (
             <div className="analysis1">
               {/* <h2 className="text_subQuestion1_1">
@@ -598,50 +663,7 @@ function Analysis() {
                     <tr>
                       <td className="table_0">District Map</td>
                       <td> */}
-                <Container>
-                  <MapContainer
-                    key={coordinate}
-                    center={coordinate}
-                    zoom={6.3}
-                    zoomControl={false}
-                    scrollWheelZoom={false}
-                    className="map_district"
-                  >
-                    <GeoJSON
-                      data={congDist.features}
-                      onEachFeature={(district, layer) =>
-                        onEachDistrict_SMD(
-                          district,
-                          layer,
-                          congDist.features.indexOf(district)
-                        )
-                      }
-                    ></GeoJSON>
-                  </MapContainer>
-                </Container>
-                {/* </td>
-                      <td> */}
-                <Container>
-                  <MapContainer
-                    key={coordinate}
-                    center={coordinate}
-                    zoom={6.3}
-                    zoomControl={false}
-                    scrollWheelZoom={false}
-                    className="map_district"
-                  >
-                    <GeoJSON
-                      data={copyGeo.features}
-                      onEachFeature={(district, layer) =>
-                        onEachDistrict_MMD(
-                          district,
-                          layer,
-                          copyGeo.features.indexOf(district)
-                        )
-                      }
-                    ></GeoJSON>
-                  </MapContainer>
-                </Container>
+
                 {/* </td>
                     </tr>
                     <tr> */}
@@ -935,7 +957,7 @@ function Analysis() {
                     <tr>
                       <td className="table_0">District Map</td>
                       <td> */}
-                <Container>
+                {/* <Container>
                   <MapContainer
                     key={coordinate}
                     center={coordinate}
@@ -955,10 +977,10 @@ function Analysis() {
                       }
                     ></GeoJSON>
                   </MapContainer>
-                </Container>
+                </Container> */}
                 {/* </td>
                       <td> */}
-                <Container>
+                {/* <Container>
                   <MapContainer
                     key={coordinate}
                     center={coordinate}
@@ -978,7 +1000,7 @@ function Analysis() {
                       }
                     ></GeoJSON>
                   </MapContainer>
-                </Container>
+                </Container> */}
                 {/* </td>
                     </tr>
                     <tr>

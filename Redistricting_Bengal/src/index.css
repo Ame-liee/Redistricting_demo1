@@ -281,9 +281,10 @@ h1 span {
 
 .navbar_fairness {
     /* margin-top: 10%; */
-    padding-left: 5%;
+    /* padding-left: 5%; */
     justify-content: rights;
     background-color: rgb(40, 38, 38);
+    float: right;
 }
 
 .navbar_race {
