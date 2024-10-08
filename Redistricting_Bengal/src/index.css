@@ -147,6 +147,15 @@ h1 span {
     vertical-align: text-top;
     filter: invert(100%);
 }
+.text_selectedState_Analysis {
+    color: rgb(236, 31, 12);
+    font-size: 50px;
+    font-family: Gill Sans, sans-serif;
+    font-weight: bold;
+    white-space: nowrap;
+    text-align: center;
+}
+
 
 /* big screen */
 @media screen and (min-width:1250px) {

@@ -518,15 +518,30 @@ function Analysis() {
             <Row>
               <Col>
                 <Row>
+                  <h1 className="text_selectedState_Analysis">
+                    {selectedState.toUpperCase()}
+                  </h1>
+                </Row>
+                <Row>
+                  <Table striped bordered hover>
+                    <thead>
+                      <tr>
+                        <td className="table_0">Population</td>
+                        <td></td>
+                        <td className="table_0">Voting Population</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td className="table_0">Representative Seats</td>
+                        <td></td>
+                        <td className="table_0">Representative Party</td>
+                        <td></td>
+                      </tr>
+                    </thead>
+                  </Table>
+                </Row>
+                <Row>
                   <div className="districtMap">
-                    <Form>
-                      <Form.Check
-                        type="switch"
-                        id="custom-switch"
-                        onChange={() => setOnMMD(!onMMD)}
-                      />
-                    </Form>
-
                     {!onMMD && (
                       <div className="mapContainer">
                         <MapContainer
@@ -580,6 +595,13 @@ function Analysis() {
                         </MapContainer>
                       </Container>
                     )}
+                    <Form>
+                      <Form.Check
+                        type="switch"
+                        id="custom-switch"
+                        onChange={() => setOnMMD(!onMMD)}
+                      />
+                    </Form>
                   </div>
                 </Row>
               </Col>
