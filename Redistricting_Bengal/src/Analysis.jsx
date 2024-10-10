@@ -163,6 +163,8 @@ function Analysis() {
   let data_barchart_MMD_minority = [];
   let data_barchart_MMD_party = [];
   let data_barchart_SMD_party = [];
+  // let stateInfo = [0, 0, null, null];
+  const [stateInfo, setStateInfo] = useState([0, 0, 0]);
   const [onMMD, setOnMMD] = useState(false);
 
   useEffect(() => {
@@ -174,18 +176,26 @@ function Analysis() {
     } else {
       value = "/pa/all/districts";
     }
-    const fetchUsers = async () => {
+    const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:8080${value}`);
         setGeoJson(response.data[0]);
         setJsonSMD(response.data[0].features);
         setMapKey(mapKey + 1);
+        setStateInfo([0, 0, 0]);
+        for (let i of response.data[0].features) {
+          setStateInfo((prevInfo) => [
+            prevInfo[0] + i["properties"]["c_TOT20"],
+            prevInfo[1] + i["properties"]["tot_VOTE"],
+            prevInfo[2] + 1,
+          ]);
+        }
         console.log("Connected!");
       } catch (error) {
-        console.error("Error fetching users:", error);
+        console.error("Error fetching data:", error);
       }
     };
-    fetchUsers();
+    fetchData();
   }, [selectedState]);
   const coordinate = useMemo(() => {
     if (selectedState === "Alabama") {
@@ -402,14 +412,15 @@ function Analysis() {
                     <thead>
                       <tr>
                         <td className="table_0">Population</td>
-                        <td></td>
+                        <td>{stateInfo[0]}</td>
                         <td className="table_0">Voting Population</td>
-                        <td></td>
+                        <td>{stateInfo[1]}</td>
                       </tr>
                       <tr>
                         <td className="table_0">Representative Seats</td>
-                        <td></td>
-                        <td className="table_0">Representative Party</td>
+                        <td>{stateInfo[2]}</td>
+                        {/* <td className="table_0">Representative Party</td> */}
+                        <td className="table_0"></td>
                         <td></td>
                       </tr>
                     </thead>
