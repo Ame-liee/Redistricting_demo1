@@ -164,24 +164,28 @@ function Analysis() {
   let data_barchart_MMD_party = [];
   let data_barchart_SMD_party = [];
   const [onMMD, setOnMMD] = useState(false);
-  const fetchUsers = async (value) => {
-    try {
-      const response = await axios.get(`http://localhost:8080${value}`);
-      setGeoJson(response.data[0]);
-      setJsonSMD(response.data[0].features);
-      console.log("Connected!");
-    } catch (error) {
-      console.error("Error fetching users:", error);
-    }
-  };
+  const [{}, setCoordinate] = useState([0, 0]);
+
   useEffect(() => {
+    let value = "";
     if (selectedState == "Mississippi") {
-      fetchUsers("/ms/all/districts");
+      value = "/ms/all/districts";
     } else if (selectedState == "Alabama") {
-      fetchUsers("/al/all/districts");
+      value = "/al/all/districts";
     } else {
-      fetchUsers("/pa/all/districts");
+      value = "/pa/all/districts";
     }
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080${value}`);
+        setGeoJson(response.data[0]);
+        setJsonSMD(response.data[0].features);
+        console.log("Connected!");
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
+    fetchUsers();
   }, [selectedState]);
   if (selectedState === "Alabama") {
     coordinate = [32.8067, -86.7911];
@@ -414,7 +418,7 @@ function Analysis() {
                     {!onMMD && (
                       <div className="mapContainer">
                         <MapContainer
-                          key={coordinate}
+                          // key={coordinate}
                           center={coordinate}
                           zoom={6.5}
                           zoomControl={false}
@@ -435,7 +439,7 @@ function Analysis() {
                       </div>
                     )}
                     {onMMD && (
-                      <Container>
+                      <div className="mapContainer">
                         <MapContainer
                           key={coordinate}
                           center={coordinate}
@@ -455,7 +459,7 @@ function Analysis() {
                             }
                           />
                         </MapContainer>
-                      </Container>
+                      </div>
                     )}
                     <Form>
                       <Form.Check
