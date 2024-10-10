@@ -80,7 +80,6 @@ const boxPlots2 = [
     average: 0.45,
   },
 ];
-
 const data_curve1 = [
   {
     Republicans: 0,
@@ -103,11 +102,9 @@ const data_curve1 = [
 // Horizontal Line
 const HorizonBar = (props) => {
   const { x, y, width, height } = props;
-
   if (x == null || y == null || width == null || height == null) {
     return null;
   }
-
   return (
     <line x1={x} y1={y} x2={x + width} y2={y} stroke={"#000"} strokeWidth={3} />
   );
@@ -120,7 +117,6 @@ const DotBar = (props) => {
   if (x == null || y == null || width == null || height == null) {
     return null;
   }
-
   return (
     <line
       x1={x + width / 2}
@@ -152,29 +148,27 @@ const useBoxPlot = (boxPlots) => {
       }),
     [boxPlots]
   );
-
   return data;
 };
 function Analysis() {
   const [geoJson, setGeoJson] = useState(congDist);
   const { id: selectedState } = useParams();
-  const [selectedDistrictSMD, setSelectedDistrictSMD] = useState(
-    geoJson.features
-  );
-  const selectedDistrictMMD = copyGeo.features;
-  const [showInfo1, setShowInfo1] = useState(false);
+  const [jsonSMD, setJsonSMD] = useState(geoJson.features);
+  const jsonMMD = copyGeo.features;
+  // const [showInfo, setShowInfo] = useState(false);
   const [showGraph, setShowGraph] = useState("A");
   let coordinate = [0, 0];
   const data_boxPlot = [useBoxPlot(boxPlots1), useBoxPlot(boxPlots2)];
-  let data_barchart_SMD = [];
-  let data_barchart_MMD = [];
-  let data_barchart_MMD2 = [];
-  let data_barchart_SMD2 = [];
+  let data_barchart_SMD_minority = [];
+  let data_barchart_MMD_minority = [];
+  let data_barchart_MMD_party = [];
+  let data_barchart_SMD_party = [];
+  const [onMMD, setOnMMD] = useState(false);
   const fetchUsers = async (value) => {
     try {
       const response = await axios.get(`http://localhost:8080${value}`);
       setGeoJson(response.data[0]);
-      setSelectedDistrictSMD(response.data[0].features);
+      setJsonSMD(response.data[0].features);
       console.log("Connected!");
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -189,7 +183,6 @@ function Analysis() {
       fetchUsers("/pa/all/districts");
     }
   }, [selectedState]);
-
   if (selectedState === "Alabama") {
     coordinate = [32.8067, -86.7911];
   } else if (selectedState === "Mississippi") {
@@ -197,49 +190,46 @@ function Analysis() {
   } else {
     coordinate = [40.8781, -77.7996];
   }
-  for (var i = 0; i < selectedDistrictSMD.length; i++) {
-    data_barchart_SMD.push({
+  for (var i = 0; i < jsonSMD.length; i++) {
+    data_barchart_SMD_minority.push({
       name: i + 1,
-      White: selectedDistrictSMD[i]["properties"]["c_WHT20"],
-      Aisan: selectedDistrictSMD[i]["properties"]["c_ASN20"],
-      Black: selectedDistrictSMD[i]["properties"]["c_BLK20"],
-      Hispanic: selectedDistrictSMD[i]["properties"]["c_HSP20"],
+      White: jsonSMD[i]["properties"]["c_WHT20"],
+      Aisan: jsonSMD[i]["properties"]["c_ASN20"],
+      Black: jsonSMD[i]["properties"]["c_BLK20"],
+      Hispanic: jsonSMD[i]["properties"]["c_HSP20"],
     });
-    data_barchart_SMD2.push({
+    data_barchart_SMD_party.push({
       name: i + 1,
       Democrats: 90000,
       Republicans: 50000,
     });
   }
-  for (var i = 0; i < selectedDistrictMMD.length; i++) {
-    data_barchart_MMD.push({
+  for (var i = 0; i < jsonMMD.length; i++) {
+    data_barchart_MMD_minority.push({
       name: i + 1,
-      White: selectedDistrictMMD[i]["properties"]["vap_white"],
-      Aisan: selectedDistrictMMD[i]["properties"]["vap_asian"],
-      Black: selectedDistrictMMD[i]["properties"]["vap_black"],
-      Hispanic: selectedDistrictMMD[i]["properties"]["vap_hisp"],
+      White: jsonMMD[i]["properties"]["vap_white"],
+      Aisan: jsonMMD[i]["properties"]["vap_asian"],
+      Black: jsonMMD[i]["properties"]["vap_black"],
+      Hispanic: jsonMMD[i]["properties"]["vap_hisp"],
     });
-    data_barchart_MMD2.push({
+    data_barchart_MMD_party.push({
       name: i + 1,
       Democrats: 50000,
       Republicans: 50000,
     });
   }
-  const [onMMD, setOnMMD] = useState(false);
   const formatXAxisTick = (tick) => {
     return `${(tick * 100).toFixed(0)}%`;
   };
   const formatYAxisTick = (tick) => {
     return `${(tick * 100).toFixed(0)}%`;
   };
-
   const onEachDistrict_SMD = (district, layer, index) => {
     const onMouseOver = (e) => {
       layer.setStyle({
         fillColor: "rgb(40, 38, 38)",
       });
     };
-
     const onMouseOut = (e) => {
       layer.setStyle({
         fillColor: "rgb(220, 25, 10)",
@@ -271,16 +261,14 @@ function Analysis() {
         fillColor: "rgb(40, 38, 38)",
       });
     };
-
     const onMouseOut = (e) => {
       layer.setStyle({
         weight: 3,
         fillColor: "rgb(220, 25, 10)",
       });
     };
-
     // const onClick = (e) => {
-    //   setSelectedDistrictMMD(district.properties);
+    //   setjsonMMD(district.properties);
     // };
     const onAdd = (e) => {
       const label = L.divIcon({
@@ -434,12 +422,12 @@ function Analysis() {
                           className="map_district"
                         >
                           <GeoJSON
-                            data={selectedDistrictSMD}
+                            data={jsonSMD}
                             onEachFeature={(district, layer) => {
                               onEachDistrict_SMD(
                                 district,
                                 layer,
-                                selectedDistrictSMD.indexOf(district)
+                                jsonSMD.indexOf(district)
                               );
                             }}
                           />
@@ -526,17 +514,17 @@ function Analysis() {
                 </Row>
                 {showGraph == "A" && (
                   <div className="analysis1">
-                    {showInfo1 && (
+                    {/* {showInfo && (
                       <Alert
                         variant="dark"
                         className="alert_dataInformation"
-                        onClose={() => setShowInfo1(false)}
+                        onClose={() => setShowInfo(false)}
                         dismissible
                       >
                         <Alert.Heading>ABOUT THE DATA</Alert.Heading>
                         <p>In this section, ..</p>
                       </Alert>
-                    )}
+                    )} */}
                     <div className="tableContainer_analysis">
                       <Row style={{ padding: 0 }}>
                         <div
@@ -551,7 +539,7 @@ function Analysis() {
                             <BarChart
                               width={500}
                               height={300}
-                              data={data_barchart_SMD}
+                              data={data_barchart_SMD_minority}
                               margin={{
                                 top: 20,
                                 right: 30,
@@ -582,7 +570,7 @@ function Analysis() {
                             <BarChart
                               width={500}
                               height={300}
-                              data={data_barchart_MMD}
+                              data={data_barchart_MMD_minority}
                               margin={{
                                 top: 20,
                                 right: 30,
@@ -747,7 +735,7 @@ function Analysis() {
                         <BarChart
                           width={500}
                           height={300}
-                          data={data_barchart_SMD2}
+                          data={data_barchart_SMD_party}
                           margin={{
                             top: 20,
                             right: 30,
@@ -770,7 +758,7 @@ function Analysis() {
                         <BarChart
                           width={500}
                           height={300}
-                          data={data_barchart_MMD2}
+                          data={data_barchart_MMD_party}
                           margin={{
                             top: 20,
                             right: 30,
