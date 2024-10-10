@@ -157,14 +157,13 @@ function Analysis() {
   const jsonMMD = copyGeo.features;
   // const [showInfo, setShowInfo] = useState(false);
   const [showGraph, setShowGraph] = useState("A");
-  let coordinate = [0, 0];
+  const [mapKey, setMapKey] = useState(0);
   const data_boxPlot = [useBoxPlot(boxPlots1), useBoxPlot(boxPlots2)];
   let data_barchart_SMD_minority = [];
   let data_barchart_MMD_minority = [];
   let data_barchart_MMD_party = [];
   let data_barchart_SMD_party = [];
   const [onMMD, setOnMMD] = useState(false);
-  const [{}, setCoordinate] = useState([0, 0]);
 
   useEffect(() => {
     let value = "";
@@ -180,6 +179,7 @@ function Analysis() {
         const response = await axios.get(`http://localhost:8080${value}`);
         setGeoJson(response.data[0]);
         setJsonSMD(response.data[0].features);
+        setMapKey(mapKey + 1);
         console.log("Connected!");
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -187,13 +187,15 @@ function Analysis() {
     };
     fetchUsers();
   }, [selectedState]);
-  if (selectedState === "Alabama") {
-    coordinate = [32.8067, -86.7911];
-  } else if (selectedState === "Mississippi") {
-    coordinate = [32.3547, -90.0];
-  } else {
-    coordinate = [40.8781, -77.7996];
-  }
+  const coordinate = useMemo(() => {
+    if (selectedState === "Alabama") {
+      return [32.8067, -86.7911];
+    } else if (selectedState === "Mississippi") {
+      return [32.3547, -90.0];
+    } else {
+      return [40.8781, -77.7996];
+    }
+  }, [selectedState]);
   for (var i = 0; i < jsonSMD.length; i++) {
     data_barchart_SMD_minority.push({
       name: i + 1,
@@ -418,7 +420,7 @@ function Analysis() {
                     {!onMMD && (
                       <div className="mapContainer">
                         <MapContainer
-                          // key={coordinate}
+                          key={mapKey}
                           center={coordinate}
                           zoom={6.5}
                           zoomControl={false}
