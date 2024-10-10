@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@svg-maps/usa": "^1.1.1",
+    "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.5",

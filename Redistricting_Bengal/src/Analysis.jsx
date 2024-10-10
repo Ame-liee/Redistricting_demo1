@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import bengalLogo from "./assets/Bengal.svg";
 import usaMapData from "@svg-maps/usa";
-import congDist from "./assets/ms_cvap_2020_cd.json";
+import congDist from "./assets/blank.json";
 import copyGeo from "./assets/copyGeo.json";
 import { MapContainer, GeoJSON } from "react-leaflet";
 import {
@@ -160,14 +161,95 @@ const useBoxPlot = (boxPlots) => {
 
   return data;
 };
-
 function Analysis() {
-  const [onMMD, setOnMMD] = useState(false);
+  const [geoJson, setGeoJson] = useState(congDist);
   const { id: selectedState } = useParams();
-  const [activeIndex, setActiveIndex] = useState(0);
-  const onPieEnter = (_, index) => {
-    setActiveIndex(index);
+  // const [hoveredLocation, setHoveredLocation] = useState(null);
+  // const customStates = ["Alabama", "Mississippi", "Pennsylvania"];
+  // const [showBelowStateSelection, setShowBelowStateSelection] = useState(true);
+  const [selectedDistrictSMD, setSelectedDistrictSMD] = useState(
+    geoJson.features
+  );
+  const selectedDistrictMMD = copyGeo.features;
+  const [showInfo1, setShowInfo1] = useState(false);
+  // const [showInfo2, setShowInfo2] = useState(false);
+  const [showGraph, setShowGraph] = useState("A");
+  let coordinate = [0, 0];
+  const data_boxPlot = [useBoxPlot(boxPlots1), useBoxPlot(boxPlots2)];
+  let data_barchart_SMD = [];
+  let data_barchart_MMD = [];
+  let data_barchart_MMD2 = [];
+  let data_barchart_SMD2 = [];
+  // let temp_data_barchart_SMD = [];
+  // let temp_data_barchart_MMD = [];
+  // let temp_data_barchart_SMD2 = [];
+  // let temp_data_barchart_MMD2 = [];
+  const fetchUsers = async (value) => {
+    try {
+      const response = await axios.get(`http://localhost:8080${value}`);
+      setGeoJson(response.data[0]);
+      setSelectedDistrictSMD(response.data[0].features);
+      console.log("Connected!");
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
   };
+  useEffect(() => {
+    if (selectedState == "Mississippi") {
+      fetchUsers("/ms/all/districts");
+    } else if (selectedState == "Alabama") {
+      fetchUsers("/al/all/districts");
+    } else {
+      fetchUsers("/pa/all/districts");
+    }
+  }, [selectedState]);
+
+  if (selectedState === "Alabama") {
+    coordinate = [32.8067, -86.7911];
+  } else if (selectedState === "Mississippi") {
+    coordinate = [32.3547, -90.0];
+  } else {
+    coordinate = [40.8781, -77.7996];
+  }
+  for (var i = 0; i < selectedDistrictSMD.length; i++) {
+    data_barchart_SMD.push({
+      name: i + 1,
+      White: selectedDistrictSMD[i]["properties"]["c_WHT20"],
+      Aisan: selectedDistrictSMD[i]["properties"]["c_ASN20"],
+      Black: selectedDistrictSMD[i]["properties"]["c_BLK20"],
+      Hispanic: selectedDistrictSMD[i]["properties"]["c_HSP20"],
+    });
+    data_barchart_SMD2.push({
+      name: i + 1,
+      Democrats: 90000,
+      Republicans: 50000,
+    });
+  }
+  // setData_barchart_SMD(temp_data_barchart_SMD);
+  // setData_barchart_SMD2(temp_data_barchart_SMD2);
+  // console.log(data_barchart_SMD2);
+  for (var i = 0; i < selectedDistrictMMD.length; i++) {
+    data_barchart_MMD.push({
+      name: i + 1,
+      White: selectedDistrictMMD[i]["properties"]["vap_white"],
+      Aisan: selectedDistrictMMD[i]["properties"]["vap_asian"],
+      Black: selectedDistrictMMD[i]["properties"]["vap_black"],
+      Hispanic: selectedDistrictMMD[i]["properties"]["vap_hisp"],
+    });
+    data_barchart_MMD2.push({
+      name: i + 1,
+      Democrats: 50000,
+      Republicans: 50000,
+    });
+  }
+  // setData_barchart_MMD(temp_data_barchart_MMD);
+  // setData_barchart_MMD2(temp_data_barchart_MMD2);
+  const [onMMD, setOnMMD] = useState(false);
+
+  // const [activeIndex, setActiveIndex] = useState(0);
+  // const onPieEnter = (_, index) => {
+  //   setActiveIndex(index);
+  // };
   //   const [selectedState, setSelectedState] = useState("Mississipi");
   // const [selectedDistrictPop_SMD, setselectedDistrictPop_SMD] = useState([
   //   congDist.features[0]["properties"]["vap"],
@@ -260,20 +342,8 @@ function Analysis() {
       </g>
     );
   };
-  const [data_barchart_SMD, setData_barchart_SMD] = useState([]);
-  const [data_barchart_MMD, setData_barchart_MMD] = useState([]);
-  const [data_barchart_SMD2, setData_barchart_SMD2] = useState([]);
-  const [data_barchart_MMD2, setData_barchart_MMD2] = useState([]);
   // const [selectedDistrictSMD, setSelectedDistrictSMD] = useState(null);
   // const [selectedDistrictMMD, setSelectedDistrictMMD] = useState(null);
-  const [hoveredLocation, setHoveredLocation] = useState(null);
-  const customStates = ["Alabama", "Mississippi", "Pennsylvania"];
-  const [showBelowStateSelection, setShowBelowStateSelection] = useState(true);
-  const [showInfo1, setShowInfo1] = useState(false);
-  const [showInfo2, setShowInfo2] = useState(false);
-  const [showGraph, setShowGraph] = useState("A");
-  const [coordinate, setCoordinate] = useState([0, 0]);
-  const data_boxPlot = [useBoxPlot(boxPlots1), useBoxPlot(boxPlots2)];
   const formatXAxisTick = (tick) => {
     return `${(tick * 100).toFixed(0)}%`;
   };
@@ -363,11 +433,11 @@ function Analysis() {
     const onClick = (e) => {
       setSelectedDistrictMMD(district.properties);
       setselectedDistrictPop_MMD([
-        district.properties.vap,
-        district.properties.vap_white,
-        district.properties.vap_asian,
-        district.properties.vap_black,
-        district.properties.vap_hisp,
+        district.properties.c_TOT20,
+        district.properties.c_WHT20,
+        district.properties.c_ASN20,
+        district.properties.c_BLK20,
+        district.properties.c_HSP20,
         0,
         0,
       ]);
@@ -392,54 +462,6 @@ function Analysis() {
       add: onAdd,
     });
   };
-  useEffect(() => {
-    const selectedDistrictSMD = congDist.features;
-    const selectedDistrictMMD = copyGeo.features;
-    let data_barchart_SMD = [];
-    let data_barchart_MMD = [];
-    let data_barchart_SMD2 = [];
-    let data_barchart_MMD2 = [];
-    if (selectedState === "Alabama") {
-      setCoordinate([32.8067, -86.7911]);
-    } else if (selectedState === "Mississippi") {
-      setCoordinate([32.3547, -90.0]);
-    } else {
-      setCoordinate([40.8781, -77.7996]);
-    }
-    for (var i = 0; i < selectedDistrictSMD.length; i++) {
-      data_barchart_SMD.push({
-        name: i + 1,
-        White: selectedDistrictSMD[i]["properties"]["vap_white"],
-        Aisan: selectedDistrictSMD[i]["properties"]["vap_asian"],
-        Black: selectedDistrictSMD[i]["properties"]["vap_black"],
-        Hispanic: selectedDistrictSMD[i]["properties"]["vap_hisp"],
-      });
-      data_barchart_SMD2.push({
-        name: i + 1,
-        Democrats: 90000,
-        Republicans: 50000,
-      });
-    }
-    setData_barchart_SMD(data_barchart_SMD);
-    setData_barchart_SMD2(data_barchart_SMD2);
-    console.log(data_barchart_SMD2);
-    for (var i = 0; i < selectedDistrictMMD.length; i++) {
-      data_barchart_MMD.push({
-        name: i + 1,
-        White: selectedDistrictMMD[i]["properties"]["vap_white"],
-        Aisan: selectedDistrictMMD[i]["properties"]["vap_asian"],
-        Black: selectedDistrictMMD[i]["properties"]["vap_black"],
-        Hispanic: selectedDistrictMMD[i]["properties"]["vap_hisp"],
-      });
-      data_barchart_MMD2.push({
-        name: i + 1,
-        Democrats: 50000,
-        Republicans: 50000,
-      });
-    }
-    setData_barchart_MMD(data_barchart_MMD);
-    setData_barchart_MMD2(data_barchart_MMD2);
-  }, [selectedState]);
 
   return (
     <>
@@ -552,7 +574,7 @@ function Analysis() {
             &nbsp; FAIRWIN
           </Navbar.Brand>
         </Navbar>
-        <div className="body2" ref={analysisRef}>
+        <div className="body2">
           <Container>
             <Row>
               <Col className="col_stateInformation">
@@ -592,12 +614,12 @@ function Analysis() {
                           className="map_district"
                         >
                           <GeoJSON
-                            data={congDist.features}
+                            data={selectedDistrictSMD}
                             onEachFeature={(district, layer) => {
                               onEachDistrict_SMD(
                                 district,
                                 layer,
-                                congDist.features.indexOf(district)
+                                selectedDistrictSMD.indexOf(district)
                               );
                             }}
                           />
