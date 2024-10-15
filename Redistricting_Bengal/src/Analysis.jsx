@@ -163,8 +163,13 @@ function Analysis() {
   let data_barchart_MMD_minority = [];
   let data_barchart_MMD_party = [];
   let data_barchart_SMD_party = [];
-  // let stateInfo = [0, 0, null, null];
-  const [stateInfo, setStateInfo] = useState([0, 0, 0]);
+  const [stateInfo, setStateInfo] = useState({
+    population: 0,
+    votePopulation: 0,
+    totalSeats: 0,
+    democrat: 0,
+    republican: 0,
+  }); //Population, Voting Population, Representative Seats, (Democrats, Republicans)
   const [onMMD, setOnMMD] = useState(false);
 
   useEffect(() => {
@@ -181,14 +186,35 @@ function Analysis() {
         const response = await axios.get(`http://localhost:8080${value}`);
         setGeoJson(response.data[0]);
         setJsonSMD(response.data[0].features);
+        // console.log(typeof(response.data[0].features[0]["properties"]["win_pty"]));
         setMapKey(mapKey + 1);
-        setStateInfo([0, 0, 0]);
+        setStateInfo({
+          population: 0,
+          votePopulation: 0,
+          totalSeats: 0,
+          democrat: 0,
+          republican: 0,
+        });
         for (let i of response.data[0].features) {
-          setStateInfo((prevInfo) => [
-            prevInfo[0] + i["properties"]["c_TOT20"],
-            prevInfo[1] + i["properties"]["tot_VOTE"],
-            prevInfo[2] + 1,
-          ]);
+          if (i["properties"]["win_pty"] == "DEMOCRATS") {
+            setStateInfo((prevInfo) => ({
+              population: prevInfo.population + i["properties"]["total_pop"],
+              votePopulation:
+                prevInfo.votePopulation + i["properties"]["vote_pop"],
+              totalSeats: prevInfo.totalSeats + 1,
+              democrat: prevInfo.democrat + 1,
+              republican: prevInfo.republican,
+            }));
+          } else {
+            setStateInfo((prevInfo) => ({
+              population: prevInfo.population + i["properties"]["total_pop"],
+              votePopulation:
+                prevInfo.votePopulation + i["properties"]["vote_pop"],
+              totalSeats: prevInfo.totalSeats + 1,
+              democrat: prevInfo.democrat,
+              republican: prevInfo.republican + 1,
+            }));
+          }
         }
         console.log("Connected!");
       } catch (error) {
@@ -209,15 +235,15 @@ function Analysis() {
   for (var i = 0; i < jsonSMD.length; i++) {
     data_barchart_SMD_minority.push({
       name: i + 1,
-      White: jsonSMD[i]["properties"]["c_WHT20"],
-      Aisan: jsonSMD[i]["properties"]["c_ASN20"],
-      Black: jsonSMD[i]["properties"]["c_BLK20"],
-      Hispanic: jsonSMD[i]["properties"]["c_HSP20"],
+      White: jsonSMD[i]["properties"]["total_wht"],
+      Aisan: jsonSMD[i]["properties"]["total_asn"],
+      Black: jsonSMD[i]["properties"]["total_blk"],
+      Hispanic: jsonSMD[i]["properties"]["total_hsp"],
     });
     data_barchart_SMD_party.push({
       name: i + 1,
-      Democrats: 90000,
-      Republicans: 50000,
+      Democrats: jsonSMD[i]["properties"]["vote_dem"],
+      Republicans: jsonSMD[i]["properties"]["vote_rep"],
     });
   }
   for (var i = 0; i < jsonMMD.length; i++) {
@@ -412,16 +438,18 @@ function Analysis() {
                     <thead>
                       <tr>
                         <td className="table_0">Population</td>
-                        <td>{stateInfo[0]}</td>
+                        <td>{stateInfo.population}</td>
                         <td className="table_0">Voting Population</td>
-                        <td>{stateInfo[1]}</td>
+                        <td>{stateInfo.votePopulation}</td>
                       </tr>
                       <tr>
                         <td className="table_0">Representative Seats</td>
-                        <td>{stateInfo[2]}</td>
-                        {/* <td className="table_0">Representative Party</td> */}
-                        <td className="table_0"></td>
-                        <td></td>
+                        <td>{stateInfo.totalSeats}</td>
+                        <td className="table_0">Representative Party</td>
+                        <td>
+                          Democrat: {stateInfo.democrat}; Republican:{" "}
+                          {stateInfo.republican}
+                        </td>
                       </tr>
                     </thead>
                   </Table>
