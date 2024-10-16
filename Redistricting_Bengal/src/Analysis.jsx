@@ -267,6 +267,8 @@ function Analysis() {
     return `${(tick * 100).toFixed(0)}%`;
   };
   const onEachDistrict_SMD = (district, layer, index) => {
+    let centroid = district["properties"]["centroid"].split(",");
+    const latLng = L.latLng(parseFloat(centroid[1]), parseFloat(centroid[0]));
     const onMouseOver = (e) => {
       layer.setStyle({
         fillColor: "rgb(40, 38, 38)",
@@ -277,14 +279,18 @@ function Analysis() {
         fillColor: "rgb(220, 25, 10)",
       });
     };
+    layer.bindPopup(
+      district["properties"]["win_pty"] +
+        " (" +
+        district["properties"]["win_cand"] +
+        ")"
+    );
     const onAdd = (e) => {
       const label = L.divIcon({
         className: "district-label",
         html: `<div style="font-size: 20px; color: black;">${index + 1}</div>`,
       });
-      L.marker(layer.getBounds().getCenter(), { icon: label }).addTo(
-        layer._map
-      );
+      L.marker(latLng, { icon: label }).addTo(layer._map);
     };
     layer.setStyle({
       color: "rgba(241, 243, 243, 1)",
@@ -293,6 +299,7 @@ function Analysis() {
     layer.on({
       mouseout: onMouseOut,
       mouseover: onMouseOver,
+      // click: onClick,
       add: onAdd,
     });
   };
