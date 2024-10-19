@@ -122,7 +122,6 @@ h1 span {
 
 .body1 {
     background-color: rgb(40, 38, 38);
-    /* padding-bottom: 10%; */
     scroll-behavior: smooth;
 }
 
@@ -156,7 +155,6 @@ h1 span {
     white-space: nowrap;
     text-align: center;
 }
-
 
 /* big screen */
 @media screen and (min-width:1250px) {
@@ -223,17 +221,8 @@ h1 span {
 
 .body2 {
     background-color: rgb(241, 243, 243);
-    /* padding-bottom: 10%; */
-    /* display: flex; */
-    /* justify-content: space-between; */
     padding: 1%;
 }
-
-/* .contents{
-        padding-bottom: 10%;
-    display: flex;
-   justify-content: space-between;
-} */
 
 .text_Available_State {
     color: rgb(255, 255, 255);
@@ -256,17 +245,6 @@ h1 span {
         padding-left: 8%;
         padding-top: 5%;
     }
-
-    /* 
-    .text_subQuestion1_2 {
-        color: rgb(40, 38, 38);
-        font-family: Tahoma;
-        font-size: 250%;
-        width: 65%;
-        font-weight: bold;
-        padding-left: 8%;
-        padding-top: 8%;
-    } */
 }
 
 /* small screen */
@@ -297,21 +275,12 @@ h1 span {
     margin-right: 10%;
 }
 
-.navbar_fairness {
-    /* margin-top: 10%; */
-    /* padding-left: 5%; */
-    /* justify-content: rights; */
+.navbar_analysis {
     background-color: rgb(40, 38, 38);
-    /* float: right; */
     height: 69px;
 }
 
-.navbar_race {
-    margin-left: 10%;
-    margin-right: 10%;
-}
-
-.text_navElement_fairness {
+.text_navElement_analysis {
     color: rgb(241, 243, 243);
     font-weight: bold;
     border-bottom: 0px;
@@ -340,32 +309,13 @@ h1 span {
     }
 }
 
-/* .graph{
-    background-color: rgb(245, 245, 245);
-  padding: 2%;
-  text-align: center;
-  width: "100%"; height: 300;
-} */
 .tableContainer_analysis {
-    /* display: flex; */
-    /* flex-direction: column; */
-    /* justify-content: space-between; */
     background-color: rgb(255, 255, 255);
-    /* justify-content: center; */
-    /* padding: 2%; */
-    /* text-align: center; */
-    /* margin-left: 4%;
-    margin-right: 4%; */
-    /* width: 45%; */
-    /* float: right; */
 }
 
 .mapContainer {
     background-color: rgb(255, 255, 255);
     justify-content: center;
-    /* width: 45%; */
-    /* margin-left: 4%;
-    margin-right: 4%; */
 }
 
 .body3 {
@@ -447,9 +397,6 @@ tbody {
     float: right;
 }
 
-/* .container{
-    display: flex;
-} */
 .districtMap {
     padding: 0;
 }
@@ -461,13 +408,3 @@ tbody {
 .col_districtInformation {
     background-color: rgb(40, 38, 38);
 }
-
-/* .graphContainer{
-    width: "100%"; height: 300;
-    margin: 0px;
-}
-.responsiveContainer{
-    width: "100%"; height: 300;
-    margin: 0px;
-    padding: 0px;
-} */

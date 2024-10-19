@@ -524,12 +524,12 @@ function Analysis() {
                   <Nav
                     variant="tabs"
                     defaultActiveKey="link-1"
-                    className="navbar_fairness"
+                    className="navbar_analysis"
                   >
                     <Nav.Item>
                       <Nav.Link
                         eventKey="link-1"
-                        className="text_navElement_fairness"
+                        className="text_navElement_analysis"
                         onClick={() => setShowGraph("A")}
                       >
                         Racial Population
@@ -538,7 +538,7 @@ function Analysis() {
                     <Nav.Item>
                       <Nav.Link
                         eventKey="link-2"
-                        className="text_navElement_fairness"
+                        className="text_navElement_analysis"
                         onClick={() => setShowGraph("B")}
                       >
                         Box & Whisker
@@ -547,7 +547,7 @@ function Analysis() {
                     <Nav.Item>
                       <Nav.Link
                         eventKey="link-3"
-                        className="text_navElement_fairness"
+                        className="text_navElement_analysis"
                         onClick={() => setShowGraph("C")}
                       >
                         Political Party
@@ -556,7 +556,7 @@ function Analysis() {
                     <Nav.Item>
                       <Nav.Link
                         eventKey="link-4"
-                        className="text_navElement_fairness"
+                        className="text_navElement_analysis"
                         onClick={() => setShowGraph("D")}
                       >
                         Curve
