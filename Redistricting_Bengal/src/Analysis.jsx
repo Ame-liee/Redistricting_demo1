@@ -431,7 +431,7 @@ function Analysis() {
             &nbsp; FAIRWIN
           </Navbar.Brand>
         </Navbar>
-        <div className="body2">
+        <div className="body_analysis">
           <Container>
             <Row>
               <Col className="col_stateInformation">
@@ -444,15 +444,21 @@ function Analysis() {
                   <Table striped bordered hover>
                     <thead>
                       <tr>
-                        <td className="table_0">Population</td>
+                        <td className="table_stateInfo_col1">Population</td>
                         <td>{stateInfo.population}</td>
-                        <td className="table_0">Voting Population</td>
+                        <td className="table_stateInfo_col1">
+                          Voting Population
+                        </td>
                         <td>{stateInfo.votePopulation}</td>
                       </tr>
                       <tr>
-                        <td className="table_0">Representative Seats</td>
+                        <td className="table_stateInfo_col1">
+                          Representative Seats
+                        </td>
                         <td>{stateInfo.totalSeats}</td>
-                        <td className="table_0">Representative Party</td>
+                        <td className="table_stateInfo_col1">
+                          Representative Party
+                        </td>
                         <td>
                           Democrat: {stateInfo.democrat}; Republican:{" "}
                           {stateInfo.republican}

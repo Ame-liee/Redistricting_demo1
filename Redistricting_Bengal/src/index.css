@@ -120,7 +120,7 @@ h1 span {
     justify-content: center;
 }
 
-.body1 {
+.body_home {
     background-color: rgb(40, 38, 38);
     scroll-behavior: smooth;
 }
@@ -219,7 +219,7 @@ h1 span {
     margin-left: 3%;
 }
 
-.body2 {
+.body_analysis {
     background-color: rgb(241, 243, 243);
     padding: 1%;
 }
@@ -318,11 +318,6 @@ h1 span {
     justify-content: center;
 }
 
-.body3 {
-    background-color: rgb(236, 31, 12);
-    padding-bottom: 10%;
-}
-
 .text_summary {
     color: rgb(0, 0, 0);
     font-family: Tahoma;
@@ -340,7 +335,7 @@ h1 span {
     width: 90%;
 }
 
-.table_0 {
+.table_stateInfo_col1 {
     text-align: center;
     width: 100px;
     font-weight: bold;

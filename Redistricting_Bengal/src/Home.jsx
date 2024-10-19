@@ -91,7 +91,7 @@ function Home() {
             </Offcanvas.Body>
           </Navbar.Offcanvas>
         </Navbar>
-        <div className="body1">
+        <div className="body_home">
           <Navbar data-bs-theme="dark" className="brand">
             <Navbar.Brand href="/" className="text_FAIRWIN">
               <img
