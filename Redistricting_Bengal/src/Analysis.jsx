@@ -3,8 +3,6 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import bengalLogo from "./assets/Bengal.svg";
 import sideBarIcon from "./assets/sideBarIcon.svg";
-import leftArrowIcon from "./assets/leftArrowIcon.svg";
-import rightArrowIcon from "./assets/rightArrowIcon.svg";
 import congDist from "./assets/blank.json";
 import copyGeo from "./assets/copyGeo.json";
 import { MapContainer, GeoJSON } from "react-leaflet";
@@ -403,15 +401,7 @@ function Analysis() {
             <Col xs={12} md={6} className="col_stateInformation">
               <Row className="item_contents_analysis">
                 <div className="text_selectedState_Analysis">
-                  <Button variant="link">
-                    <img alt="" src={leftArrowIcon} className="svgIcon" />
-                  </Button>
-                  &nbsp;
                   {selectedState.toUpperCase()}
-                  &nbsp;
-                  <Button variant="link">
-                    <img alt="" src={rightArrowIcon} className="svgIcon" />
-                  </Button>
                 </div>
               </Row>
               <Row className="item_contents_analysis">
