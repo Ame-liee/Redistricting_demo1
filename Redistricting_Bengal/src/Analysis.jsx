@@ -357,13 +357,7 @@ function Analysis() {
             className="sidebar_button"
             aria-controls="offcanvasNavbar"
           >
-            <img
-                alt=""
-                src={sideBarIcon}
-                width="40px"
-                height="40px"
-                className="svgIcon"
-              />
+            <img alt="" src={sideBarIcon} className="svgIcon" />
           </Navbar.Toggle>
           <Navbar.Offcanvas
             aria-labelledby="offcanvasNavbarLabel"
@@ -399,13 +393,7 @@ function Analysis() {
         </Navbar>
         <Navbar data-bs-theme="dark" className="brand">
           <Navbar.Brand href="/" className="text_FAIRWIN">
-            <img
-              alt=""
-              src={bengalLogo}
-              width="40"
-              height="40"
-              className="svgIcon"
-            />
+            <img alt="" src={bengalLogo} className="svgIcon" />
             &nbsp; FAIRWIN
           </Navbar.Brand>
           <h1>{selectedState.toUpperCase()}</h1>
@@ -416,25 +404,13 @@ function Analysis() {
               <Row className="item_contents_analysis">
                 <h1 className="text_selectedState_Analysis">
                   <Button variant="link">
-                    <img
-                      alt=""
-                      src={leftArrowIcon}
-                      width="40"
-                      height="40"
-                      className="svgIcon"
-                    />
+                    <img alt="" src={leftArrowIcon} className="svgIcon" />
                   </Button>
                   &nbsp;
                   {selectedState.toUpperCase()}
                   &nbsp;
                   <Button variant="link">
-                    <img
-                      alt=""
-                      src={rightArrowIcon}
-                      width="40"
-                      height="40"
-                      className="svgIcon"
-                    />
+                    <img alt="" src={rightArrowIcon} className="svgIcon" />
                   </Button>
                 </h1>
               </Row>

@@ -26,13 +26,7 @@ function About() {
             className="sidebar_button"
             aria-controls="offcanvasNavbar"
           >
-            <img
-                alt=""
-                src={sideBarIcon}
-                width="40px"
-                height="40px"
-                className="svgIcon"
-              />
+            <img alt="" src={sideBarIcon} className="svgIcon" />
           </Navbar.Toggle>
           <Navbar.Offcanvas
             aria-labelledby="offcanvasNavbarLabel"
@@ -67,13 +61,7 @@ function About() {
         </Navbar>
         <Navbar data-bs-theme="dark" className="brand">
           <Navbar.Brand href="/" className="text_FAIRWIN">
-            <img
-              alt=""
-              src={bengalLogo}
-              width="40"
-              height="40"
-              className="svgIcon"
-            />
+            <img alt="" src={bengalLogo} className="svgIcon" />
             &nbsp; FAIRWIN
           </Navbar.Brand>
         </Navbar>
