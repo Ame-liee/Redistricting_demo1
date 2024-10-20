@@ -30,6 +30,8 @@ import {
   Form,
   Row,
   Col,
+  ToggleButtonGroup,
+  ToggleButton,
 } from "react-bootstrap";
 const boxPlots1 = [
   {
@@ -467,14 +469,30 @@ function Analysis() {
                 </Table>
               </Row>
               <Row className="item_contents_analysis">
+                <ToggleButtonGroup
+                  className="switch_districtMap"
+                  onChange={() => setOnMMD(!onMMD)}
+                  type="radio"
+                  name="options"
+                  defaultValue={1}
+                >
+                  <ToggleButton
+                    variant="outline-dark"
+                    id="tbg-radio-1"
+                    value={1}
+                  >
+                    SMD
+                  </ToggleButton>
+                  <ToggleButton
+                    variant="outline-dark"
+                    id="tbg-radio-2"
+                    value={2}
+                  >
+                    MMD
+                  </ToggleButton>
+                </ToggleButtonGroup>
+
                 <div className="districtMap">
-                  <Form>
-                    <Form.Check
-                      type="switch"
-                      id="custom-switch"
-                      onChange={() => setOnMMD(!onMMD)}
-                    />
-                  </Form>
                   {!onMMD && (
                     <div>
                       <MapContainer
