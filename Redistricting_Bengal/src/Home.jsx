@@ -4,6 +4,7 @@ import { Offcanvas, Nav, Navbar, Container, Button } from "react-bootstrap";
 import bengalLogo from "./assets/Bengal.svg";
 import arrowCircleIcon from "./assets/arrowCircleIcon.svg";
 import circleIcon from "./assets/circleIcon.svg";
+import sideBarIcon from "./assets/sideBarIcon.svg";
 import usaMapData from "@svg-maps/usa";
 
 function Home() {
@@ -27,39 +28,13 @@ function Home() {
             className="sidebar_button"
             aria-controls="offcanvasNavbar"
           >
-            {" "}
-            <svg
-              version="1.0"
-              xmlns="http://www.w3.org/2000/svg"
-              width="40px"
-              height="40px"
-              viewBox="0 0 1280.000000 1280.000000"
-              transform="rotate(180)"
-              preserveAspectRatio="xMidYMid meet"
-            >
-              <metadata>
-                Created by potrace 1.15, written by Peter Selinger 2001-2017
-              </metadata>
-              <g
-                transform="translate(0.000000,1280.000000) scale(0.100000,-0.100000)"
-                fill="rgb(40, 38, 38)"
-                stroke="rgba(255, 255, 255, 1)"
-                strokeWidth="400"
-              >
-                <path
-                  d="M1000 10050 l0 -1510 4643 0 4642 0 755 755 755 755 -755 755 -755
-755 -4642 0 -4643 0 0 -1510z"
-                />
-                <path
-                  d="M1000 6390 l0 -1510 4648 0 4647 0 753 753 752 752 -758 758 -757
-757 -4643 0 -4642 0 0 -1510z"
-                />
-                <path
-                  d="M1000 2750 l0 -1510 4643 0 4642 0 753 753 c413 413 752 757 752 762
-0 5 -336 346 -747 757 l-748 748 -4647 0 -4648 0 0 -1510z"
-                />
-              </g>
-            </svg>
+            <img
+                alt=""
+                src={sideBarIcon}
+                width="40px"
+                height="40px"
+                className="svgIcon"
+              />
           </Navbar.Toggle>
           <Navbar.Offcanvas
             aria-labelledby="offcanvasNavbarLabel"
