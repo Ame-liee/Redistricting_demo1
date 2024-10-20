@@ -134,6 +134,7 @@ h1 span {
     color: rgb(255, 255, 255);
     font-size: 220%;
     font-family: Gill Sans, sans-serif;
+    width: 100%;
 }
 
 .text_FAIRWIN:hover {
@@ -150,7 +151,7 @@ h1 span {
 .text_selectedState_Analysis {
     background-color: rgb(40, 38, 38);
     color: rgb(236, 31, 12);
-    font-size: 50px;
+    font-size: 300%;
     font-family: Gill Sans, sans-serif;
     font-weight: bold;
     white-space: nowrap;
@@ -279,7 +280,7 @@ h1 span {
 
 .navbar_analysis {
     background-color: rgb(40, 38, 38);
-    padding-top: 3%;
+    padding-top: 6%;
     padding-right: 0px;
 }
 
@@ -406,11 +407,15 @@ tbody {
 .col_stateInformation {
     margin-right: 3%;
     padding: 0px;
+    flex: 1;
+    min-width: 400px;
 }
 
 .col_districtInformation {
     margin-left: 3%;
     padding: 0px;
+    flex: 1;
+    min-width: 400px;
 }
 
 .item_contents_analysis {
@@ -427,6 +432,8 @@ tbody {
 
 .table_contents_analysis {
     margin-bottom: 0px;
+    table-layout: fixed;
+    width: 100%;
 }
 
 .switch_districtMap {

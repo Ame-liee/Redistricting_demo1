@@ -400,9 +400,9 @@ function Analysis() {
         </Navbar>
         <div className="body_analysis">
           <Row className="contents_analysis">
-            <Col className="col_stateInformation">
+            <Col xs={12} md={6} className="col_stateInformation">
               <Row className="item_contents_analysis">
-                <h1 className="text_selectedState_Analysis">
+                <div className="text_selectedState_Analysis">
                   <Button variant="link">
                     <img alt="" src={leftArrowIcon} className="svgIcon" />
                   </Button>
@@ -412,7 +412,7 @@ function Analysis() {
                   <Button variant="link">
                     <img alt="" src={rightArrowIcon} className="svgIcon" />
                   </Button>
-                </h1>
+                </div>
               </Row>
               <Row className="item_contents_analysis">
                 <Table
@@ -431,9 +431,7 @@ function Analysis() {
                       <td>{stateInfo.votePopulation}</td>
                     </tr>
                     <tr>
-                      <td className="table_stateInfo_col1">
-                        Representative Seats
-                      </td>
+                      <td className="table_stateInfo_col1">Total Seats</td>
                       <td>{stateInfo.totalSeats}</td>
                       <td className="table_stateInfo_col1">Party Splits</td>
                       <td>
