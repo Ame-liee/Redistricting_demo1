@@ -2,6 +2,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import bengalLogo from "./assets/Bengal.svg";
+import leftArrowIcon from "./assets/leftArrowIcon.svg";
+import rightArrowIcon from "./assets/rightArrowIcon.svg";
 import congDist from "./assets/blank.json";
 import copyGeo from "./assets/copyGeo.json";
 import { MapContainer, GeoJSON } from "react-leaflet";
@@ -32,6 +34,7 @@ import {
   Col,
   ToggleButtonGroup,
   ToggleButton,
+  Button,
 } from "react-bootstrap";
 const boxPlots1 = [
   {
@@ -425,17 +428,38 @@ function Analysis() {
               src={bengalLogo}
               width="40"
               height="40"
-              className="bengal"
+              className="svgIcon"
             />
             &nbsp; FAIRWIN
           </Navbar.Brand>
+          <h1>{selectedState.toUpperCase()}</h1>
         </Navbar>
         <div className="body_analysis">
           <Row className="contents_analysis">
             <Col className="col_stateInformation">
               <Row className="item_contents_analysis">
                 <h1 className="text_selectedState_Analysis">
+                  <Button variant="link">
+                    <img
+                      alt=""
+                      src={leftArrowIcon}
+                      width="40"
+                      height="40"
+                      className="svgIcon"
+                    />
+                  </Button>
+                  &nbsp;
                   {selectedState.toUpperCase()}
+                  &nbsp;
+                  <Button variant="link">
+                    <img
+                      alt=""
+                      src={rightArrowIcon}
+                      width="40"
+                      height="40"
+                      className="svgIcon"
+                    />
+                  </Button>
                 </h1>
               </Row>
               <Row className="item_contents_analysis">

@@ -99,7 +99,7 @@ function Home() {
                 src={bengalLogo}
                 width="40"
                 height="40"
-                className="bengal"
+                className="svgIcon"
               />
               &nbsp; FAIRWIN
             </Navbar.Brand>
