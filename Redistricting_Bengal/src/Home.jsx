@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Offcanvas, Nav, Navbar, Container, Button } from "react-bootstrap";
 import bengalLogo from "./assets/Bengal.svg";
+import arrowCircleIcon from "./assets/arrowCircleIcon.svg";
 import usaMapData from "@svg-maps/usa";
 
 function Home() {
@@ -154,26 +155,13 @@ function Home() {
                   variant="link"
                   onClick={() => toAnalysis(selectedState)}
                 >
-                  <svg
-                    width="50px"
-                    height="50px"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12Z"
-                      stroke="rgb(255, 255, 255)"
-                      strokeWidth="2"
-                    />
-                    <path
-                      d="M8 12H16M16 12L12 16M16 12L12 8"
-                      stroke="rgb(255, 255, 255)"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  <img
+                    alt=""
+                    src={arrowCircleIcon}
+                    width="45px"
+                    height="45px"
+                    className="svgIcon"
+                  />
                 </Button>
               </div>
             )}
