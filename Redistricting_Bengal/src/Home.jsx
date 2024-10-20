@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Offcanvas, Nav, Navbar, Container, Button } from "react-bootstrap";
 import bengalLogo from "./assets/Bengal.svg";
 import arrowCircleIcon from "./assets/arrowCircleIcon.svg";
+import circleIcon from "./assets/circleIcon.svg";
 import usaMapData from "@svg-maps/usa";
 
 function Home() {
@@ -166,23 +167,17 @@ function Home() {
               </div>
             )}
             <div className="dataExplaination">
-              <svg
-                width="10px"
-                height="10px"
-                viewBox="0 0 1024 1024"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <title>circle</title>
-                <circle
-                  cx="512"
-                  cy="512"
-                  r="256"
-                  fill="rgb(255, 255, 255)"
-                  fillRule="evenodd"
+              <span className="text_Available_State">
+                {" "}
+                <img
+                  alt=""
+                  src={circleIcon}
+                  width="10px"
+                  height="10px"
+                  className="svgIcon"
                 />
-              </svg>
-              &nbsp;
-              <span className="text_Available_State">Available State</span>
+                &nbsp;Available State
+              </span>
             </div>
           </Container>
         </div>
