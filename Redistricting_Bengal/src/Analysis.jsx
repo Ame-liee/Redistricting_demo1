@@ -394,15 +394,15 @@ function Analysis() {
             <img alt="" src={bengalLogo} className="svgIcon" />
             &nbsp; FAIRWIN
           </Navbar.Brand>
-          <h1>{selectedState.toUpperCase()}</h1>
+          <span className="text_selectedState_Analysis">
+            {selectedState.toUpperCase()}
+          </span>
         </Navbar>
         <div className="body_analysis">
           <Row className="contents_analysis">
             <Col xs={12} md={6} className="col_stateInformation">
               <Row className="item_contents_analysis">
-                <div className="text_selectedState_Analysis">
-                  {selectedState.toUpperCase()}
-                </div>
+                <div className="text_contentsTitle_Analysis">RANDOM PLAN</div>
               </Row>
               <Row className="item_contents_analysis">
                 <Table

@@ -128,6 +128,7 @@ h1 span {
 .brand {
     padding-top: 1.5%;
     padding-left: 2.5%;
+    display: flex;
 }
 
 .text_FAIRWIN {
@@ -154,6 +155,17 @@ h1 span {
     font-size: 300%;
     font-family: Gill Sans, sans-serif;
     font-weight: bold;
+    white-space: nowrap;
+    text-align: center;
+    margin-bottom: 0px;
+    margin-right: 40%;
+}
+
+.text_contentsTitle_Analysis {
+    background-color: rgb(40, 38, 38);
+    color: white;
+    font-size: 300%;
+    font-family: Gill Sans, sans-serif;
     white-space: nowrap;
     text-align: center;
     margin-bottom: 0px;
