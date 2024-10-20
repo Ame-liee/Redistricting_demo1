@@ -104,7 +104,7 @@ function Home() {
               &nbsp; FAIRWIN
             </Navbar.Brand>
           </Navbar>
-          <Container className="content">
+          <Container>
             <div className="text_question">IS A FAIR VOTE BEING HELD?</div>
             <div className="text_selectedState">
               {hoveredLocation

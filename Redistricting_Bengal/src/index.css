@@ -126,8 +126,8 @@ h1 span {
 }
 
 .brand {
-    padding-top: 2.5%;
-    padding-left: 3.5%;
+    padding-top: 1.5%;
+    padding-left: 2.5%;
 }
 
 .text_FAIRWIN {
@@ -148,12 +148,14 @@ h1 span {
 }
 
 .text_selectedState_Analysis {
+    background-color: rgb(40, 38, 38);
     color: rgb(236, 31, 12);
     font-size: 50px;
     font-family: Gill Sans, sans-serif;
     font-weight: bold;
     white-space: nowrap;
     text-align: center;
+    margin-bottom: 0px;
 }
 
 /* big screen */
@@ -179,8 +181,8 @@ h1 span {
     }
 
     .map_us {
-        width: 65%;
-        height: 65%;
+        width: 75%;
+        height: 75%;
         justify-content: center;
         display: flex;
         position: relative;
@@ -277,7 +279,8 @@ h1 span {
 
 .navbar_analysis {
     background-color: rgb(40, 38, 38);
-    height: 69px;
+    padding-top: 3%;
+    padding-right: 0px;
 }
 
 .text_navElement_analysis {
@@ -309,14 +312,10 @@ h1 span {
     }
 }
 
-.tableContainer_analysis {
+/* .tableContainer_analysis {
     background-color: rgb(255, 255, 255);
-}
+} */
 
-.mapContainer {
-    background-color: rgb(255, 255, 255);
-    justify-content: center;
-}
 
 .text_summary {
     color: rgb(0, 0, 0);
@@ -350,7 +349,7 @@ tbody {
 }
 
 .map_district {
-    height: 600px;
+    height: 500px;
     position: relative;
     z-index: -0;
     background-color: rgba(255, 255, 255, 0);
@@ -396,10 +395,41 @@ tbody {
     padding: 0;
 }
 
-.col_stateInformation {
+.contents_analysis {
     background-color: rgb(40, 38, 38);
+    margin: 3%;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-bottom: 3%;
+}
+
+.col_stateInformation {
+    margin-right: 3%;
+    padding: 0px;
 }
 
 .col_districtInformation {
-    background-color: rgb(40, 38, 38);
+    margin-left: 3%;
+    padding: 0px;
+}
+
+.item_contents_analysis {
+    /* width: 100%; height: 330; */
+    /* margin-right: 3%; */
+    margin-top: 3%;
+    background-color: rgb(255, 255, 255);
+}
+
+.responsiveContainer {
+    width: 100%;
+    height: 330;
+}
+
+.table_contents_analysis {
+    margin-bottom: 0px;
+}
+
+.switch_districtMap {
+    width: 40%;
+    margin-left: 30%;
 }
