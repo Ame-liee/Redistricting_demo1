@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import bengalLogo from "./assets/Bengal.svg";
 import sideBarIcon from "./assets/sideBarIcon.svg";
 import congDist from "./assets/blank.json";
@@ -157,7 +157,8 @@ const useBoxPlot = (boxPlots) => {
 };
 function Analysis() {
   const [geoJson, setGeoJson] = useState(congDist);
-  const { id: selectedState } = useParams();
+  const location = useLocation();
+  const { selectedState, option } = location.state || {};
   const [jsonSMD, setJsonSMD] = useState(geoJson.features);
   const jsonMMD = copyGeo.features;
   const [showGraph, setShowGraph] = useState("Racial Population");
@@ -414,9 +415,7 @@ function Analysis() {
               <Row className="contents_analysis">
                 <Col xs={12} md={6} className="col_stateInformation">
                   <Row className="item_contents_analysis">
-                    <div className="text_contentsTitle_Analysis">
-                      RANDOM PLAN
-                    </div>
+                    <div className="text_contentsTitle_Analysis">{option}</div>
                   </Row>
                   <Row className="item_contents_analysis">
                     <Table
@@ -469,7 +468,6 @@ function Analysis() {
                         MMD
                       </ToggleButton>
                     </ToggleButtonGroup>
-
                     <div className="districtMap">
                       {!onMMD && (
                         <div>

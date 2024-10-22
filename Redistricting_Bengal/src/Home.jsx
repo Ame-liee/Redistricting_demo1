@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Offcanvas, Nav, Navbar, Container, Button } from "react-bootstrap";
+import {
+  Offcanvas,
+  Nav,
+  Navbar,
+  Container,
+  Button,
+  Modal,
+} from "react-bootstrap";
 import bengalLogo from "./assets/Bengal.svg";
 import arrowCircleIcon from "./assets/arrowCircleIcon.svg";
 import circleIcon from "./assets/circleIcon.svg";
@@ -10,10 +17,11 @@ import usaMapData from "@svg-maps/usa";
 function Home() {
   const [selectedState, setSelectedState] = useState("SELECT A STATE");
   const [hoveredLocation, setHoveredLocation] = useState(null);
+  const [showButtons, setShowButtons] = useState(false);
   const customStates = ["Alabama", "Mississippi", "Pennsylvania"];
   const navigate = useNavigate();
-  const toAnalysis = (state) => {
-    navigate(`/${state}`, { state: { selectedState } });
+  const toAnalysis = (state, option) => {
+    navigate(`/${state}`, { state: { selectedState, option } });
   };
   return (
     <>
@@ -117,7 +125,8 @@ function Home() {
               <div className="button_toAnalysis">
                 <Button
                   variant="link"
-                  onClick={() => toAnalysis(selectedState)}
+                  // onClick={() => toAnalysis(selectedState)}
+                  onClick={setShowButtons}
                 >
                   <img
                     alt=""
@@ -143,6 +152,35 @@ function Home() {
               </span>
             </div>
           </Container>
+          <Modal
+            show={showButtons}
+            onHide={() => setShowButtons(false)}
+            className="modal"
+          >
+            <div className="button-container">
+              <Button
+                variant="link"
+                className="toAnalysisButtons"
+                onClick={() => toAnalysis(selectedState, "Ensemble SMD/MMD")}
+              >
+                Ensemble SMD/MMD
+              </Button>
+              <Button
+                variant="link"
+                className="toAnalysisButtons"
+                onClick={() => toAnalysis(selectedState, "Random SMD")}
+              >
+                Random SMD
+              </Button>
+              <Button
+                variant="link"
+                className="toAnalysisButtons"
+                onClick={() => toAnalysis(selectedState, "Random MMD")}
+              >
+                Random MMD
+              </Button>
+            </div>
+          </Modal>
         </div>
       </div>
     </>
