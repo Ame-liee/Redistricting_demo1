@@ -23,6 +23,9 @@ function Home() {
   const toEnsemble = (state, option) => {
     navigate(`/Ensemble/${state}`, { state: { selectedState, option } });
   };
+  const toRandom = (state, option) => {
+    navigate(`/Random/${state}`, { state: { selectedState, option } });
+  };
   return (
     <>
       <div className="body">
@@ -168,14 +171,14 @@ function Home() {
               <Button
                 variant="link"
                 className="toAnalysisButtons"
-                onClick={() => toEnsemble(selectedState, "Random SMD")}
+                onClick={() => toRandom(selectedState, "Random SMD")}
               >
                 Random SMD
               </Button>
               <Button
                 variant="link"
                 className="toAnalysisButtons"
-                onClick={() => toEnsemble(selectedState, "Random MMD")}
+                onClick={() => toRandom(selectedState, "Random MMD")}
               >
                 Random MMD
               </Button>
