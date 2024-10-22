@@ -20,8 +20,8 @@ function Home() {
   const [showButtons, setShowButtons] = useState(false);
   const customStates = ["Alabama", "Mississippi", "Pennsylvania"];
   const navigate = useNavigate();
-  const toAnalysis = (state, option) => {
-    navigate(`/${state}`, { state: { selectedState, option } });
+  const toEnsemble = (state, option) => {
+    navigate(`/Ensemble/${state}`, { state: { selectedState, option } });
   };
   return (
     <>
@@ -161,21 +161,21 @@ function Home() {
               <Button
                 variant="link"
                 className="toAnalysisButtons"
-                onClick={() => toAnalysis(selectedState, "Ensemble SMD/MMD")}
+                onClick={() => toEnsemble(selectedState, "Ensemble SMD/MMD")}
               >
                 Ensemble SMD/MMD
               </Button>
               <Button
                 variant="link"
                 className="toAnalysisButtons"
-                onClick={() => toAnalysis(selectedState, "Random SMD")}
+                onClick={() => toEnsemble(selectedState, "Random SMD")}
               >
                 Random SMD
               </Button>
               <Button
                 variant="link"
                 className="toAnalysisButtons"
-                onClick={() => toAnalysis(selectedState, "Random MMD")}
+                onClick={() => toEnsemble(selectedState, "Random MMD")}
               >
                 Random MMD
               </Button>

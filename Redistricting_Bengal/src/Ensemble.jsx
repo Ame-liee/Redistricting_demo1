@@ -155,7 +155,7 @@ const useBoxPlot = (boxPlots) => {
   );
   return data;
 };
-function Analysis() {
+function Ensemble() {
   const [geoJson, setGeoJson] = useState(congDist);
   const location = useLocation();
   const { selectedState, option } = location.state || {};
@@ -1409,4 +1409,4 @@ function Analysis() {
   );
 }
 
-export default Analysis;
+export default Ensemble;
