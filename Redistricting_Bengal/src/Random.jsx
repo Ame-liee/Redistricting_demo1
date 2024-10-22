@@ -446,7 +446,7 @@ function Random() {
                     </Table>
                   </Row>
                   <Row className="item_contents_analysis">
-                    <ToggleButtonGroup
+                    {/* <ToggleButtonGroup
                       className="switch_districtMap"
                       onChange={() => setOnMMD(!onMMD)}
                       type="radio"
@@ -467,7 +467,7 @@ function Random() {
                       >
                         MMD
                       </ToggleButton>
-                    </ToggleButtonGroup>
+                    </ToggleButtonGroup> */}
                     <div className="districtMap">
                       {!onMMD && (
                         <div>
@@ -534,7 +534,7 @@ function Random() {
                           Racial Population
                         </Nav.Link>
                       </Nav.Item>
-                      <Nav.Item>
+                      {/* <Nav.Item>
                         <Nav.Link
                           eventKey="link-2"
                           className="text_navElement_analysis"
@@ -542,7 +542,7 @@ function Random() {
                         >
                           Box & Whisker
                         </Nav.Link>
-                      </Nav.Item>
+                      </Nav.Item> */}
                       <Nav.Item>
                         <Nav.Link
                           eventKey="link-3"
@@ -552,7 +552,7 @@ function Random() {
                           Political Party
                         </Nav.Link>
                       </Nav.Item>
-                      <Nav.Item>
+                      {/* <Nav.Item>
                         <Nav.Link
                           eventKey="link-4"
                           className="text_navElement_analysis"
@@ -560,7 +560,7 @@ function Random() {
                         >
                           Curve
                         </Nav.Link>
-                      </Nav.Item>
+                      </Nav.Item> */}
                     </Nav>
                   </Row>
                   {showGraph == "Racial Population" && (
@@ -595,7 +595,7 @@ function Random() {
                           </BarChart>
                         </ResponsiveContainer>
                       </Row>
-                      <Row
+                      {/* <Row
                         className="item_contents_analysis"
                         style={{ width: "100%", height: 330 }}
                       >
@@ -624,9 +624,10 @@ function Random() {
                             />
                           </BarChart>
                         </ResponsiveContainer>
-                      </Row>
+                      </Row> */}
                     </div>
                   )}
+
                   {showGraph == "Box & Whisker" && (
                     <Container>
                       <Row
@@ -780,7 +781,7 @@ function Random() {
                           </BarChart>
                         </ResponsiveContainer>
                       </Row>
-                      <Row
+                      {/* <Row
                         className="item_contents_analysis"
                         style={{ width: "100%", height: 330 }}
                       >
@@ -803,504 +804,7 @@ function Random() {
                             <Bar dataKey="Republicans" fill="red" />
                           </BarChart>
                         </ResponsiveContainer>
-                      </Row>
-                    </Container>
-                  )}
-                  {showGraph == "Curve" && (
-                    <Container>
-                      <Row
-                        className="item_contents_analysis"
-                        style={{ width: "100%", height: 330 }}
-                      >
-                        <ResponsiveContainer className="responsiveContainer">
-                          <LineChart
-                            data={data_curve1}
-                            margin={{
-                              top: 5,
-                              right: 30,
-                              left: 20,
-                              bottom: 5,
-                            }}
-                          >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis
-                              domain={[0, 1]}
-                              tickFormatter={(tick) => {
-                                return `${(
-                                  (tick * 100) /
-                                  (data_curve1.length - 1)
-                                ).toFixed(0)}%`;
-                              }}
-                            />
-                            <YAxis
-                              domain={[0, 1]}
-                              tickFormatter={formatYAxisTick}
-                            />
-                            <Tooltip />
-                            <Legend />
-                            <Line
-                              type="monotone"
-                              dataKey="Democrats"
-                              stroke="blue"
-                              activeDot={{ r: 8 }}
-                            />
-                            <Line
-                              type="monotone"
-                              dataKey="Republicans"
-                              stroke="red"
-                            />
-                          </LineChart>
-                        </ResponsiveContainer>
-                      </Row>
-                      <Row
-                        className="item_contents_analysis"
-                        style={{ width: "100%", height: 330 }}
-                      >
-                        <ResponsiveContainer className="responsiveContainer">
-                          <LineChart
-                            data={[
-                              {
-                                Republicans: 0,
-                                Democrats: 0,
-                              },
-                              {
-                                Republicans: 1,
-                                Democrats: 1,
-                              },
-                            ]}
-                            margin={{
-                              top: 5,
-                              right: 30,
-                              left: 20,
-                              bottom: 5,
-                            }}
-                          >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis
-                              domain={[0, 1]}
-                              tickFormatter={formatXAxisTick}
-                            />
-                            <YAxis
-                              domain={[0, 1]}
-                              tickFormatter={formatYAxisTick}
-                            />
-                            <Tooltip />
-                            <Legend />
-                            <Line
-                              type="monotone"
-                              dataKey="Democrats"
-                              stroke="blue"
-                              activeDot={{ r: 8 }}
-                            />
-                            <Line
-                              type="monotone"
-                              dataKey="Republicans"
-                              stroke="red"
-                            />
-                          </LineChart>
-                        </ResponsiveContainer>
-                      </Row>
-                    </Container>
-                  )}
-                </Col>
-              </Row>
-            </Carousel.Item>
-            <Carousel.Item>
-              <Row className="contents_analysis">
-                <Col xs={12} md={6} className="col_stateInformation">
-                  <Row className="item_contents_analysis">
-                    <div className="text_contentsTitle_Analysis">
-                      RANDOM PLAN
-                    </div>
-                  </Row>
-                  <Row className="item_contents_analysis">
-                    <Table
-                      striped
-                      bordered
-                      hover
-                      className="table_contents_analysis"
-                    >
-                      <thead>
-                        <tr>
-                          <td className="table_stateInfo_col1">Population</td>
-                          <td>{stateInfo.population}</td>
-                          <td className="table_stateInfo_col1">
-                            Voting Population
-                          </td>
-                          <td>{stateInfo.votePopulation}</td>
-                        </tr>
-                        <tr>
-                          <td className="table_stateInfo_col1">Total Seats</td>
-                          <td>{stateInfo.totalSeats}</td>
-                          <td className="table_stateInfo_col1">Party Splits</td>
-                          <td>
-                            Democrat: {stateInfo.democrat}; Republican:{" "}
-                            {stateInfo.republican}
-                          </td>
-                        </tr>
-                      </thead>
-                    </Table>
-                  </Row>
-                  <Row className="item_contents_analysis">
-                    <ToggleButtonGroup
-                      className="switch_districtMap"
-                      onChange={() => setOnMMD(!onMMD)}
-                      type="radio"
-                      name="options"
-                      defaultValue={1}
-                    >
-                      <ToggleButton
-                        variant="outline-dark"
-                        id="tbg-radio-1"
-                        value={1}
-                      >
-                        SMD
-                      </ToggleButton>
-                      <ToggleButton
-                        variant="outline-dark"
-                        id="tbg-radio-2"
-                        value={2}
-                      >
-                        MMD
-                      </ToggleButton>
-                    </ToggleButtonGroup>
-
-                    <div className="districtMap">
-                      {!onMMD && (
-                        <div>
-                          <MapContainer
-                            key={mapKey}
-                            center={coordinate}
-                            zoom={6.5}
-                            zoomControl={true}
-                            scrollWheelZoom={false}
-                            className="map_district"
-                          >
-                            <GeoJSON
-                              data={jsonSMD}
-                              onEachFeature={(district, layer) => {
-                                onEachDistrict_SMD(
-                                  district,
-                                  layer,
-                                  jsonSMD.indexOf(district)
-                                );
-                              }}
-                            />
-                          </MapContainer>
-                        </div>
-                      )}
-                      {onMMD && (
-                        <div>
-                          <MapContainer
-                            key={coordinate}
-                            center={coordinate}
-                            zoom={6.5}
-                            zoomControl={true}
-                            scrollWheelZoom={false}
-                            className="map_district"
-                          >
-                            <GeoJSON
-                              data={copyGeo.features}
-                              onEachFeature={(district, layer) =>
-                                onEachDistrict_MMD(
-                                  district,
-                                  layer,
-                                  copyGeo.features.indexOf(district)
-                                )
-                              }
-                            />
-                          </MapContainer>
-                        </div>
-                      )}
-                    </div>
-                  </Row>
-                </Col>
-                <Col className="col_districtInformation">
-                  <Row className="item_contents_analysis">
-                    <Nav
-                      variant="tabs"
-                      defaultActiveKey="link-1"
-                      className="navbar_analysis"
-                    >
-                      <Nav.Item>
-                        <Nav.Link
-                          eventKey="link-1"
-                          className="text_navElement_analysis"
-                          onClick={() => setShowGraph("Racial Population")}
-                        >
-                          Racial Population
-                        </Nav.Link>
-                      </Nav.Item>
-                      <Nav.Item>
-                        <Nav.Link
-                          eventKey="link-2"
-                          className="text_navElement_analysis"
-                          onClick={() => setShowGraph("Box & Whisker")}
-                        >
-                          Box & Whisker
-                        </Nav.Link>
-                      </Nav.Item>
-                      <Nav.Item>
-                        <Nav.Link
-                          eventKey="link-3"
-                          className="text_navElement_analysis"
-                          onClick={() => setShowGraph("Political Party")}
-                        >
-                          Political Party
-                        </Nav.Link>
-                      </Nav.Item>
-                      <Nav.Item>
-                        <Nav.Link
-                          eventKey="link-4"
-                          className="text_navElement_analysis"
-                          onClick={() => setShowGraph("Curve")}
-                        >
-                          Curve
-                        </Nav.Link>
-                      </Nav.Item>
-                    </Nav>
-                  </Row>
-                  {showGraph == "Racial Population" && (
-                    <div>
-                      <Row
-                        className="item_contents_analysis"
-                        style={{ width: "100%", height: 330 }}
-                      >
-                        <ResponsiveContainer className="responsiveContainer">
-                          <BarChart
-                            data={data_barchart_SMD_minority}
-                            margin={{
-                              top: 20,
-                              right: 30,
-                              left: 20,
-                              bottom: 5,
-                            }}
-                          >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Bar dataKey="White" fill="#ffc658" />
-                            <Bar dataKey="Asian" stackId="a" fill="#8884d8" />
-                            <Bar dataKey="Black" stackId="a" fill="#82ca9d" />
-                            <Bar
-                              dataKey="Hispanic"
-                              stackId="a"
-                              fill="#f7a1b8"
-                            />
-                          </BarChart>
-                        </ResponsiveContainer>
-                      </Row>
-                      <Row
-                        className="item_contents_analysis"
-                        style={{ width: "100%", height: 330 }}
-                      >
-                        <ResponsiveContainer className="responsiveContainer">
-                          <BarChart
-                            data={data_barchart_MMD_minority}
-                            margin={{
-                              top: 20,
-                              right: 30,
-                              left: 20,
-                              bottom: 5,
-                            }}
-                          >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Bar dataKey="White" fill="#ffc658" />
-                            <Bar dataKey="Asian" stackId="a" fill="#8884d8" />
-                            <Bar dataKey="Black" stackId="a" fill="#82ca9d" />
-                            <Bar
-                              dataKey="Hispanic"
-                              stackId="a"
-                              fill="#f7a1b8"
-                            />
-                          </BarChart>
-                        </ResponsiveContainer>
-                      </Row>
-                    </div>
-                  )}
-                  {showGraph == "Box & Whisker" && (
-                    <Container>
-                      <Row
-                        className="item_contents_analysis"
-                        style={{ width: "100%", height: 330 }}
-                      >
-                        <ResponsiveContainer className="responsiveContainer">
-                          <ComposedChart data={data_boxPlot[0]}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <Bar stackId={"a"} dataKey={"min"} fill={"none"} />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bottomWhisker"}
-                              shape={<DotBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bottomBox"}
-                              fill={"#8884d8"}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"topBox"}
-                              fill={"#8884d8"}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"topWhisker"}
-                              shape={<DotBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <ZAxis
-                              type="number"
-                              dataKey="size"
-                              range={[0, 250]}
-                            />
-                            {/* 
-                      <Scatter
-                        dataKey="average"
-                        fill={"red"}
-                        stroke={"#FFF"}
-                      /> */}
-                            <XAxis dataKey="name" />
-                            <YAxis
-                              domain={[0, 1]}
-                              tickFormatter={formatYAxisTick}
-                            />
-                          </ComposedChart>
-                        </ResponsiveContainer>
-                      </Row>
-                      <Row
-                        className="item_contents_analysis"
-                        style={{ width: "100%", height: 330 }}
-                      >
-                        <ResponsiveContainer className="responsiveContainer">
-                          <ComposedChart data={data_boxPlot[1]}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <Bar stackId={"a"} dataKey={"min"} fill={"none"} />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bottomWhisker"}
-                              shape={<DotBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bottomBox"}
-                              fill={"#8884d8"}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"topBox"}
-                              fill={"#8884d8"}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"topWhisker"}
-                              shape={<DotBar />}
-                            />
-                            <Bar
-                              stackId={"a"}
-                              dataKey={"bar"}
-                              shape={<HorizonBar />}
-                            />
-                            <ZAxis
-                              type="number"
-                              dataKey="size"
-                              range={[0, 250]}
-                            />
-                            {/* <Scatter
-                        dataKey="average"
-                        fill={"red"}
-                        stroke={"#FFF"}
-                      /> */}
-                            <XAxis dataKey="name" />
-                            <YAxis
-                              domain={[0, 1]}
-                              tickFormatter={formatYAxisTick}
-                            />
-                          </ComposedChart>
-                        </ResponsiveContainer>
-                      </Row>
-                    </Container>
-                  )}
-                  {showGraph == "Political Party" && (
-                    <Container>
-                      <Row
-                        className="item_contents_analysis"
-                        style={{ width: "100%", height: 330 }}
-                      >
-                        <ResponsiveContainer className="responsiveContainer">
-                          <BarChart
-                            data={data_barchart_SMD_party}
-                            margin={{
-                              top: 20,
-                              right: 30,
-                              left: 20,
-                              bottom: 5,
-                            }}
-                          >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Bar dataKey="Democrats" fill="blue" />
-                            <Bar dataKey="Republicans" fill="red" />
-                          </BarChart>
-                        </ResponsiveContainer>
-                      </Row>
-                      <Row
-                        className="item_contents_analysis"
-                        style={{ width: "100%", height: 330 }}
-                      >
-                        <ResponsiveContainer className="responsiveContainer">
-                          <BarChart
-                            data={data_barchart_MMD_party}
-                            margin={{
-                              top: 20,
-                              right: 30,
-                              left: 20,
-                              bottom: 5,
-                            }}
-                          >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Bar dataKey="Democrats" fill="blue" />
-                            <Bar dataKey="Republicans" fill="red" />
-                          </BarChart>
-                        </ResponsiveContainer>
-                      </Row>
+                      </Row> */}
                     </Container>
                   )}
                   {showGraph == "Curve" && (
