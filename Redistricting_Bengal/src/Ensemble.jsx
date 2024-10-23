@@ -38,10 +38,6 @@ function Ensemble() {
   const [boxWhiskerMMD_data, setBoxWhiskerMMD] = useState(useBoxPlot([]));
   const [minority_curveSMD, setMinority_curveSMD] = useState([]);
   const [minority_curveMMD, setMinority_curveMMD] = useState([]);
-  let data_barchart_SMD_minority = [];
-  let data_barchart_MMD_minority = [];
-  let data_barchart_MMD_party = [];
-  let data_barchart_SMD_party = [];
   const [stateInfo, setStateInfo] = useState({
     population: 0,
     votePopulation: 0,
@@ -108,34 +104,6 @@ function Ensemble() {
     setGraphData(features);
   }, [selectedState]);
   const boxWhiskerSMD = useBoxPlot(boxWhiskerSMD_data);
-  for (var i = 0; i < geoFeature.length; i++) {
-    data_barchart_SMD_minority.push({
-      name: i + 1,
-      White: geoFeature[i]["properties"]["total_wht"],
-      Aisan: geoFeature[i]["properties"]["total_asn"],
-      Black: geoFeature[i]["properties"]["total_blk"],
-      Hispanic: geoFeature[i]["properties"]["total_hsp"],
-    });
-    data_barchart_SMD_party.push({
-      name: i + 1,
-      Democrats: geoFeature[i]["properties"]["vote_dem"],
-      Republicans: geoFeature[i]["properties"]["vote_rep"],
-    });
-  }
-  for (var i = 0; i < geoFeature.length; i++) {
-    data_barchart_MMD_minority.push({
-      name: i + 1,
-      White: geoFeature[i]["properties"]["vap_white"],
-      Aisan: geoFeature[i]["properties"]["vap_asian"],
-      Black: geoFeature[i]["properties"]["vap_black"],
-      Hispanic: geoFeature[i]["properties"]["vap_hisp"],
-    });
-    data_barchart_MMD_party.push({
-      name: i + 1,
-      Democrats: 50000,
-      Republicans: 50000,
-    });
-  }
   const formatYAxisTick = (tick) => {
     return `${(tick * 100).toFixed(0)}%`;
   };
