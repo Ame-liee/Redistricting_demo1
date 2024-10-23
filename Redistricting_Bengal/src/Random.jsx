@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import bengalLogo from "./assets/Bengal.svg";
-import congDist from "./assets/blank_random.json";
+import testJson from "./assets/blank_random.json";
 import Sidebar from "./Components/Sidebar";
 import StateInfoTable from "./Components/StateInfoTable";
 import { Nav, Navbar, Container, Row, Col, Carousel } from "react-bootstrap";
@@ -12,7 +12,7 @@ import PoliticalBarChart from "./Components/PoliticalBarChart";
 
 function Random() {
   const [showSideBar, setShowSideBar] = useState(false);
-  const [geoFeature, setGeoFeature] = useState(congDist.features);
+  const [geoFeature, setGeoFeature] = useState([]);
   const location = useLocation();
   const { selectedState, option } = location.state || {};
   const [showGraph, setShowGraph] = useState("Racial Population");
@@ -32,7 +32,7 @@ function Random() {
   }); //Population, Voting Population, Representative Seats, (Democrats, Republicans)
 
   useEffect(() => {
-    let features = congDist.features;
+    let features = [];
     let value = "";
     if (selectedState == "Mississippi") {
       value = "/MS/all/districts";

@@ -2,8 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import StateInfoTable from "./Components/StateInfoTable";
-import congDist from "./assets/blank_ensemble.json";
-import copyGeo from "./assets/copyGeo.json";
+import testJson from "./assets/blank_ensemble.json";
 import Sidebar from "./Components/Sidebar";
 import Brand from "./Components/Brand";
 import BoxWhisker from "./Components/BoxWhisker";
@@ -31,15 +30,14 @@ const useBoxPlot = (boxPlots) => {
 };
 function Ensemble() {
   const [showSideBar, setShowSideBar] = useState(false);
-  const [geoFeature, setGeoFeature] = useState(congDist.features);
+  const [geoFeature, setGeoFeature] = useState([]);
   const location = useLocation();
   const { selectedState, option } = location.state || {};
-  const jsonMMD = copyGeo.features;
   const [showGraph, setShowGraph] = useState("Box & Whisker");
   const [boxWhiskerSMD_data, setBoxWhiskerSMD] = useState(useBoxPlot([]));
   const [boxWhiskerMMD_data, setBoxWhiskerMMD] = useState(useBoxPlot([]));
-  const [minority_curveSMD, setMinority_curveSMD] = useState();
-  const [minority_curveMMD, setMinority_curveMMD] = useState();
+  const [minority_curveSMD, setMinority_curveSMD] = useState([]);
+  const [minority_curveMMD, setMinority_curveMMD] = useState([]);
   let data_barchart_SMD_minority = [];
   let data_barchart_MMD_minority = [];
   let data_barchart_MMD_party = [];
@@ -53,7 +51,7 @@ function Ensemble() {
   }); //Population, Voting Population, Representative Seats, (Democrats, Republicans)
 
   useEffect(() => {
-    let features = congDist.features;
+    let features = [];
     let value = "";
     if (selectedState == "Mississippi") {
       value = "/MS/all/districts";
@@ -124,13 +122,13 @@ function Ensemble() {
       Republicans: geoFeature[i]["properties"]["vote_rep"],
     });
   }
-  for (var i = 0; i < jsonMMD.length; i++) {
+  for (var i = 0; i < geoFeature.length; i++) {
     data_barchart_MMD_minority.push({
       name: i + 1,
-      White: jsonMMD[i]["properties"]["vap_white"],
-      Aisan: jsonMMD[i]["properties"]["vap_asian"],
-      Black: jsonMMD[i]["properties"]["vap_black"],
-      Hispanic: jsonMMD[i]["properties"]["vap_hisp"],
+      White: geoFeature[i]["properties"]["vap_white"],
+      Aisan: geoFeature[i]["properties"]["vap_asian"],
+      Black: geoFeature[i]["properties"]["vap_black"],
+      Hispanic: geoFeature[i]["properties"]["vap_hisp"],
     });
     data_barchart_MMD_party.push({
       name: i + 1,
@@ -222,16 +220,7 @@ function Ensemble() {
                     style={{ width: "100%", height: 330 }}
                   >
                     <SeatVoteCurve
-                      data={[
-                        {
-                          republicans: 0,
-                          democrats: 0,
-                        },
-                        {
-                          republicans: 1,
-                          democrats: 1,
-                        },
-                      ]}
+                      data={minority_curveMMD}
                       formatYAxisTick={formatYAxisTick}
                     />
                   </Row>
