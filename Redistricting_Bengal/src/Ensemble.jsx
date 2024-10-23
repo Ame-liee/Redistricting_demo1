@@ -40,6 +40,7 @@ import {
   Button,
   // Carousel,
 } from "react-bootstrap";
+import SeatVoteCurve from "./Components/SeatVoteCurve";
 
 // BoxPlot
 const useBoxPlot = (boxPlots) => {
@@ -540,93 +541,28 @@ function Ensemble() {
                     className="item_contents_analysis"
                     style={{ width: "100%", height: 330 }}
                   >
-                    <ResponsiveContainer className="responsiveContainer">
-                      <LineChart
-                        data={minority_curveSMD}
-                        margin={{
-                          top: 5,
-                          right: 30,
-                          left: 20,
-                          bottom: 5,
-                        }}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis
-                          domain={[0, 1]}
-                          tickFormatter={(tick) => {
-                            return `${(
-                              (tick * 100) /
-                              (minority_curveSMD.length - 1)
-                            ).toFixed(0)}%`;
-                          }}
-                        />
-                        <YAxis
-                          domain={[0, 1]}
-                          tickFormatter={formatYAxisTick}
-                        />
-                        <Tooltip />
-                        <Legend />
-                        <Line
-                          type="monotone"
-                          dataKey="democrats"
-                          stroke="blue"
-                          activeDot={{ r: 8 }}
-                        />
-                        <Line
-                          type="monotone"
-                          dataKey="republicans"
-                          stroke="red"
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
+                    <SeatVoteCurve
+                      data={minority_curveSMD}
+                      formatYAxisTick={formatYAxisTick}
+                    />
                   </Row>
                   <Row
                     className="item_contents_analysis"
                     style={{ width: "100%", height: 330 }}
                   >
-                    <ResponsiveContainer className="responsiveContainer">
-                      <LineChart
-                        data={[
-                          {
-                            republicans: 0,
-                            democrats: 0,
-                          },
-                          {
-                            republicans: 1,
-                            democrats: 1,
-                          },
-                        ]}
-                        margin={{
-                          top: 5,
-                          right: 30,
-                          left: 20,
-                          bottom: 5,
-                        }}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis
-                          domain={[0, 1]}
-                          tickFormatter={formatXAxisTick}
-                        />
-                        <YAxis
-                          domain={[0, 1]}
-                          tickFormatter={formatYAxisTick}
-                        />
-                        <Tooltip />
-                        <Legend />
-                        <Line
-                          type="monotone"
-                          dataKey="democrats"
-                          stroke="blue"
-                          activeDot={{ r: 8 }}
-                        />
-                        <Line
-                          type="monotone"
-                          dataKey="republicans"
-                          stroke="red"
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
+                    <SeatVoteCurve
+                      data={[
+                        {
+                          republicans: 0,
+                          democrats: 0,
+                        },
+                        {
+                          republicans: 1,
+                          democrats: 1,
+                        },
+                      ]}
+                      formatYAxisTick={formatYAxisTick}
+                    />
                   </Row>
                 </Container>
               )}
