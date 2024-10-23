@@ -3,7 +3,6 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import bengalLogo from "./assets/Bengal.svg";
 import congDist from "./assets/blank_random.json";
-import copyGeo from "./assets/copyGeo.json";
 import Sidebar from "./Components/Sidebar";
 import StateInfoTable from "./Components/StateInfoTable";
 import { Nav, Navbar, Container, Row, Col, Carousel } from "react-bootstrap";
@@ -16,13 +15,10 @@ function Random() {
   const [geoFeature, setGeoFeature] = useState(congDist.features);
   const location = useLocation();
   const { selectedState, option } = location.state || {};
-  const jsonMMD = copyGeo.features;
   const [showGraph, setShowGraph] = useState("Racial Population");
   const [mapKey, setMapKey] = useState(0);
-  let data_barchart_SMD_minority = [];
-  let data_barchart_MMD_minority = [];
-  let data_barchart_MMD_party = [];
-  let data_barchart_SMD_party = [];
+  let data_barchart_minority = [];
+  let data_barchart_party = [];
   const [index, setIndex] = useState(0);
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
@@ -34,7 +30,6 @@ function Random() {
     democrat: 0,
     republican: 0,
   }); //Population, Voting Population, Representative Seats, (Democrats, Republicans)
-  const [onMMD, setOnMMD] = useState(false);
 
   useEffect(() => {
     let features = congDist.features;
@@ -102,35 +97,21 @@ function Random() {
   }, [selectedState]);
 
   for (var i = 0; i < geoFeature.length; i++) {
-    data_barchart_SMD_minority.push({
+    data_barchart_minority.push({
       name: i + 1,
       White: geoFeature[i]["properties"]["total_wht"],
       Asian: geoFeature[i]["properties"]["total_asn"],
       Black: geoFeature[i]["properties"]["total_blk"],
       Hispanic: geoFeature[i]["properties"]["total_hsp"],
     });
-    data_barchart_SMD_party.push({
+    data_barchart_party.push({
       name: i + 1,
       Democrats: geoFeature[i]["properties"]["vote_dem"],
       Republicans: geoFeature[i]["properties"]["vote_rep"],
     });
   }
 
-  for (var i = 0; i < jsonMMD.length; i++) {
-    data_barchart_MMD_minority.push({
-      name: i + 1,
-      White: jsonMMD[i]["properties"]["vap_white"],
-      Aisan: jsonMMD[i]["properties"]["vap_asian"],
-      Black: jsonMMD[i]["properties"]["vap_black"],
-      Hispanic: jsonMMD[i]["properties"]["vap_hisp"],
-    });
-    data_barchart_MMD_party.push({
-      name: i + 1,
-      Democrats: 50000,
-      Republicans: 50000,
-    });
-  }
-  const onEachDistrict_SMD = (district, layer, index) => {
+  const onEachDistrict = (district, layer, index) => {
     let centroid = district["properties"]["centroid"].split(",");
     const latLng = L.latLng(parseFloat(centroid[1]), parseFloat(centroid[0]));
     const onMouseOver = (e) => {
@@ -155,38 +136,6 @@ function Random() {
         html: `<div style="font-size: 20px; color: black;">${index + 1}</div>`,
       });
       L.marker(latLng, { icon: label }).addTo(layer._map);
-    };
-    layer.setStyle({
-      color: "rgba(241, 243, 243, 1)",
-      fillColor: "rgb(220, 25, 10)",
-    });
-    layer.on({
-      mouseout: onMouseOut,
-      mouseover: onMouseOver,
-      add: onAdd,
-    });
-  };
-  const onEachDistrict_MMD = (district, layer, index) => {
-    const onMouseOver = (e) => {
-      layer.setStyle({
-        weight: 4,
-        fillColor: "rgb(40, 38, 38)",
-      });
-    };
-    const onMouseOut = (e) => {
-      layer.setStyle({
-        weight: 3,
-        fillColor: "rgb(220, 25, 10)",
-      });
-    };
-    const onAdd = (e) => {
-      const label = L.divIcon({
-        className: "district-label",
-        html: `<div style="font-size: 20px; color: black;">${index + 1}</div>`,
-      });
-      L.marker(layer.getBounds().getCenter(), { icon: label }).addTo(
-        layer._map
-      );
     };
     layer.setStyle({
       color: "rgba(241, 243, 243, 1)",
@@ -230,22 +179,12 @@ function Random() {
                   </Row>
                   <Row className="item_contents_analysis">
                     <div className="districtMap">
-                      {!onMMD && (
-                        <DistrictMap
-                          mapKey={mapKey}
-                          coordinate={coordinate}
-                          data={geoFeature}
-                          onEachDistrict={onEachDistrict_SMD}
-                        />
-                      )}
-                      {onMMD && (
-                        <DistrictMap
-                          mapKey={mapKey}
-                          coordinate={coordinate}
-                          data={copyGeo.features}
-                          onEachDistrict={onEachDistrict_MMD}
-                        />
-                      )}
+                      <DistrictMap
+                        mapKey={mapKey}
+                        coordinate={coordinate}
+                        data={geoFeature}
+                        onEachDistrict={onEachDistrict}
+                      />
                     </div>
                   </Row>
                 </Col>
@@ -282,7 +221,7 @@ function Random() {
                         className="item_contents_analysis"
                         style={{ width: "100%", height: 330 }}
                       >
-                        <MinorityBarChart data={data_barchart_SMD_minority} />
+                        <MinorityBarChart data={data_barchart_minority} />
                       </Row>
                     </div>
                   )}
@@ -292,7 +231,7 @@ function Random() {
                         className="item_contents_analysis"
                         style={{ width: "100%", height: 330 }}
                       >
-                        <PoliticalBarChart data={data_barchart_SMD_party} />
+                        <PoliticalBarChart data={data_barchart_party} />
                       </Row>
                     </Container>
                   )}
