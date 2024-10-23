@@ -39,6 +39,7 @@ import {
   Carousel,
 } from "react-bootstrap";
 import DistrictMap from "./Components/DistrictMap";
+import MinorityBarChart from "./Components/MinorityBarChart";
 const boxPlots1 = [
   {
     name: "District 1",
@@ -490,31 +491,7 @@ function Random() {
                         className="item_contents_analysis"
                         style={{ width: "100%", height: 330 }}
                       >
-                        <ResponsiveContainer className="responsiveContainer">
-                          <BarChart
-                            data={data_barchart_SMD_minority}
-                            margin={{
-                              top: 20,
-                              right: 30,
-                              left: 20,
-                              bottom: 5,
-                            }}
-                          >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Bar dataKey="White" fill="#ffc658" />
-                            <Bar dataKey="Asian" stackId="a" fill="#8884d8" />
-                            <Bar dataKey="Black" stackId="a" fill="#82ca9d" />
-                            <Bar
-                              dataKey="Hispanic"
-                              stackId="a"
-                              fill="#f7a1b8"
-                            />
-                          </BarChart>
-                        </ResponsiveContainer>
+                        <MinorityBarChart data={data_barchart_SMD_minority} />
                       </Row>
                       {/* <Row
                         className="item_contents_analysis"
