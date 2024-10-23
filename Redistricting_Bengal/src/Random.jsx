@@ -38,6 +38,7 @@ import {
   Button,
   Carousel,
 } from "react-bootstrap";
+import DistrictMap from "./Components/DistrictMap";
 const boxPlots1 = [
   {
     name: "District 1",
@@ -420,50 +421,20 @@ function Random() {
                     </ToggleButtonGroup> */}
                     <div className="districtMap">
                       {!onMMD && (
-                        <div>
-                          <MapContainer
-                            key={mapKey}
-                            center={coordinate}
-                            zoom={6.5}
-                            zoomControl={true}
-                            scrollWheelZoom={false}
-                            className="map_district"
-                          >
-                            <GeoJSON
-                              data={geoFeature}
-                              onEachFeature={(district, layer) => {
-                                onEachDistrict_SMD(
-                                  district,
-                                  layer,
-                                  geoFeature.indexOf(district)
-                                );
-                              }}
-                            />
-                          </MapContainer>
-                        </div>
+                        <DistrictMap
+                          mapKey={mapKey}
+                          coordinate={coordinate}
+                          data={geoFeature}
+                          onEachDistrict={onEachDistrict_SMD}
+                        />
                       )}
                       {onMMD && (
-                        <div>
-                          <MapContainer
-                            key={coordinate}
-                            center={coordinate}
-                            zoom={6.5}
-                            zoomControl={true}
-                            scrollWheelZoom={false}
-                            className="map_district"
-                          >
-                            <GeoJSON
-                              data={copyGeo.features}
-                              onEachFeature={(district, layer) =>
-                                onEachDistrict_MMD(
-                                  district,
-                                  layer,
-                                  copyGeo.features.indexOf(district)
-                                )
-                              }
-                            />
-                          </MapContainer>
-                        </div>
+                        <DistrictMap
+                          mapKey={mapKey}
+                          coordinate={coordinate}
+                          data={copyGeo.features}
+                          onEachDistrict={onEachDistrict_MMD}
+                        />
                       )}
                     </div>
                   </Row>
