@@ -93,7 +93,7 @@ function Ensemble() {
   const location = useLocation();
   const { selectedState, option } = location.state || {};
   const jsonMMD = copyGeo.features;
-  const [showGraph, setShowGraph] = useState("Racial Population");
+  const [showGraph, setShowGraph] = useState("Box & Whisker");
   const [mapKey, setMapKey] = useState(0);
   const [boxWhiskerSMD_data, setBoxWhiskerSMD] = useState(useBoxPlot([]));
   const [boxWhiskerMMD_data, setBoxWhiskerMMD] = useState(useBoxPlot([]));
@@ -388,7 +388,7 @@ function Ensemble() {
                   </thead>
                 </Table>
               </Row>
-              <Row className="item_contents_analysis">
+              {/* <Row className="item_contents_analysis">
                 <ToggleButtonGroup
                   className="switch_districtMap"
                   onChange={() => setOnMMD(!onMMD)}
@@ -459,7 +459,7 @@ function Ensemble() {
                     </div>
                   )}
                 </div>
-              </Row>
+              </Row> */}
             </Col>
             <Col className="col_districtInformation">
               <Row className="item_contents_analysis">
@@ -468,7 +468,7 @@ function Ensemble() {
                   defaultActiveKey="link-1"
                   className="navbar_analysis"
                 >
-                  <Nav.Item>
+                  {/* <Nav.Item>
                     <Nav.Link
                       eventKey="link-1"
                       className="text_navElement_analysis"
@@ -476,7 +476,7 @@ function Ensemble() {
                     >
                       Racial Population
                     </Nav.Link>
-                  </Nav.Item>
+                  </Nav.Item> */}
                   <Nav.Item>
                     <Nav.Link
                       eventKey="link-2"
@@ -486,7 +486,7 @@ function Ensemble() {
                       Box & Whisker
                     </Nav.Link>
                   </Nav.Item>
-                  <Nav.Item>
+                  {/* <Nav.Item>
                     <Nav.Link
                       eventKey="link-3"
                       className="text_navElement_analysis"
@@ -494,7 +494,7 @@ function Ensemble() {
                     >
                       Political Party
                     </Nav.Link>
-                  </Nav.Item>
+                  </Nav.Item> */}
                   <Nav.Item>
                     <Nav.Link
                       eventKey="link-4"
@@ -506,7 +506,7 @@ function Ensemble() {
                   </Nav.Item>
                 </Nav>
               </Row>
-              {showGraph == "Racial Population" && (
+              {/* {showGraph == "Racial Population" && (
                 <div>
                   <Row
                     className="item_contents_analysis"
@@ -561,7 +561,7 @@ function Ensemble() {
                     </ResponsiveContainer>
                   </Row>
                 </div>
-              )}
+              )} */}
               {showGraph == "Box & Whisker" && (
                 <Container>
                   <Row
@@ -681,7 +681,7 @@ function Ensemble() {
                   </Row>
                 </Container>
               )}
-              {showGraph == "Political Party" && (
+              {/* {showGraph == "Political Party" && (
                 <Container>
                   <Row
                     className="item_contents_analysis"
@@ -732,7 +732,7 @@ function Ensemble() {
                     </ResponsiveContainer>
                   </Row>
                 </Container>
-              )}
+              )} */}
               {showGraph == "Curve" && (
                 <Container>
                   <Row
