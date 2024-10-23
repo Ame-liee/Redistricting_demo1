@@ -161,7 +161,7 @@ function Ensemble() {
               <Row className="item_contents_analysis">
                 <Nav
                   variant="tabs"
-                  defaultActiveKey="link-1"
+                  defaultActiveKey="link-2"
                   className="navbar_analysis"
                 >
                   <Nav.Item>
