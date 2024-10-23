@@ -15,6 +15,7 @@ import sideBarIcon from "./assets/sideBarIcon.svg";
 import Sidebar from "./Components/Sidebar";
 import USMap from "./Components/USMap";
 import Brand from "./Components/Brand";
+import ToAnalysisButtons from "./Components/ToAnalysisButtons";
 
 function Home() {
   const [selectedState, setSelectedState] = useState("SELECT A STATE");
@@ -81,35 +82,13 @@ function Home() {
               </span>
             </div>
           </Container>
-          <Modal
+          <ToAnalysisButtons
             show={showButtons}
-            onHide={() => setShowButtons(false)}
-            className="modal"
-          >
-            <div className="button-container">
-              <Button
-                variant="link"
-                className="toAnalysisButtons"
-                onClick={() => toEnsemble(selectedState, "Ensemble SMD/MMD")}
-              >
-                Ensemble SMD/MMD
-              </Button>
-              <Button
-                variant="link"
-                className="toAnalysisButtons"
-                onClick={() => toRandom(selectedState, "Random SMD")}
-              >
-                Random SMD
-              </Button>
-              <Button
-                variant="link"
-                className="toAnalysisButtons"
-                onClick={() => toRandom(selectedState, "Random MMD")}
-              >
-                Random MMD
-              </Button>
-            </div>
-          </Modal>
+            handleClose={() => setShowButtons(false)}
+            toEnsemble={toEnsemble}
+            toRandom={toRandom}
+            selectedState={selectedState}
+          />
         </div>
       </div>
     </>
