@@ -8,12 +8,13 @@ import {
   Button,
   Modal,
 } from "react-bootstrap";
-import bengalLogo from "./assets/Bengal.svg";
+
 import arrowCircleIcon from "./assets/arrowCircleIcon.svg";
 import circleIcon from "./assets/circleIcon.svg";
 import sideBarIcon from "./assets/sideBarIcon.svg";
 import Sidebar from "./Components/Sidebar";
 import USMap from "./Components/USMap";
+import Brand from "./Components/Brand";
 
 function Home() {
   const [selectedState, setSelectedState] = useState("SELECT A STATE");
@@ -33,12 +34,7 @@ function Home() {
       <div className="body">
         <Sidebar show={showSideBar} handleClose={() => setShowSideBar(false)} />
         <div className="body_home">
-          <Navbar data-bs-theme="dark" className="brand">
-            <Navbar.Brand href="/" className="text_FAIRWIN">
-              <img alt="" src={bengalLogo} className="svgIcon" />
-              &nbsp; FAIRWIN
-            </Navbar.Brand>
-          </Navbar>
+          <Brand />
           <Container>
             <div className="text_question">IS A FAIR VOTE BEING HELD?</div>
             <div className="text_selectedState">

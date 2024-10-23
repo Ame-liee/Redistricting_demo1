@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import bengalLogo from "./assets/Bengal.svg";
 import sideBarIcon from "./assets/sideBarIcon.svg";
 import Sidebar from "./Components/Sidebar";
+import Brand from "./Components/Brand";
 import {
   Offcanvas,
   Nav,
@@ -19,12 +20,7 @@ function About() {
     <>
       <div className="body">
         <Sidebar show={showSideBar} handleClose={() => setShowSideBar(false)} />
-        <Navbar data-bs-theme="dark" className="brand">
-          <Navbar.Brand href="/" className="text_FAIRWIN">
-            <img alt="" src={bengalLogo} className="svgIcon" />
-            &nbsp; FAIRWIN
-          </Navbar.Brand>
-        </Navbar>
+        <Brand />
         <div className="text_aboutContent">
           <h1>ABOUT FAIRWIN project</h1>
           <p>

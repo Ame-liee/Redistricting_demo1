@@ -6,6 +6,7 @@ import sideBarIcon from "./assets/sideBarIcon.svg";
 import congDist from "./assets/blank_ensemble.json";
 import copyGeo from "./assets/copyGeo.json";
 import Sidebar from "./Components/Sidebar";
+import Brand from "./Components/Brand";
 import { MapContainer, GeoJSON } from "react-leaflet";
 import {
   BarChart,
@@ -297,15 +298,7 @@ function Ensemble() {
     <>
       <div className="body">
         <Sidebar show={showSideBar} handleClose={() => setShowSideBar(false)} />
-        <Navbar data-bs-theme="dark" className="brand">
-          <Navbar.Brand href="/" className="text_FAIRWIN">
-            <img alt="" src={bengalLogo} className="svgIcon" />
-            &nbsp; FAIRWIN
-          </Navbar.Brand>
-          <span className="text_selectedState_Analysis">
-            {selectedState.toUpperCase()}
-          </span>
-        </Navbar>
+        <Brand />
         <div className="body_analysis">
           {/* <Carousel
             variant="dark"
