@@ -168,76 +168,80 @@ function Random() {
             onSelect={handleSelect}
             interval={null}
           >
-            <Carousel.Item>
-              <Row className="contents_analysis">
-                <Col xs={12} md={6} className="col_stateInformation">
-                  <Row className="item_contents_analysis">
-                    <div className="text_contentsTitle_Analysis">{option}</div>
-                  </Row>
-                  <Row className="item_contents_analysis">
-                    <StateInfoTable stateInfo={stateInfo} />
-                  </Row>
-                  <Row className="item_contents_analysis">
-                    <div className="districtMap">
-                      <DistrictMap
-                        mapKey={mapKey}
-                        coordinate={coordinate}
-                        data={geoFeature}
-                        onEachDistrict={onEachDistrict}
-                      />
-                    </div>
-                  </Row>
-                </Col>
-                <Col className="col_districtInformation">
-                  <Row className="item_contents_analysis">
-                    <Nav
-                      variant="tabs"
-                      defaultActiveKey="link-1"
-                      className="navbar_analysis"
-                    >
-                      <Nav.Item>
-                        <Nav.Link
-                          eventKey="link-1"
-                          className="text_navElement_analysis"
-                          onClick={() => setShowGraph("Racial Population")}
-                        >
-                          Racial Population
-                        </Nav.Link>
-                      </Nav.Item>
-                      <Nav.Item>
-                        <Nav.Link
-                          eventKey="link-3"
-                          className="text_navElement_analysis"
-                          onClick={() => setShowGraph("Political Party")}
-                        >
-                          Political Party
-                        </Nav.Link>
-                      </Nav.Item>
-                    </Nav>
-                  </Row>
-                  {showGraph == "Racial Population" && (
-                    <div>
-                      <Row
-                        className="item_contents_analysis"
-                        style={{ width: "100%", height: 330 }}
+            {[0, 1, 2, 3, 4].map((item, index) => (
+              <Carousel.Item key={index}>
+                <Row className="contents_analysis">
+                  <Col xs={12} md={6} className="col_stateInformation">
+                    <Row className="item_contents_analysis">
+                      <div className="text_contentsTitle_Analysis">
+                        {option}
+                      </div>
+                    </Row>
+                    <Row className="item_contents_analysis">
+                      <StateInfoTable stateInfo={stateInfo} />
+                    </Row>
+                    <Row className="item_contents_analysis">
+                      <div className="districtMap">
+                        <DistrictMap
+                          mapKey={mapKey}
+                          coordinate={coordinate}
+                          data={geoFeature}
+                          onEachDistrict={onEachDistrict}
+                        />
+                      </div>
+                    </Row>
+                  </Col>
+                  <Col className="col_districtInformation">
+                    <Row className="item_contents_analysis">
+                      <Nav
+                        variant="tabs"
+                        defaultActiveKey="link-1"
+                        className="navbar_analysis"
                       >
-                        <MinorityBarChart data={data_barchart_minority} />
-                      </Row>
-                    </div>
-                  )}
-                  {showGraph == "Political Party" && (
-                    <Container>
-                      <Row
-                        className="item_contents_analysis"
-                        style={{ width: "100%", height: 330 }}
-                      >
-                        <PoliticalBarChart data={data_barchart_party} />
-                      </Row>
-                    </Container>
-                  )}
-                </Col>
-              </Row>
-            </Carousel.Item>
+                        <Nav.Item>
+                          <Nav.Link
+                            eventKey="link-1"
+                            className="text_navElement_analysis"
+                            onClick={() => setShowGraph("Racial Population")}
+                          >
+                            Racial Population
+                          </Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item>
+                          <Nav.Link
+                            eventKey="link-3"
+                            className="text_navElement_analysis"
+                            onClick={() => setShowGraph("Political Party")}
+                          >
+                            Political Party
+                          </Nav.Link>
+                        </Nav.Item>
+                      </Nav>
+                    </Row>
+                    {showGraph === "Racial Population" && (
+                      <div>
+                        <Row
+                          className="item_contents_analysis"
+                          style={{ width: "100%", height: 330 }}
+                        >
+                          <MinorityBarChart data={data_barchart_minority} />
+                        </Row>
+                      </div>
+                    )}
+                    {showGraph === "Political Party" && (
+                      <Container>
+                        <Row
+                          className="item_contents_analysis"
+                          style={{ width: "100%", height: 330 }}
+                        >
+                          <PoliticalBarChart data={data_barchart_party} />
+                        </Row>
+                      </Container>
+                    )}
+                  </Col>
+                </Row>
+              </Carousel.Item>
+            ))}
           </Carousel>
         </div>
       </div>
