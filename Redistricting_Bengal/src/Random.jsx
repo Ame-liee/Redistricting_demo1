@@ -40,6 +40,7 @@ import {
 } from "react-bootstrap";
 import DistrictMap from "./Components/DistrictMap";
 import MinorityBarChart from "./Components/MinorityBarChart";
+import PoliticalBarChart from "./Components/PoliticalBarChart";
 const boxPlots1 = [
   {
     name: "District 1",
@@ -659,25 +660,7 @@ function Random() {
                         className="item_contents_analysis"
                         style={{ width: "100%", height: 330 }}
                       >
-                        <ResponsiveContainer className="responsiveContainer">
-                          <BarChart
-                            data={data_barchart_SMD_party}
-                            margin={{
-                              top: 20,
-                              right: 30,
-                              left: 20,
-                              bottom: 5,
-                            }}
-                          >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Bar dataKey="Democrats" fill="blue" />
-                            <Bar dataKey="Republicans" fill="red" />
-                          </BarChart>
-                        </ResponsiveContainer>
+                        <PoliticalBarChart data={data_barchart_SMD_party} />
                       </Row>
                       {/* <Row
                         className="item_contents_analysis"
