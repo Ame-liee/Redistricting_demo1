@@ -1,17 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Offcanvas,
-  Nav,
-  Navbar,
-  Container,
-  Button,
-  Modal,
-} from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
 
 import arrowCircleIcon from "./assets/arrowCircleIcon.svg";
 import circleIcon from "./assets/circleIcon.svg";
-import sideBarIcon from "./assets/sideBarIcon.svg";
 import Sidebar from "./Components/Sidebar";
 import USMap from "./Components/USMap";
 import Brand from "./Components/Brand";
@@ -53,11 +45,7 @@ function Home() {
             </Container>
             {customStates.includes(selectedState) && (
               <div className="button_toAnalysis">
-                <Button
-                  variant="link"
-                  // onClick={() => toAnalysis(selectedState)}
-                  onClick={setShowButtons}
-                >
+                <Button variant="link" onClick={setShowButtons}>
                   <img
                     alt=""
                     src={arrowCircleIcon}
