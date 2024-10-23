@@ -123,78 +123,76 @@ function Ensemble() {
                 <StateInfoTable stateInfo={stateInfo} />
               </Row>
             </Col>
-            <Col className="col_districtInformation">
-              <Row className="item_contents_analysis">
-                <Nav
-                  variant="tabs"
-                  defaultActiveKey="link-2"
-                  className="navbar_analysis"
+            <Row className="item_contents_analysis">
+              <Nav
+                variant="tabs"
+                defaultActiveKey="link-2"
+                className="navbar_analysis"
+              >
+                <Nav.Item>
+                  <Nav.Link
+                    eventKey="link-2"
+                    className="text_navElement_analysis"
+                    onClick={() => setShowGraph("Box & Whisker")}
+                  >
+                    Box & Whisker
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link
+                    eventKey="link-4"
+                    className="text_navElement_analysis"
+                    onClick={() => setShowGraph("Curve")}
+                  >
+                    Curve
+                  </Nav.Link>
+                </Nav.Item>
+              </Nav>
+            </Row>
+            {showGraph == "Box & Whisker" && (
+              <Container>
+                <Row
+                  className="item_contents_analysis"
+                  style={{ width: "100%", height: 330 }}
                 >
-                  <Nav.Item>
-                    <Nav.Link
-                      eventKey="link-2"
-                      className="text_navElement_analysis"
-                      onClick={() => setShowGraph("Box & Whisker")}
-                    >
-                      Box & Whisker
-                    </Nav.Link>
-                  </Nav.Item>
-                  <Nav.Item>
-                    <Nav.Link
-                      eventKey="link-4"
-                      className="text_navElement_analysis"
-                      onClick={() => setShowGraph("Curve")}
-                    >
-                      Curve
-                    </Nav.Link>
-                  </Nav.Item>
-                </Nav>
-              </Row>
-              {showGraph == "Box & Whisker" && (
-                <Container>
-                  <Row
-                    className="item_contents_analysis"
-                    style={{ width: "100%", height: 330 }}
-                  >
-                    <BoxWhisker
-                      data={boxWhiskerSMD}
-                      formatYAxisTick={formatYAxisTick}
-                    />
-                  </Row>
-                  <Row
-                    className="item_contents_analysis"
-                    style={{ width: "100%", height: 330 }}
-                  >
-                    <BoxWhisker
-                      data={boxWhiskerMMD_data}
-                      formatYAxisTick={formatYAxisTick}
-                    />
-                  </Row>
-                </Container>
-              )}
-              {showGraph == "Curve" && (
-                <Container>
-                  <Row
-                    className="item_contents_analysis"
-                    style={{ width: "100%", height: 330 }}
-                  >
-                    <SeatVoteCurve
-                      data={minority_curveSMD}
-                      formatYAxisTick={formatYAxisTick}
-                    />
-                  </Row>
-                  <Row
-                    className="item_contents_analysis"
-                    style={{ width: "100%", height: 330 }}
-                  >
-                    <SeatVoteCurve
-                      data={minority_curveMMD}
-                      formatYAxisTick={formatYAxisTick}
-                    />
-                  </Row>
-                </Container>
-              )}
-            </Col>
+                  <BoxWhisker
+                    data={boxWhiskerSMD}
+                    formatYAxisTick={formatYAxisTick}
+                  />
+                </Row>
+                <Row
+                  className="item_contents_analysis"
+                  style={{ width: "100%", height: 330 }}
+                >
+                  <BoxWhisker
+                    data={boxWhiskerMMD_data}
+                    formatYAxisTick={formatYAxisTick}
+                  />
+                </Row>
+              </Container>
+            )}
+            {showGraph == "Curve" && (
+              <Container>
+                <Row
+                  className="item_contents_analysis"
+                  style={{ width: "100%", height: 330 }}
+                >
+                  <SeatVoteCurve
+                    data={minority_curveSMD}
+                    formatYAxisTick={formatYAxisTick}
+                  />
+                </Row>
+                <Row
+                  className="item_contents_analysis"
+                  style={{ width: "100%", height: 330 }}
+                >
+                  <SeatVoteCurve
+                    data={minority_curveMMD}
+                    formatYAxisTick={formatYAxisTick}
+                  />
+                </Row>
+              </Container>
+            )}
           </Row>
         </div>
       </div>
