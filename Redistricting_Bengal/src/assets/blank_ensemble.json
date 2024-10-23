@@ -1,0 +1,75 @@
+{
+  "type": "FeatureCollection",
+  "crs": {
+    "type": "name",
+    "properties": {
+      "name": ""
+    }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "total_pop": 0,
+        "vote_pop": 0,
+        "total_asn": 0,
+        "total_blk": 0,
+        "total_hsp": 0,
+        "total_wht": 0,
+        "vote_dem": 0,
+        "vote_rep": 0,
+        "total_vote": 0,
+        "win_cand": "",
+        "win_pty": "",
+        "centroid": "0,0",
+        "box_whisker": [
+          {
+            "name": "District 1",
+            "min": 0.0,
+            "lowerQuartile": 0.0,
+            "median": 0.0,
+            "upperQuartile": 0.0,
+            "max": 0.0,
+            "average": 0.0
+          },
+          {
+            "name": "District 2",
+            "min": 0.0,
+            "lowerQuartile": 0.0,
+            "median": 0.0,
+            "upperQuartile": 0.0,
+            "max": 0.0,
+            "average": 0.0
+          }
+        ],
+        "minority_curve": [
+          {
+            "republicans": 0,
+            "democrats": 0
+          },
+          {
+            "republicans": 1,
+            "democrats": 1
+          }
+        ]
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0,
+              0
+            ]
+          ],
+          [
+            [
+              0,
+              0
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -3,7 +3,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import bengalLogo from "./assets/Bengal.svg";
 import sideBarIcon from "./assets/sideBarIcon.svg";
-import congDist from "./assets/blank.json";
+import congDist from "./assets/blank_ensemble.json";
 import copyGeo from "./assets/copyGeo.json";
 import { MapContainer, GeoJSON } from "react-leaflet";
 import {
@@ -36,73 +36,6 @@ import {
   Button,
   // Carousel,
 } from "react-bootstrap";
-const boxPlots1 = [
-  {
-    name: "District 1",
-    min: 0.05,
-    lowerQuartile: 0.1,
-    median: 0.15,
-    upperQuartile: 0.2,
-    max: 0.25,
-    average: 0.18,
-  },
-  {
-    name: "District 2",
-    min: 0.12,
-    lowerQuartile: 0.16,
-    median: 0.22,
-    upperQuartile: 0.25,
-    max: 0.3,
-    average: 0.24,
-  },
-  {
-    name: "District 3",
-    min: 0.3,
-    lowerQuartile: 0.35,
-    median: 0.4,
-    upperQuartile: 0.45,
-    max: 0.5,
-    average: 0.42,
-  },
-  {
-    name: "District 4",
-    min: 0.38,
-    lowerQuartile: 0.42,
-    median: 0.5,
-    upperQuartile: 0.55,
-    max: 0.6,
-    average: 0.45,
-  },
-];
-const boxPlots2 = [
-  {
-    name: "District 1",
-    min: 0.38,
-    lowerQuartile: 0.42,
-    median: 0.5,
-    upperQuartile: 0.55,
-    max: 0.6,
-    average: 0.45,
-  },
-];
-const data_curve1 = [
-  {
-    Republicans: 0,
-    Democrats: 0,
-  },
-  {
-    Republicans: 0.5,
-    Democrats: 0.4,
-  },
-  {
-    Republicans: 0.5,
-    Democrats: 0.4,
-  },
-  {
-    Republicans: 1,
-    Democrats: 1,
-  },
-];
 
 // Horizontal Line
 const HorizonBar = (props) => {
@@ -156,14 +89,16 @@ const useBoxPlot = (boxPlots) => {
   return data;
 };
 function Ensemble() {
-  const [geoJson, setGeoJson] = useState(congDist);
+  const [geoFeature, setGeoFeature] = useState(congDist.features);
   const location = useLocation();
   const { selectedState, option } = location.state || {};
-  const [jsonSMD, setJsonSMD] = useState(geoJson.features);
   const jsonMMD = copyGeo.features;
   const [showGraph, setShowGraph] = useState("Racial Population");
   const [mapKey, setMapKey] = useState(0);
-  const data_boxPlot = [useBoxPlot(boxPlots1), useBoxPlot(boxPlots2)];
+  const [boxWhiskerSMD_data, setBoxWhiskerSMD] = useState(useBoxPlot([]));
+  const [boxWhiskerMMD_data, setBoxWhiskerMMD] = useState(useBoxPlot([]));
+  const [minority_curveSMD, setMinority_curveSMD] = useState();
+  const [minority_curveMMD, setMinority_curveMMD] = useState();
   let data_barchart_SMD_minority = [];
   let data_barchart_MMD_minority = [];
   let data_barchart_MMD_party = [];
@@ -182,55 +117,63 @@ function Ensemble() {
   const [onMMD, setOnMMD] = useState(false);
 
   useEffect(() => {
+    let features = congDist.features;
     let value = "";
     if (selectedState == "Mississippi") {
-      value = "/ms/all/districts";
+      value = "/MS/all/districts";
     } else if (selectedState == "Alabama") {
-      value = "/al/all/districts";
+      value = "/AL/all/districts";
     } else {
-      value = "/pa/all/districts";
+      value = "/PA/all/districts";
     }
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080${value}`);
-        setGeoJson(response.data[0]);
-        setJsonSMD(response.data[0].features);
-        setMapKey(mapKey + 1);
-        setStateInfo({
-          population: 0,
-          votePopulation: 0,
-          totalSeats: 0,
-          democrat: 0,
-          republican: 0,
-        });
-        for (let i of response.data[0].features) {
-          if (i["properties"]["win_pty"] == "DEMOCRATS") {
-            setStateInfo((prevInfo) => ({
-              population: prevInfo.population + i["properties"]["total_pop"],
-              votePopulation:
-                prevInfo.votePopulation + i["properties"]["vote_pop"],
-              totalSeats: prevInfo.totalSeats + 1,
-              democrat: prevInfo.democrat + 1,
-              republican: prevInfo.republican,
-            }));
-          } else {
-            setStateInfo((prevInfo) => ({
-              population: prevInfo.population + i["properties"]["total_pop"],
-              votePopulation:
-                prevInfo.votePopulation + i["properties"]["vote_pop"],
-              totalSeats: prevInfo.totalSeats + 1,
-              democrat: prevInfo.democrat,
-              republican: prevInfo.republican + 1,
-            }));
-          }
+    setStateInfo({
+      population: 0,
+      votePopulation: 0,
+      totalSeats: 0,
+      democrat: 0,
+      republican: 0,
+    });
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await axios.get(`http://localhost:8080${value}`);
+    //     features = response.data.features;
+    //     setGeoFeature(features);
+    //     console.log(features);
+    //     setMapKey(mapKey + 1);
+    //     console.log("Connected!");
+    //   } catch (error) {
+    //     console.error("Error fetching data:", error);
+    //   }
+    // };
+    // fetchData();
+    const setGraphData = (features) => {
+      for (let i of features) {
+        if (i["properties"]["win_pty"] == "DEMOCRATS") {
+          setStateInfo((prevInfo) => ({
+            population: prevInfo.population + i["properties"]["total_pop"],
+            votePopulation:
+              prevInfo.votePopulation + i["properties"]["vote_pop"],
+            totalSeats: prevInfo.totalSeats + 1,
+            democrat: prevInfo.democrat + 1,
+            republican: prevInfo.republican,
+          }));
+        } else {
+          setStateInfo((prevInfo) => ({
+            population: prevInfo.population + i["properties"]["total_pop"],
+            votePopulation:
+              prevInfo.votePopulation + i["properties"]["vote_pop"],
+            totalSeats: prevInfo.totalSeats + 1,
+            democrat: prevInfo.democrat,
+            republican: prevInfo.republican + 1,
+          }));
         }
-        console.log("Connected!");
-      } catch (error) {
-        console.error("Error fetching data:", error);
+        setBoxWhiskerSMD(i["properties"]["box_whisker"]);
+        setMinority_curveSMD(i["properties"]["minority_curve"]);
       }
     };
-    fetchData();
+    setGraphData(features);
   }, [selectedState]);
+  const boxWhiskerSMD = useBoxPlot(boxWhiskerSMD_data);
   const coordinate = useMemo(() => {
     if (selectedState === "Alabama") {
       return [32.8067, -86.7911];
@@ -240,18 +183,18 @@ function Ensemble() {
       return [40.8781, -77.7996];
     }
   }, [selectedState]);
-  for (var i = 0; i < jsonSMD.length; i++) {
+  for (var i = 0; i < geoFeature.length; i++) {
     data_barchart_SMD_minority.push({
       name: i + 1,
-      White: jsonSMD[i]["properties"]["total_wht"],
-      Aisan: jsonSMD[i]["properties"]["total_asn"],
-      Black: jsonSMD[i]["properties"]["total_blk"],
-      Hispanic: jsonSMD[i]["properties"]["total_hsp"],
+      White: geoFeature[i]["properties"]["total_wht"],
+      Aisan: geoFeature[i]["properties"]["total_asn"],
+      Black: geoFeature[i]["properties"]["total_blk"],
+      Hispanic: geoFeature[i]["properties"]["total_hsp"],
     });
     data_barchart_SMD_party.push({
       name: i + 1,
-      Democrats: jsonSMD[i]["properties"]["vote_dem"],
-      Republicans: jsonSMD[i]["properties"]["vote_rep"],
+      Democrats: geoFeature[i]["properties"]["vote_dem"],
+      Republicans: geoFeature[i]["properties"]["vote_rep"],
     });
   }
   for (var i = 0; i < jsonMMD.length; i++) {
@@ -480,12 +423,12 @@ function Ensemble() {
                         className="map_district"
                       >
                         <GeoJSON
-                          data={jsonSMD}
+                          data={geoFeature}
                           onEachFeature={(district, layer) => {
                             onEachDistrict_SMD(
                               district,
                               layer,
-                              jsonSMD.indexOf(district)
+                              geoFeature.indexOf(district)
                             );
                           }}
                         />
@@ -626,7 +569,7 @@ function Ensemble() {
                     style={{ width: "100%", height: 330 }}
                   >
                     <ResponsiveContainer className="responsiveContainer">
-                      <ComposedChart data={data_boxPlot[0]}>
+                      <ComposedChart data={boxWhiskerSMD}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <Bar stackId={"a"} dataKey={"min"} fill={"none"} />
                         <Bar
@@ -684,7 +627,7 @@ function Ensemble() {
                     style={{ width: "100%", height: 330 }}
                   >
                     <ResponsiveContainer className="responsiveContainer">
-                      <ComposedChart data={data_boxPlot[1]}>
+                      <ComposedChart data={boxWhiskerMMD_data}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <Bar stackId={"a"} dataKey={"min"} fill={"none"} />
                         <Bar
@@ -798,7 +741,7 @@ function Ensemble() {
                   >
                     <ResponsiveContainer className="responsiveContainer">
                       <LineChart
-                        data={data_curve1}
+                        data={minority_curveSMD}
                         margin={{
                           top: 5,
                           right: 30,
@@ -812,7 +755,7 @@ function Ensemble() {
                           tickFormatter={(tick) => {
                             return `${(
                               (tick * 100) /
-                              (data_curve1.length - 1)
+                              (minority_curveSMD.length - 1)
                             ).toFixed(0)}%`;
                           }}
                         />
@@ -824,13 +767,13 @@ function Ensemble() {
                         <Legend />
                         <Line
                           type="monotone"
-                          dataKey="Democrats"
+                          dataKey="democrats"
                           stroke="blue"
                           activeDot={{ r: 8 }}
                         />
                         <Line
                           type="monotone"
-                          dataKey="Republicans"
+                          dataKey="republicans"
                           stroke="red"
                         />
                       </LineChart>
@@ -844,12 +787,12 @@ function Ensemble() {
                       <LineChart
                         data={[
                           {
-                            Republicans: 0,
-                            Democrats: 0,
+                            republicans: 0,
+                            democrats: 0,
                           },
                           {
-                            Republicans: 1,
-                            Democrats: 1,
+                            republicans: 1,
+                            democrats: 1,
                           },
                         ]}
                         margin={{
@@ -872,13 +815,13 @@ function Ensemble() {
                         <Legend />
                         <Line
                           type="monotone"
-                          dataKey="Democrats"
+                          dataKey="democrats"
                           stroke="blue"
                           activeDot={{ r: 8 }}
                         />
                         <Line
                           type="monotone"
-                          dataKey="Republicans"
+                          dataKey="republicans"
                           stroke="red"
                         />
                       </LineChart>

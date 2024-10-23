@@ -3,7 +3,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import bengalLogo from "./assets/Bengal.svg";
 import sideBarIcon from "./assets/sideBarIcon.svg";
-import congDist from "./assets/blank.json";
+import congDist from "./assets/blank_random.json";
 import copyGeo from "./assets/copyGeo.json";
 import { MapContainer, GeoJSON } from "react-leaflet";
 import {
@@ -156,14 +156,17 @@ const useBoxPlot = (boxPlots) => {
   return data;
 };
 function Random() {
-  const [geoJson, setGeoJson] = useState(congDist);
+  const [geoFeature, setGeoFeature] = useState(congDist.features);
   const location = useLocation();
   const { selectedState, option } = location.state || {};
-  const [jsonSMD, setJsonSMD] = useState(geoJson.features);
+  const jsonIdx = [0, 1, 2, 3, 4]; // 5 random cases
   const jsonMMD = copyGeo.features;
   const [showGraph, setShowGraph] = useState("Racial Population");
   const [mapKey, setMapKey] = useState(0);
-  const data_boxPlot = [useBoxPlot(boxPlots1), useBoxPlot(boxPlots2)];
+  const [boxWhiskerSMD_data, setBoxWhiskerSMD] = useState(useBoxPlot([]));
+  const [boxWhiskerMMD_data, setBoxWhiskerMMD] = useState(useBoxPlot([]));
+  const [minority_curveSMD, setMinority_curveSMD] = useState();
+  const [minority_curveMMD, setMinority_curveMMD] = useState();
   let data_barchart_SMD_minority = [];
   let data_barchart_MMD_minority = [];
   let data_barchart_MMD_party = [];
@@ -182,54 +185,59 @@ function Random() {
   const [onMMD, setOnMMD] = useState(false);
 
   useEffect(() => {
+    let features = congDist.features;
     let value = "";
     if (selectedState == "Mississippi") {
-      value = "/ms/all/districts";
+      value = "/MS/all/districts";
     } else if (selectedState == "Alabama") {
-      value = "/al/all/districts";
+      value = "/AL/all/districts";
     } else {
-      value = "/pa/all/districts";
+      value = "/PA/all/districts";
     }
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8080${value}`);
-        setGeoJson(response.data[0]);
-        setJsonSMD(response.data[0].features);
-        setMapKey(mapKey + 1);
-        setStateInfo({
-          population: 0,
-          votePopulation: 0,
-          totalSeats: 0,
-          democrat: 0,
-          republican: 0,
-        });
-        for (let i of response.data[0].features) {
-          if (i["properties"]["win_pty"] == "DEMOCRATS") {
-            setStateInfo((prevInfo) => ({
-              population: prevInfo.population + i["properties"]["total_pop"],
-              votePopulation:
-                prevInfo.votePopulation + i["properties"]["vote_pop"],
-              totalSeats: prevInfo.totalSeats + 1,
-              democrat: prevInfo.democrat + 1,
-              republican: prevInfo.republican,
-            }));
-          } else {
-            setStateInfo((prevInfo) => ({
-              population: prevInfo.population + i["properties"]["total_pop"],
-              votePopulation:
-                prevInfo.votePopulation + i["properties"]["vote_pop"],
-              totalSeats: prevInfo.totalSeats + 1,
-              democrat: prevInfo.democrat,
-              republican: prevInfo.republican + 1,
-            }));
-          }
+    setStateInfo({
+      population: 0,
+      votePopulation: 0,
+      totalSeats: 0,
+      democrat: 0,
+      republican: 0,
+    });
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await axios.get(`http://localhost:8080${value}`);
+    //     features = response.data.features;
+    //     setGeoFeature(features);
+    //     console.log(features);
+    //     setMapKey(mapKey + 1);
+    //     console.log("Connected!");
+    //   } catch (error) {
+    //     console.error("Error fetching data:", error);
+    //   }
+    // };
+    // fetchData();
+    const setGraphData = (features) => {
+      for (let i of features) {
+        if (i["properties"]["win_pty"] == "DEMOCRATS") {
+          setStateInfo((prevInfo) => ({
+            population: prevInfo.population + i["properties"]["total_pop"],
+            votePopulation:
+              prevInfo.votePopulation + i["properties"]["vote_pop"],
+            totalSeats: prevInfo.totalSeats + 1,
+            democrat: prevInfo.democrat + 1,
+            republican: prevInfo.republican,
+          }));
+        } else {
+          setStateInfo((prevInfo) => ({
+            population: prevInfo.population + i["properties"]["total_pop"],
+            votePopulation:
+              prevInfo.votePopulation + i["properties"]["vote_pop"],
+            totalSeats: prevInfo.totalSeats + 1,
+            democrat: prevInfo.democrat,
+            republican: prevInfo.republican + 1,
+          }));
         }
-        console.log("Connected!");
-      } catch (error) {
-        console.error("Error fetching data:", error);
       }
     };
-    fetchData();
+    setGraphData(features);
   }, [selectedState]);
   const coordinate = useMemo(() => {
     if (selectedState === "Alabama") {
@@ -240,20 +248,24 @@ function Random() {
       return [40.8781, -77.7996];
     }
   }, [selectedState]);
-  for (var i = 0; i < jsonSMD.length; i++) {
+  // for (var idx = 0; idx < geoFeature.length; idx++) {
+  //   let temp = [];
+  console.log(geoFeature);
+  for (var i = 0; i < geoFeature.length; i++) {
     data_barchart_SMD_minority.push({
       name: i + 1,
-      White: jsonSMD[i]["properties"]["total_wht"],
-      Aisan: jsonSMD[i]["properties"]["total_asn"],
-      Black: jsonSMD[i]["properties"]["total_blk"],
-      Hispanic: jsonSMD[i]["properties"]["total_hsp"],
+      White: geoFeature[i]["properties"]["total_wht"],
+      Asian: geoFeature[i]["properties"]["total_asn"],
+      Black: geoFeature[i]["properties"]["total_blk"],
+      Hispanic: geoFeature[i]["properties"]["total_hsp"],
     });
     data_barchart_SMD_party.push({
       name: i + 1,
-      Democrats: jsonSMD[i]["properties"]["vote_dem"],
-      Republicans: jsonSMD[i]["properties"]["vote_rep"],
+      Democrats: geoFeature[i]["properties"]["vote_dem"],
+      Republicans: geoFeature[i]["properties"]["vote_rep"],
     });
   }
+  // data_barchart_SMD_minority.push(temp);
   for (var i = 0; i < jsonMMD.length; i++) {
     data_barchart_MMD_minority.push({
       name: i + 1,
@@ -267,7 +279,9 @@ function Random() {
       Democrats: 50000,
       Republicans: 50000,
     });
+    // }
   }
+  console.log(data_barchart_SMD_minority);
   const formatXAxisTick = (tick) => {
     return `${(tick * 100).toFixed(0)}%`;
   };
@@ -411,6 +425,7 @@ function Random() {
             onSelect={handleSelect}
             interval={null}
           >
+            {/* {jsonIdx.map((idx) => (//each plan */}
             <Carousel.Item>
               <Row className="contents_analysis">
                 <Col xs={12} md={6} className="col_stateInformation">
@@ -480,12 +495,12 @@ function Random() {
                             className="map_district"
                           >
                             <GeoJSON
-                              data={jsonSMD}
+                              data={geoFeature}
                               onEachFeature={(district, layer) => {
                                 onEachDistrict_SMD(
                                   district,
                                   layer,
-                                  jsonSMD.indexOf(district)
+                                  geoFeature.indexOf(district)
                                 );
                               }}
                             />
@@ -635,7 +650,7 @@ function Random() {
                         style={{ width: "100%", height: 330 }}
                       >
                         <ResponsiveContainer className="responsiveContainer">
-                          <ComposedChart data={data_boxPlot[0]}>
+                          <ComposedChart data={boxWhiskerSMD}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <Bar stackId={"a"} dataKey={"min"} fill={"none"} />
                             <Bar
@@ -697,7 +712,7 @@ function Random() {
                         style={{ width: "100%", height: 330 }}
                       >
                         <ResponsiveContainer className="responsiveContainer">
-                          <ComposedChart data={data_boxPlot[1]}>
+                          <ComposedChart data={boxWhiskerMMD_data}>
                             <CartesianGrid strokeDasharray="3 3" />
                             <Bar stackId={"a"} dataKey={"min"} fill={"none"} />
                             <Bar
@@ -815,7 +830,7 @@ function Random() {
                       >
                         <ResponsiveContainer className="responsiveContainer">
                           <LineChart
-                            data={data_curve1}
+                            data={minority_curveSMD}
                             margin={{
                               top: 5,
                               right: 30,
@@ -829,7 +844,7 @@ function Random() {
                               tickFormatter={(tick) => {
                                 return `${(
                                   (tick * 100) /
-                                  (data_curve1.length - 1)
+                                  (minority_curveSMD.length - 1)
                                 ).toFixed(0)}%`;
                               }}
                             />
@@ -841,13 +856,13 @@ function Random() {
                             <Legend />
                             <Line
                               type="monotone"
-                              dataKey="Democrats"
+                              dataKey="democrats"
                               stroke="blue"
                               activeDot={{ r: 8 }}
                             />
                             <Line
                               type="monotone"
-                              dataKey="Republicans"
+                              dataKey="republicans"
                               stroke="red"
                             />
                           </LineChart>
@@ -861,12 +876,12 @@ function Random() {
                           <LineChart
                             data={[
                               {
-                                Republicans: 0,
-                                Democrats: 0,
+                                republicans: 0,
+                                democrats: 0,
                               },
                               {
-                                Republicans: 1,
-                                Democrats: 1,
+                                republicans: 1,
+                                democrats: 1,
                               },
                             ]}
                             margin={{
@@ -889,13 +904,13 @@ function Random() {
                             <Legend />
                             <Line
                               type="monotone"
-                              dataKey="Democrats"
+                              dataKey="democrats"
                               stroke="blue"
                               activeDot={{ r: 8 }}
                             />
                             <Line
                               type="monotone"
-                              dataKey="Republicans"
+                              dataKey="republicans"
                               stroke="red"
                             />
                           </LineChart>
@@ -906,6 +921,7 @@ function Random() {
                 </Col>
               </Row>
             </Carousel.Item>
+            {/* ))} */}
           </Carousel>
         </div>
       </div>
