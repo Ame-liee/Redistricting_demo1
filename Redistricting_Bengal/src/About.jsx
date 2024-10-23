@@ -1,18 +1,6 @@
 import React, { useState } from "react";
-import bengalLogo from "./assets/Bengal.svg";
-import sideBarIcon from "./assets/sideBarIcon.svg";
 import Sidebar from "./Components/Sidebar";
 import Brand from "./Components/Brand";
-import {
-  Offcanvas,
-  Nav,
-  Navbar,
-  NavDropdown,
-  Container,
-  Button,
-  Alert,
-  Table,
-} from "react-bootstrap";
 
 function About() {
   const [showSideBar, setShowSideBar] = useState(false);
