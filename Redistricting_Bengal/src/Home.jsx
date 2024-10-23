@@ -12,8 +12,8 @@ import bengalLogo from "./assets/Bengal.svg";
 import arrowCircleIcon from "./assets/arrowCircleIcon.svg";
 import circleIcon from "./assets/circleIcon.svg";
 import sideBarIcon from "./assets/sideBarIcon.svg";
-import usaMapData from "@svg-maps/usa";
 import Sidebar from "./Components/Sidebar";
+import USMap from "./Components/USMap";
 
 function Home() {
   const [selectedState, setSelectedState] = useState("SELECT A STATE");
@@ -47,41 +47,12 @@ function Home() {
                 : selectedState.toUpperCase()}
             </div>
             <Container className="map_us">
-              <svg
-                viewBox={usaMapData.viewBox}
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                {usaMapData.locations.map((location) => {
-                  const isCustom = customStates.includes(location.name);
-                  return (
-                    <path
-                      key={location.id}
-                      d={location.path}
-                      fill={
-                        hoveredLocation === location.name
-                          ? "rgba(236, 31, 12, 0.7)"
-                          : selectedState == location.name
-                          ? "rgb(236, 31, 12)"
-                          : isCustom
-                          ? "#EEE"
-                          : "rgb(135, 135, 135)"
-                      }
-                      stroke="rgba(40, 38, 38, 1.0)"
-                      strokeWidth={selectedState == location.name ? 3.0 : 0.9}
-                      onMouseEnter={() => setHoveredLocation(location.name)}
-                      onMouseLeave={() => setHoveredLocation(null)}
-                      onClick={
-                        isCustom
-                          ? () => {
-                              setSelectedState(location.name);
-                            }
-                          : null
-                      }
-                      style={{ cursor: "pointer" }}
-                    />
-                  );
-                })}
-              </svg>
+              <USMap
+                hoveredLocation={hoveredLocation}
+                selectedState={selectedState}
+                setHoveredLocation={setHoveredLocation}
+                setSelectedState={setSelectedState}
+              />
             </Container>
             {customStates.includes(selectedState) && (
               <div className="button_toAnalysis">
