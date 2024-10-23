@@ -7,6 +7,7 @@ import congDist from "./assets/blank_random.json";
 import copyGeo from "./assets/copyGeo.json";
 import { MapContainer, GeoJSON } from "react-leaflet";
 import Sidebar from "./Components/Sidebar";
+import StateInfoTable from "./Components/StateInfoTable";
 import {
   BarChart,
   Bar,
@@ -392,32 +393,7 @@ function Random() {
                     <div className="text_contentsTitle_Analysis">{option}</div>
                   </Row>
                   <Row className="item_contents_analysis">
-                    <Table
-                      striped
-                      bordered
-                      hover
-                      className="table_contents_analysis"
-                    >
-                      <thead>
-                        <tr>
-                          <td className="table_stateInfo_col1">Population</td>
-                          <td>{stateInfo.population}</td>
-                          <td className="table_stateInfo_col1">
-                            Voting Population
-                          </td>
-                          <td>{stateInfo.votePopulation}</td>
-                        </tr>
-                        <tr>
-                          <td className="table_stateInfo_col1">Total Seats</td>
-                          <td>{stateInfo.totalSeats}</td>
-                          <td className="table_stateInfo_col1">Party Splits</td>
-                          <td>
-                            Democrat: {stateInfo.democrat}; Republican:{" "}
-                            {stateInfo.republican}
-                          </td>
-                        </tr>
-                      </thead>
-                    </Table>
+                    <StateInfoTable stateInfo={stateInfo} />
                   </Row>
                   <Row className="item_contents_analysis">
                     {/* <ToggleButtonGroup
