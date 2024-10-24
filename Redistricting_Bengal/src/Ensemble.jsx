@@ -31,6 +31,7 @@ const useBoxPlot = (boxPlots) => {
 function Ensemble() {
   const [showSideBar, setShowSideBar] = useState(false);
   const [geoFeature, setGeoFeature] = useState([]);
+  const [mapKey, setMapKey] = useState(0);
   const location = useLocation();
   const { selectedState, option } = location.state || {};
   const [showGraph, setShowGraph] = useState("Box & Whisker");

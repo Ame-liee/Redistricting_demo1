@@ -27,8 +27,8 @@ const PoliticalBarChart = ({ data }) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="democrats" fill="blue" />
-        <Bar dataKey="republicans" fill="red" />
+        <Bar dataKey="Democrats" fill="blue" />
+        <Bar dataKey="Republicans" fill="red" />
       </BarChart>
     </ResponsiveContainer>
   );

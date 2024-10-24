@@ -16,7 +16,7 @@ const StateInfoTable = ({ stateInfo }) => {
           <td>{stateInfo.totalSeats}</td>
           <td className="table_stateInfo_col1">Party Splits</td>
           <td>
-            Democrat: {stateInfo.democrat}; Republican: {stateInfo.republican}
+            Democrat: {stateInfo.Democrat}; Republican: {stateInfo.Republican}
           </td>
         </tr>
       </thead>

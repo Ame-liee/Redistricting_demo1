@@ -17,8 +17,8 @@ function Random() {
   const { selectedState, option } = location.state || {};
   const [showGraph, setShowGraph] = useState("Racial Population");
   const [mapKey, setMapKey] = useState(0);
-  let data_barchart_minority = [];
-  let data_barchart_party = [];
+  const [data_barchart_minority, setData_barchart_minority] = useState([]);
+  const [data_barchart_party, setData_barchart_party] = useState([]);
   const [index, setIndex] = useState(0);
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
@@ -27,8 +27,8 @@ function Random() {
     population: 0,
     votePopulation: 0,
     totalSeats: 0,
-    democrat: 0,
-    republican: 0,
+    Democrat: 0,
+    Republican: 0,
   }); //Population, Voting Population, Representative Seats, (Democrats, Republicans)
 
   useEffect(() => {
@@ -41,26 +41,17 @@ function Random() {
     } else {
       value = "/PA/all/districts";
     }
-    setStateInfo({
-      population: 0,
-      votePopulation: 0,
-      totalSeats: 0,
-      democrat: 0,
-      republican: 0,
-    });
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await axios.get(`http://localhost:8080${value}`);
-    //     features = response.data.features;
-    //     setGeoFeature(features);
-    //     console.log(features);
-    //     setMapKey(mapKey + 1);
-    //     console.log("Connected!");
-    //   } catch (error) {
-    //     console.error("Error fetching data:", error);
-    //   }
-    // };
-    // fetchData();
+    const initValue = () => {
+      setStateInfo({
+        population: 0,
+        votePopulation: 0,
+        totalSeats: 0,
+        Democrat: 0,
+        Republican: 0,
+      });
+      setData_barchart_minority([]);
+      setData_barchart_party([]);
+    };
     const setGraphData = (features) => {
       for (let i of features) {
         if (i["properties"]["win_pty"] == "DEMOCRATS") {
@@ -69,8 +60,8 @@ function Random() {
             votePopulation:
               prevInfo.votePopulation + i["properties"]["vote_pop"],
             totalSeats: prevInfo.totalSeats + 1,
-            democrat: prevInfo.democrat + 1,
-            republican: prevInfo.republican,
+            Democrat: prevInfo.Democrat + 1,
+            Republican: prevInfo.Republican,
           }));
         } else {
           setStateInfo((prevInfo) => ({
@@ -78,14 +69,50 @@ function Random() {
             votePopulation:
               prevInfo.votePopulation + i["properties"]["vote_pop"],
             totalSeats: prevInfo.totalSeats + 1,
-            democrat: prevInfo.democrat,
-            republican: prevInfo.republican + 1,
+            Democrat: prevInfo.Democrat,
+            Republican: prevInfo.Republican + 1,
           }));
         }
       }
     };
-    setGraphData(features);
-  }, [selectedState]);
+    const setBarchartData = (features) => {
+      let barchart_minority = [];
+      let barchart_party = [];
+      for (var i = 0; i < features.length; i++) {
+        let properties = features[i]["properties"];
+        barchart_minority.push({
+          name: i + 1,
+          White: properties["total_wht"],
+          Asian: properties["total_asn"],
+          Black: properties["total_blk"],
+          Hispanic: properties["total_hsp"],
+        });
+        barchart_party.push({
+          name: i + 1,
+          Democrats: properties["vote_dem"],
+          Republicans: properties["vote_rep"],
+        });
+      }
+      setData_barchart_minority(barchart_minority);
+      setData_barchart_party(barchart_party);
+      console.log(barchart_minority);
+    };
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080${value}`);
+        features = response.data[index].features;
+        initValue();
+        setGeoFeature(features);
+        setGraphData(features);
+        setBarchartData(features);
+        setMapKey(mapKey + 1);
+        console.log("Connected!");
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, [selectedState, index]);
   const coordinate = useMemo(() => {
     if (selectedState === "Alabama") {
       return [32.8067, -86.7911];
@@ -95,21 +122,6 @@ function Random() {
       return [40.8781, -77.7996];
     }
   }, [selectedState]);
-
-  for (var i = 0; i < geoFeature.length; i++) {
-    data_barchart_minority.push({
-      name: i + 1,
-      White: geoFeature[i]["properties"]["total_wht"],
-      Asian: geoFeature[i]["properties"]["total_asn"],
-      Black: geoFeature[i]["properties"]["total_blk"],
-      Hispanic: geoFeature[i]["properties"]["total_hsp"],
-    });
-    data_barchart_party.push({
-      name: i + 1,
-      Democrats: geoFeature[i]["properties"]["vote_dem"],
-      Republicans: geoFeature[i]["properties"]["vote_rep"],
-    });
-  }
 
   const onEachDistrict = (district, layer, index) => {
     let centroid = district["properties"]["centroid"].split(",");
