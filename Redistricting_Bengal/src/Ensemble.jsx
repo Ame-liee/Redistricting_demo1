@@ -43,69 +43,64 @@ function Ensemble() {
     population: 0,
     votePopulation: 0,
     totalSeats: 0,
-    Democrat: 0,
-    Republican: 0,
+    Democrat: 0.0,
+    Republican: 0.0,
   }); //Population, Voting Population, Representative Seats, (Democrats, Republicans)
 
   useEffect(() => {
-    let features = [];
-    let value = "";
-    if (selectedState == "Mississippi") {
-      value = "/MS/ensemble";
-    } else if (selectedState == "Alabama") {
-      value = "/AL/ensemble";
-    } else {
-      value = "/PA/ensemble";
-    }
+    const setAPI = () => {
+      let ensemble = "";
+      let stateInfo = "";
+      if (selectedState == "Mississippi") {
+        ensemble = "/MS/ensemble";
+        stateInfo = "/MS/info";
+      } else if (selectedState == "Alabama") {
+        ensemble = "/AL/ensemble";
+        stateInfo = "/AL/info";
+      } else {
+        ensemble = "/PA/ensemble";
+        stateInfo = "/PA/info";
+      }
+      return [stateInfo, ensemble];
+    };
     const initValue = () => {
       setStateInfo({
         population: 0,
         votePopulation: 0,
         totalSeats: 0,
-        Democrat: 0,
-        Republican: 0,
+        Democrat: 0.0,
+        Republican: 0.0,
       });
       setBoxWhiskerSMD([]);
       setBoxWhiskerMMD([]);
       setMinority_curveSMD([]);
       setMinority_curveMMD([]);
     };
-    const setGraphData = (features) => {
-      for (let i of features) {
-        if (i["properties"]["win_pty"] == "DEMOCRATS") {
-          setStateInfo((prevInfo) => ({
-            population: prevInfo.population + i["properties"]["total_pop"],
-            votePopulation:
-              prevInfo.votePopulation + i["properties"]["vote_pop"],
-            totalSeats: prevInfo.totalSeats + 1,
-            Democrat: prevInfo.Democrat + 1,
-            Republican: prevInfo.Republican,
-          }));
-        } else {
-          setStateInfo((prevInfo) => ({
-            population: prevInfo.population + i["properties"]["total_pop"],
-            votePopulation:
-              prevInfo.votePopulation + i["properties"]["vote_pop"],
-            totalSeats: prevInfo.totalSeats + 1,
-            Democrat: prevInfo.Democrat,
-            Republican: prevInfo.Republican + 1,
-          }));
-        }
-      }
-    };
     const fetchData = async () => {
+      let features = [];
+      const [api_stateInfo, api_ensemble] = setAPI();
       try {
-        const response = await axios.get(`http://localhost:8080${value}`);
         initValue();
-        features = response.data;
-        console.log(features["box_whisker"]);
+        const stateInfo = await axios.get(
+          `http://localhost:8080${api_stateInfo}`
+        );
+        const ensemble = await axios.get(
+          `http://localhost:8080${api_ensemble}`
+        );
+        setStateInfo({
+          population: stateInfo.data["total_pop"],
+          votePopulation: stateInfo.data["vote_pop"],
+          totalSeats: stateInfo.data["total_seats"],
+          Democrat: stateInfo.data["party_splits"]["Ensemble"]["Republicans"],
+          Republican: stateInfo.data["party_splits"]["Ensemble"]["Democrats"],
+        });
+        features = ensemble.data;
         setGeoFeature(features);
-        // setGraphData(features);
         setMapKey(mapKey + 1);
         setBoxWhiskerSMD(features["box_whisker"]);
         setBoxWhiskerMMD([]);
         // setMinority_curveSMD(features["minority_curve"]["seatsVotesDem"]);
-        // setMinority_curveMMD(features["minority_curve"]["seatsVotesRep"]);
+        setMinority_curveMMD([]);
         console.log("Connected!");
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -130,7 +125,7 @@ function Ensemble() {
                 <div className="text_contentsTitle_Analysis">{option}</div>
               </Row>
               <Row className="item_contents_analysis">
-                <StateInfoTable stateInfo={stateInfo} />
+                <StateInfoTable stateInfo={stateInfo} key={stateInfo} />
               </Row>
             </Col>
             <Row className="item_contents_analysis">

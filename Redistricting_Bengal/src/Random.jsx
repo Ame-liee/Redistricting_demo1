@@ -33,25 +33,32 @@ function Random() {
 
   useEffect(() => {
     const setAPI = () => {
-      let value = "";
+      let api_stateInfo = "";
+      let api_randomPlan = "";
       if (option == "Random SMD") {
         if (selectedState == "Mississippi") {
-          value = "/MS/all/districts/smd";
+          api_stateInfo = "/MS/info";
+          api_randomPlan = "/MS/all/districts/smd";
         } else if (selectedState == "Alabama") {
-          value = "/AL/all/districts/smd";
+          api_stateInfo = "/AL/info";
+          api_randomPlan = "/AL/all/districts/smd";
         } else {
-          value = "/PA/all/districts/smd";
+          api_stateInfo = "/PA/info";
+          api_randomPlan = "/PA/all/districts/smd";
         }
       } else if (option == "Random MMD") {
         if (selectedState == "Mississippi") {
-          value = "/MS/all/districts/mmd";
+          api_stateInfo = "/MS/info";
+          api_randomPlan = "/MS/all/districts/mmd";
         } else if (selectedState == "Alabama") {
-          value = "/AL/all/districts/mmd";
+          api_stateInfo = "/AL/info";
+          api_randomPlan = "/AL/all/districts/mmd";
         } else {
-          value = "/PA/all/districts/mmd";
+          api_stateInfo = "/PA/info";
+          api_randomPlan = "/PA/all/districts/mmd";
         }
       }
-      return value;
+      return [api_stateInfo, api_randomPlan];
     };
     const initValue = () => {
       setStateInfo({
@@ -63,29 +70,6 @@ function Random() {
       });
       setData_barchart_minority([]);
       setData_barchart_party([]);
-    };
-    const setGraphData = (features) => {
-      for (let i of features) {
-        if (i["properties"]["win_pty"] == "DEMOCRATS") {
-          setStateInfo((prevInfo) => ({
-            population: prevInfo.population + i["properties"]["total_pop"],
-            votePopulation:
-              prevInfo.votePopulation + i["properties"]["vote_pop"],
-            totalSeats: prevInfo.totalSeats + 1,
-            Democrat: prevInfo.Democrat + 1,
-            Republican: prevInfo.Republican,
-          }));
-        } else {
-          setStateInfo((prevInfo) => ({
-            population: prevInfo.population + i["properties"]["total_pop"],
-            votePopulation:
-              prevInfo.votePopulation + i["properties"]["vote_pop"],
-            totalSeats: prevInfo.totalSeats + 1,
-            Democrat: prevInfo.Democrat,
-            Republican: prevInfo.Republican + 1,
-          }));
-        }
-      }
     };
     const setBarchartData = (features) => {
       let barchart_minority = [];
@@ -111,10 +95,23 @@ function Random() {
     };
     const fetchData = async () => {
       let features = [];
+      const [api_stateInfo, api_randomPlan] = setAPI();
       try {
-        const response = await axios.get(`http://localhost:8080${setAPI()}`);
-        features = response.data[index].features;
         initValue();
+        const stateInfo = await axios.get(
+          `http://localhost:8080${api_stateInfo}`
+        );
+        const randomPlan = await axios.get(
+          `http://localhost:8080${api_randomPlan}`
+        );
+        setStateInfo({
+          population: stateInfo.data["total_pop"],
+          votePopulation: stateInfo.data["vote_pop"],
+          totalSeats: stateInfo.data["total_seats"],
+          Democrat: stateInfo.data["party_splits"]["Random"]["Republicans"],
+          Republican: stateInfo.data["party_splits"]["Random"]["Democrats"],
+        });
+        features = randomPlan.data[index].features;
         setGeoFeature(features);
         setGraphData(features);
         setBarchartData(features);
