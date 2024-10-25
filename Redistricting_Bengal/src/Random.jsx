@@ -32,15 +32,27 @@ function Random() {
   }); //Population, Voting Population, Representative Seats, (Democrats, Republicans)
 
   useEffect(() => {
-    let features = [];
-    let value = "";
-    if (selectedState == "Mississippi") {
-      value = "/MS/all/districts";
-    } else if (selectedState == "Alabama") {
-      value = "/AL/all/districts";
-    } else {
-      value = "/PA/all/districts";
-    }
+    const setAPI = () => {
+      let value = "";
+      if (option == "Random SMD") {
+        if (selectedState == "Mississippi") {
+          value = "/MS/all/districts/smd";
+        } else if (selectedState == "Alabama") {
+          value = "/AL/all/districts/smd";
+        } else {
+          value = "/PA/all/districts/smd";
+        }
+      } else if (option == "Random MMD") {
+        if (selectedState == "Mississippi") {
+          value = "/MS/all/districts/mmd";
+        } else if (selectedState == "Alabama") {
+          value = "/AL/all/districts/mmd";
+        } else {
+          value = "/PA/all/districts/mmd";
+        }
+      }
+      return value;
+    };
     const initValue = () => {
       setStateInfo({
         population: 0,
@@ -98,8 +110,9 @@ function Random() {
       console.log(barchart_minority);
     };
     const fetchData = async () => {
+      let features = [];
       try {
-        const response = await axios.get(`http://localhost:8080${value}`);
+        const response = await axios.get(`http://localhost:8080${setAPI()}`);
         features = response.data[index].features;
         initValue();
         setGeoFeature(features);
