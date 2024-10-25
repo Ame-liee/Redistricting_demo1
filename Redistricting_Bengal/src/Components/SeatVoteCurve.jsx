@@ -34,11 +34,11 @@ const SeatVoteCurve = ({ data, formatYAxisTick }) => {
         <Legend />
         <Line
           type="monotone"
-          dataKey="democrats"
+          dataKey="Democrats"
           stroke="blue"
           activeDot={{ r: 8 }}
         />
-        <Line type="monotone" dataKey="republicans" stroke="red" />
+        <Line type="monotone" dataKey="Republicans" stroke="red" />
       </LineChart>
     </ResponsiveContainer>
   );

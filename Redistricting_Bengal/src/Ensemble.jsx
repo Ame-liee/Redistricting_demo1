@@ -43,40 +43,33 @@ function Ensemble() {
     population: 0,
     votePopulation: 0,
     totalSeats: 0,
-    democrat: 0,
-    republican: 0,
+    Democrat: 0,
+    Republican: 0,
   }); //Population, Voting Population, Representative Seats, (Democrats, Republicans)
 
   useEffect(() => {
     let features = [];
     let value = "";
     if (selectedState == "Mississippi") {
-      value = "/MS/all/districts";
+      value = "/MS/ensemble";
     } else if (selectedState == "Alabama") {
-      value = "/AL/all/districts";
+      value = "/AL/ensemble";
     } else {
-      value = "/PA/all/districts";
+      value = "/PA/ensemble";
     }
-    setStateInfo({
-      population: 0,
-      votePopulation: 0,
-      totalSeats: 0,
-      democrat: 0,
-      republican: 0,
-    });
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await axios.get(`http://localhost:8080${value}`);
-    //     features = response.data.features;
-    //     setGeoFeature(features);
-    //     console.log(features);
-    //     setMapKey(mapKey + 1);
-    //     console.log("Connected!");
-    //   } catch (error) {
-    //     console.error("Error fetching data:", error);
-    //   }
-    // };
-    // fetchData();
+    const initValue = () => {
+      setStateInfo({
+        population: 0,
+        votePopulation: 0,
+        totalSeats: 0,
+        Democrat: 0,
+        Republican: 0,
+      });
+      setBoxWhiskerSMD([]);
+      setBoxWhiskerMMD([]);
+      setMinority_curveSMD([]);
+      setMinority_curveMMD([]);
+    };
     const setGraphData = (features) => {
       for (let i of features) {
         if (i["properties"]["win_pty"] == "DEMOCRATS") {
@@ -85,8 +78,8 @@ function Ensemble() {
             votePopulation:
               prevInfo.votePopulation + i["properties"]["vote_pop"],
             totalSeats: prevInfo.totalSeats + 1,
-            democrat: prevInfo.democrat + 1,
-            republican: prevInfo.republican,
+            Democrat: prevInfo.Democrat + 1,
+            Republican: prevInfo.Republican,
           }));
         } else {
           setStateInfo((prevInfo) => ({
@@ -94,15 +87,31 @@ function Ensemble() {
             votePopulation:
               prevInfo.votePopulation + i["properties"]["vote_pop"],
             totalSeats: prevInfo.totalSeats + 1,
-            democrat: prevInfo.democrat,
-            republican: prevInfo.republican + 1,
+            Democrat: prevInfo.Democrat,
+            Republican: prevInfo.Republican + 1,
           }));
         }
-        setBoxWhiskerSMD(i["properties"]["box_whisker"]);
-        setMinority_curveSMD(i["properties"]["minority_curve"]);
       }
     };
-    setGraphData(features);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080${value}`);
+        initValue();
+        features = response.data;
+        console.log(features["box_whisker"]);
+        setGeoFeature(features);
+        // setGraphData(features);
+        setMapKey(mapKey + 1);
+        setBoxWhiskerSMD(features["box_whisker"]);
+        setBoxWhiskerMMD([]);
+        // setMinority_curveSMD(features["minority_curve"]["seatsVotesDem"]);
+        // setMinority_curveMMD(features["minority_curve"]["seatsVotesRep"]);
+        console.log("Connected!");
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
   }, [selectedState]);
   const boxWhiskerSMD = useBoxPlot(boxWhiskerSMD_data);
   const formatYAxisTick = (tick) => {
@@ -143,9 +152,9 @@ function Ensemble() {
                   <Nav.Link
                     eventKey="link-4"
                     className="text_navElement_analysis"
-                    onClick={() => setShowGraph("Curve")}
+                    onClick={() => setShowGraph("SeatVoteCurve")}
                   >
-                    Curve
+                    SeatVoteCurve
                   </Nav.Link>
                 </Nav.Item>
               </Nav>
@@ -172,7 +181,7 @@ function Ensemble() {
                 </Row>
               </Container>
             )}
-            {showGraph == "Curve" && (
+            {showGraph == "SeatVoteCurve" && (
               <Container>
                 <Row
                   className="item_contents_analysis"
